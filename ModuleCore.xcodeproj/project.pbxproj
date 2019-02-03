@@ -12,6 +12,11 @@
 		03E3A9DB22047CBB0005A0A1 /* ModuleCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E3A9C722047C210005A0A1 /* ModuleCore.framework */; };
 		3A1F2197D4B15FC01E1B584F /* Pods_ModuleCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0716966DC8FFA72BEB58A0 /* Pods_ModuleCoreTests.framework */; };
 		572F2766CDA68BAD745FCE16 /* Pods_ModuleCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */; };
+		6D45C6FE220612EB00033DB2 /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45C6FD220612EB00033DB2 /* Aliases.swift */; };
+		6D45C7002207798A00033DB2 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45C6FF2207798A00033DB2 /* Module.swift */; };
+		6D45C702220779DC00033DB2 /* FactoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45C701220779DC00033DB2 /* FactoryType.swift */; };
+		6D45C70422077AE800033DB2 /* InteractorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45C70322077AE800033DB2 /* InteractorType.swift */; };
+		6D45C70622077B5800033DB2 /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D45C70522077B5800033DB2 /* CoordinatorType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,11 @@
 		3F1C156C75D18C7931585C57 /* Pods-ModuleCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCoreTests/Pods-ModuleCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB963A3F040477600A3AD28 /* Pods-ModuleCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.release.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.release.xcconfig"; sourceTree = "<group>"; };
+		6D45C6FD220612EB00033DB2 /* Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
+		6D45C6FF2207798A00033DB2 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		6D45C701220779DC00033DB2 /* FactoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryType.swift; sourceTree = "<group>"; };
+		6D45C70322077AE800033DB2 /* InteractorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractorType.swift; sourceTree = "<group>"; };
+		6D45C70522077B5800033DB2 /* CoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
 		7682527BCC0CB78CA413D014 /* Pods-ModuleCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCoreTests.release.xcconfig"; path = "Target Support Files/Pods-ModuleCoreTests/Pods-ModuleCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC9305D66DD9C59B903EBB72 /* Pods-ModuleCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.debug.xcconfig"; sourceTree = "<group>"; };
 		CA0716966DC8FFA72BEB58A0 /* Pods_ModuleCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +95,11 @@
 			children = (
 				03E3A9CA22047C210005A0A1 /* ModuleCore.h */,
 				03E3A9CB22047C210005A0A1 /* Info.plist */,
+				6D45C6FD220612EB00033DB2 /* Aliases.swift */,
+				6D45C6FF2207798A00033DB2 /* Module.swift */,
+				6D45C701220779DC00033DB2 /* FactoryType.swift */,
+				6D45C70522077B5800033DB2 /* CoordinatorType.swift */,
+				6D45C70322077AE800033DB2 /* InteractorType.swift */,
 			);
 			path = ModuleCore;
 			sourceTree = "<group>";
@@ -183,6 +198,7 @@
 				TargetAttributes = {
 					03E3A9C622047C210005A0A1 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					03E3A9D522047CBB0005A0A1 = {
 						CreatedOnToolsVersion = 10.1;
@@ -238,6 +254,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework",
 				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -248,6 +265,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swinject.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +324,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D45C70422077AE800033DB2 /* InteractorType.swift in Sources */,
+				6D45C6FE220612EB00033DB2 /* Aliases.swift in Sources */,
+				6D45C7002207798A00033DB2 /* Module.swift in Sources */,
+				6D45C702220779DC00033DB2 /* FactoryType.swift in Sources */,
+				6D45C70622077B5800033DB2 /* CoordinatorType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +477,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC9305D66DD9C59B903EBB72 /* Pods-ModuleCore.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -472,6 +496,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.bcs.ModuleCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -481,6 +506,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6CB963A3F040477600A3AD28 /* Pods-ModuleCore.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;

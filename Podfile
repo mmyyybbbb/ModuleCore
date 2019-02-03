@@ -6,6 +6,7 @@ target :ModuleCore do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'ReactorKit'
+  pod 'Swinject'
   
   target :ModuleCoreTests do
     inherit! :search_paths
@@ -13,5 +14,6 @@ target :ModuleCore do
   	pod 'RxCocoa'
   	pod 'ReactorKit'
     pod 'RxBlocking'
+    pod 'Swinject'
   end
 end
