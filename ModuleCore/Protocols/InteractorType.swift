@@ -6,6 +6,6 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-public protocol InteractorType : class {
+public protocol InteractorType: AnyObject {
     init()
 }

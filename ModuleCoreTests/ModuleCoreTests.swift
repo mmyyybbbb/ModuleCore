@@ -7,6 +7,9 @@
 //
 
 import XCTest
+@testable import ModuleCore
+import RxSwift
+import ReactorKit
 
 class ModuleCoreTests: XCTestCase {
 
@@ -18,9 +21,20 @@ class ModuleCoreTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test_configuratingSomeScene() {
+        let factory = MyFactory()
+        factory.register(for: MyCoorinatorType.self, resolve: MyCoordinator.self)
+        factory.register(for: MyInteractorType.self, resolve: MyInteractor.self)
+        
+        let sc = factory.myScene()
+        
+        guard let reactor = (sc as! MyViewController).reactor else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertTrue(reactor.interactor is MyInteractor)
+        XCTAssertTrue(reactor.coordinator is MyCoordinator)
     }
  
 }
