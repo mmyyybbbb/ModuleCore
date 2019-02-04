@@ -45,6 +45,7 @@
 		03E3AA6022084A090005A0A1 /* AssociatedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedStore.swift; sourceTree = "<group>"; };
 		03E3AA6222085B320005A0A1 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		03E3AA64220874FA0005A0A1 /* TestMyModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMyModule.swift; sourceTree = "<group>"; };
+		03E3AA68220879F40005A0A1 /* ModuleCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ModuleCore.podspec; sourceTree = "<group>"; };
 		3F1C156C75D18C7931585C57 /* Pods-ModuleCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCoreTests/Pods-ModuleCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB963A3F040477600A3AD28 /* Pods-ModuleCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.release.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.release.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		03E3A9BD22047C210005A0A1 = {
 			isa = PBXGroup;
 			children = (
+				03E3AA68220879F40005A0A1 /* ModuleCore.podspec */,
 				03E3A9C922047C210005A0A1 /* ModuleCore */,
 				03E3A9D722047CBB0005A0A1 /* ModuleCoreTests */,
 				03E3A9C822047C210005A0A1 /* Products */,
