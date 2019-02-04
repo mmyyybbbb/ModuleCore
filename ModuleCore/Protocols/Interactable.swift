@@ -7,7 +7,7 @@
 //
 
 
-public protocol Interactable: class, AssociatedStore {
+public protocol Interactable: class, AssociatedStore  {
     associatedtype Interactor
     var interactor: Interactor { get }
 }

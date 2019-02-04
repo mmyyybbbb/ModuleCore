@@ -8,7 +8,7 @@
 
 import ReactorKit
 
-open class Factory {
+open class ModuleFactory {
     
     fileprivate var interactors: [String : InteractorType.Type] = [:]
     fileprivate var coordinators: [String : CoordinatorType.Type] = [:]

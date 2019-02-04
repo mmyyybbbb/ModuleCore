@@ -8,9 +8,9 @@
 
 import ObjectiveC
 
-protocol AssociatedStore { }
+public protocol AssociatedStore { }
 
-extension AssociatedStore {
+public extension AssociatedStore {
     func associatedObject<T>(forKey key: UnsafeRawPointer) -> T? {
         return objc_getAssociatedObject(self, key) as? T
     }
