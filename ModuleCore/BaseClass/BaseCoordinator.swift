@@ -6,7 +6,7 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-open class BaseCoordinator: CoordinatorType {
+open class BaseCoordinator {
     weak private(set) var scene: Scene?
     
     required public init(scene:Scene) {

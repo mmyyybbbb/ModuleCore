@@ -6,9 +6,8 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-
 public protocol Coordinatable: class, AssociatedStore {
-    associatedtype Coordinator
+    associatedtype Coordinator: BaseCoordinator
     var coordinator: Coordinator { get }
 }
 
@@ -26,3 +25,4 @@ extension Coordinatable {
         self.setAssociatedObject(coordinator, forKey: &coordinatorKey)
     }
 }
+

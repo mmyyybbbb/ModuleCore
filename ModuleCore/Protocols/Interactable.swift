@@ -6,7 +6,6 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-
 public protocol Interactable: class, AssociatedStore  {
     associatedtype Interactor
     var interactor: Interactor { get }
@@ -15,8 +14,8 @@ public protocol Interactable: class, AssociatedStore  {
 private var interactorKey = "interactor"
 extension Interactable {
     
-    var interactor: Interactor {
-        guard let interactor: Interactor =  self.associatedObject(forKey: &interactorKey) else {
+    public var interactor: Interactor {
+        guard let interactor: Interactor = self.associatedObject(forKey: &interactorKey) else {
             fatalError("Интерактор не установлен \(self)")
         }
         return interactor
