@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0372DEC2220B4221001FCEB4 /* CompletableReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */; };
+		0372DEC4220B44F7001FCEB4 /* CompletionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */; };
+		03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF07B9220D77B20011F4EB /* BaseReactor.swift */; };
 		03E3A9CC22047C210005A0A1 /* ModuleCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 03E3A9CA22047C210005A0A1 /* ModuleCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03E3A9D922047CBB0005A0A1 /* ModuleCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E3A9D822047CBB0005A0A1 /* ModuleCoreTests.swift */; };
 		03E3A9DB22047CBB0005A0A1 /* ModuleCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E3A9C722047C210005A0A1 /* ModuleCore.framework */; };
@@ -45,6 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableReactor.swift; sourceTree = "<group>"; };
+		0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionScene.swift; sourceTree = "<group>"; };
+		03CF07B9220D77B20011F4EB /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		03E3A9C722047C210005A0A1 /* ModuleCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ModuleCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		03E3A9CA22047C210005A0A1 /* ModuleCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleCore.h; sourceTree = "<group>"; };
 		03E3A9CB22047C210005A0A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +62,7 @@
 		03E3AA6022084A090005A0A1 /* AssociatedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedStore.swift; sourceTree = "<group>"; };
 		03E3AA6222085B320005A0A1 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		03E3AA64220874FA0005A0A1 /* TestMyModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMyModule.swift; sourceTree = "<group>"; };
-		03E3AA68220879F40005A0A1 /* ModuleCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ModuleCore.podspec; sourceTree = "<group>"; };
+		03E3AA68220879F40005A0A1 /* ModuleCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ModuleCore.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		03E3AA862208A85D0005A0A1 /* Reactor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactor+.swift"; sourceTree = "<group>"; };
 		03E3AA882208A8850005A0A1 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		03E3AA942209A5CD0005A0A1 /* View+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+TextField.swift"; sourceTree = "<group>"; };
@@ -196,6 +202,9 @@
 			isa = PBXGroup;
 			children = (
 				03E3AA6222085B320005A0A1 /* BaseCoordinator.swift */,
+				0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */,
+				0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */,
+				03CF07B9220D77B20011F4EB /* BaseReactor.swift */,
 			);
 			path = BaseClass;
 			sourceTree = "<group>";
@@ -428,6 +437,9 @@
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
 				03E3AA952209A5CD0005A0A1 /* View+TextField.swift in Sources */,
 				03E3AA6122084A090005A0A1 /* AssociatedStore.swift in Sources */,
+				03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */,
+				0372DEC4220B44F7001FCEB4 /* CompletionScene.swift in Sources */,
+				0372DEC2220B4221001FCEB4 /* CompletableReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

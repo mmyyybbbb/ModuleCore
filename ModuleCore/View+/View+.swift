@@ -22,6 +22,10 @@ public extension SceneView {
     func fire(action: Reactor.Action) {
         reactor?.action.onNext(action)
     }
+    
+    func fireActionCallBack(_ action: Reactor.Action) -> () -> () {
+        return { [weak self] in self?.reactor?.action.onNext(action) }
+    }
  
     func subscribeNext<T>(_ observer: Observable<T>, with classFunc: @escaping (Self) -> (T) -> Swift.Void) {
         observer.subscribeNext(self, with: classFunc, bag: disposeBag)

@@ -11,5 +11,30 @@ open class BaseCoordinator {
     
     required public init(scene:Scene) {
         self.scene = scene
-    } 
+    }
+    
+    public enum PresentType {
+        case modally
+        case inStack
+    }
+    
+    public func present(_ vcToPresent: UIViewController, type: PresentType = .inStack ) {
+        guard let scene = scene else { return }
+        switch type {
+        case .modally:
+            scene.present(vcToPresent, animated: true, completion: nil)
+        case .inStack:
+            scene.navigationController?.pushViewController(vcToPresent, animated: true)
+        }
+    }
+    
+    public func endEditing() {
+        scene?.view.endEditing(true)
+    }
+    
+    func showAlert(title: String?, message: String, items: UIAlertAction...) {
+        let alertVc = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        items.forEach(alertVc.addAction)
+        scene?.present(alertVc, animated: true)
+    }
 }

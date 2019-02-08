@@ -7,6 +7,7 @@
 //
 import ReactorKit
 import RxSwift
+import RxCocoa
 
 public extension Reactor where Self: Coordinatable {
     func inject(_ coordinator: Coordinator) {
@@ -25,16 +26,7 @@ private var mutationStreamKey = "mutationStream"
 private var disposeBagKey = "disposeBag"
 
 public extension Reactor {
-    
-    var mutationStream: PublishSubject<Mutation> {
-        if let object = objc_getAssociatedObject(self, &mutationStreamKey) as? PublishSubject<Mutation> {
-            return object
-        }
-        let object = PublishSubject<Mutation>()
-        objc_setAssociatedObject(self, &mutationStreamKey, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return object
-    }
-    
+ 
     var disposeBag: DisposeBag {
         if let object = objc_getAssociatedObject(self, &disposeBagKey) as? DisposeBag {
             return object
@@ -43,17 +35,7 @@ public extension Reactor {
         objc_setAssociatedObject(self, &disposeBagKey, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return object
     }
-   
-    func transform(mutation: RxSwift.Observable<Self.Mutation>) -> RxSwift.Observable<Self.Mutation> {
-        return Observable.merge(mutation, mutationStream)
-    }
-    
-    func make(_ mutations: Mutation...) {
-        mutations.forEach { [weak self] in self?.mutationStream.onNext($0) }
-    }
-}
-
-public extension Reactor {
+ 
     func subscribeNext<T>(_ observer: Observable<T>, with classFunc: @escaping (Self) -> (T) -> Swift.Void) {
         observer.subscribeNext(self, with: classFunc, bag: disposeBag)
     }
@@ -61,4 +43,29 @@ public extension Reactor {
     func subscribeNext<T>(_ observer: Observable<T>, do classFunc: @escaping (Self) -> () -> Swift.Void) {
         observer.subscribeNext(self, do: classFunc, bag: disposeBag)
     }
+    
+    func mutation(_ mutation: Mutation) -> Observable<Mutation> {
+        return .just(mutation)
+    }
+    
+    func concat(_ mutations: Mutation...) -> Observable<Mutation> {
+        return Observable.concat(mutations.map { just($0)})
+    }
+    
+    func just(_ mutation: Mutation) -> Observable<Mutation>{
+        return .just(mutation)
+    }
+    
+    func concat(_ mutations: Mutation..., add obs: Observable<Mutation>) -> Observable<Mutation> {
+        return Observable.concat(mutations.map { just($0)}).concat(obs)
+    }
+    
+    func wrapWithDelay(_ mut: SharedSequence<DriverSharingStrategy, Mutation>, delay: RxTimeInterval = 0.1) -> Observable<Mutation> {
+        return  mut.asObservable().delaySubscription(delay, scheduler: MainScheduler.instance)
+    }
+    
+    func wrapWithDelay(_ mut: Observable<Mutation>, delay: RxTimeInterval = 0.1) -> Observable<Mutation> {
+        return  mut.delaySubscription(delay, scheduler: MainScheduler.instance)
+    }
 }
+
