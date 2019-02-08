@@ -7,14 +7,17 @@
 //
 import ReactorKit
 import RxSwift
+import RxCocoa
 
 open class BaseReactor {
     public init() {}
+    
+    open func defaultInteractorErrorHandler(error: Error) { }
 }
 
 private var mutationStreamKey = "mutationStream"
 
-extension BaseReactor: AssociatedStore {}
+extension BaseReactor: AssociatedStore {  }
 
 public extension Reactor where Self: BaseReactor {
     
@@ -26,5 +29,23 @@ public extension Reactor where Self: BaseReactor {
     
     func make(_ mutations: Mutation...) {
         mutations.forEach { [weak self] in self?.mutationStream.onNext($0) }
+    }
+    
+    func interact<T>(_ observable: Single<T>,
+                     skipIfTrue: Bool = false,
+                     complete: @escaping (Self) -> (T) -> Void,
+                     error: ((Self) -> (Error) -> Void)? = nil,
+                     inProgress: ((Bool) -> Mutation)? = nil) {
+        guard skipIfTrue == false else { return }
+        
+        var obs = observable
+        
+        if let inProgress = inProgress {
+            make(inProgress(true))
+            obs = observable.do(onSuccess: { [weak self] _ in self?.make(inProgress(false)) },
+                                onError: { [weak self] _ in self?.make(inProgress(false)) })
+        }
+        
+        subscribe(obs, complete: complete, error: error)
     }
 }

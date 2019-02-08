@@ -10,3 +10,4 @@ import ReactorKit
 public typealias Scene = UIViewController
 public typealias SceneView = View
 public typealias SceneReactor = Reactor
+public typealias FullReactor = BaseReactor & SceneReactor & Coordinatable & Interactable
