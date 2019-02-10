@@ -11,3 +11,9 @@ public typealias Scene = UIViewController
 public typealias SceneView = View
 public typealias SceneReactor = Reactor
 public typealias FullReactor = BaseReactor & SceneReactor & Coordinatable & Interactable
+
+extension Scene : AssociatedStore {}
+
+public struct InterruptedError: Error {
+    public init() {}
+}

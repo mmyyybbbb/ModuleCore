@@ -12,17 +12,14 @@ import RxCocoa
 public class CompletableReactor<T>  {
     
     private let _onComplete = PublishSubject<T>()
-    public lazy var onComplete: Observable<T> = { return _onComplete.asObserver() }()
-    
-    private let _onInterrupt = PublishSubject<Void>()
-    public lazy var onInterrupt: Observable<Void> = { return _onInterrupt.asObserver() }()
+    public lazy var onComplete: Single<T> = { return _onComplete.asSingle() }()
     
     public func complete(_ result: T) {
         _onComplete.onNext(result)
     }
     
-    public func interrupt() {
-        _onInterrupt.onNext(())
+    public func interrupt(_ error: Error = InterruptedError()) {
+        _onComplete.onError(error)
     }
 }
 

@@ -12,7 +12,6 @@ import RxCocoa
 open class BaseReactor {
     public init() {}
     
-    open func defaultInteractorErrorHandler(error: Error) { }
 }
 
 private var mutationStreamKey = "mutationStream"

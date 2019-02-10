@@ -13,16 +13,14 @@ public typealias CustomPresentationFunc = (Presenter) -> Void
 
 public class CompletionScene<T> {
     public let scene: Scene
-    public let onComplete: Observable<T>
-    public let onInterrupt: Observable<Void>
+    public let completion: Single<T>
     
-    // Сцена может предоставлять кастомную функцию для ее презентации, (Так работает SmsVC)
+    // Сцена может предоставлять кастомную функцию для ее презентации
     let customModalPresentatioin: CustomPresentationFunc?
     
-    public init(_ scene: Scene, _ vm: CompletableReactor<T>, customPresentation: CustomPresentationFunc? = nil) {
+    public init(_ scene: Scene, _ reactor: CompletableReactor<T>, customPresentation: CustomPresentationFunc? = nil) {
         self.scene = scene
-        self.onComplete = vm.onComplete
-        self.onInterrupt = vm.onInterrupt
+        self.completion = reactor.onComplete
         self.customModalPresentatioin = customPresentation
     }
 }

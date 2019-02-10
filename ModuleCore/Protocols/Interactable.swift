@@ -8,8 +8,7 @@
 
 public protocol Interactable: class, AssociatedStore  {
     associatedtype Interactor
-    var interactor: Interactor { get }
-    func defaultInteractorErrorHandler(error: Error)
+    var interactor: Interactor { get } 
 }
 
 private var interactorKey = "interactor"
