@@ -7,7 +7,7 @@
 //
 
 public protocol Coordinatable: class, AssociatedStore {
-    associatedtype Coordinator: BaseCoordinator
+    associatedtype Coordinator
     var coordinator: Coordinator { get }
 }
 

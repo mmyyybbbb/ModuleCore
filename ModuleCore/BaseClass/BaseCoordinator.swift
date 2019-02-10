@@ -18,7 +18,7 @@ open class BaseCoordinator {
         case inStack
     }
     
-    public func present(_ vcToPresent: UIViewController, type: PresentType = .inStack ) {
+    public final func present(_ vcToPresent: UIViewController, type: PresentType = .inStack ) {
         guard let scene = scene else { return }
         switch type {
         case .modally:
@@ -28,11 +28,11 @@ open class BaseCoordinator {
         }
     }
     
-    public func endEditing() {
+    public final func endEditing() {
         scene?.view.endEditing(true)
     }
     
-    func showAlert(title: String?, message: String, items: UIAlertAction...) {
+    public final func showAlert(title: String?, message: String, items: UIAlertAction...) {
         let alertVc = UIAlertController(title: title, message: message, preferredStyle: .alert)
         items.forEach(alertVc.addAction)
         scene?.present(alertVc, animated: true)

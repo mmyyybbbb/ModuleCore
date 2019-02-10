@@ -68,6 +68,8 @@ open class UnitOfWork<Result>: UnitOfWorkType {
         
         navigator.popToViewController(firstScene, animated: true)
     }
+    
+    public init() {}
 }
 
 extension UnitOfWork where Result == Void {
