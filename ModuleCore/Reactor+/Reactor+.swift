@@ -15,7 +15,6 @@ public extension Reactor where Self: Coordinatable {
     }
 }
 
-
 public extension Reactor where Self: Interactable {
     func inject(_ interactor: Interactor) {
         set(interactor: interactor)
