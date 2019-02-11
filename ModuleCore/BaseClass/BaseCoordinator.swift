@@ -9,6 +9,13 @@
 open class BaseCoordinator {
     weak private(set) var scene: Scene?
     
+    public var sceneOrFatal: Scene {
+        guard let scene = self.scene else {
+            fatalError()
+        }
+        return scene
+    }
+    
     required public init(scene:Scene) {
         self.scene = scene
     }
@@ -30,11 +37,16 @@ open class BaseCoordinator {
     
     public final func endEditing() {
         scene?.view.endEditing(true)
-    }
-    
-    public final func showAlert(title: String?, message: String, items: UIAlertAction...) {
-        let alertVc = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    } 
+}
+
+
+extension BaseCoordinator : CoordinatorType {
+    public final func show(_ style: UIAlertController.Style, title: String?, message: String, items: UIAlertAction...) {
+        let alertVc = UIAlertController(title: title, message: message, preferredStyle: style)
         items.forEach(alertVc.addAction)
         scene?.present(alertVc, animated: true)
     }
 }
+
+

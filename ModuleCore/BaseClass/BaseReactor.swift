@@ -10,8 +10,7 @@ import RxSwift
 import RxCocoa
 
 open class BaseReactor {
-    public init() {}
-    
+    public init() {} 
 }
 
 private var mutationStreamKey = "mutationStream"

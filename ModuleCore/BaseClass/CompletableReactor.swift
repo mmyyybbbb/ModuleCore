@@ -9,7 +9,7 @@
 import RxSwift
 import RxCocoa
 
-public class CompletableReactor<T>  {
+open class CompletableReactor<T>: BaseReactor  {
     
     private let _onComplete = PublishSubject<T>()
     public lazy var onComplete: Single<T> = { return _onComplete.asSingle() }()

@@ -40,6 +40,7 @@
 		6D584A14220F8DDA005EC4AE /* SelfContaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A13220F8DDA005EC4AE /* SelfContaner.swift */; };
 		6D584A16220F8F69005EC4AE /* Initable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A15220F8F69005EC4AE /* Initable.swift */; };
 		6D584A18220F97E6005EC4AE /* UoWType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A17220F97E6005EC4AE /* UoWType.swift */; };
+		6D584A242210DE08005EC4AE /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A232210DE08005EC4AE /* CoordinatorType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		6D584A13220F8DDA005EC4AE /* SelfContaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfContaner.swift; sourceTree = "<group>"; };
 		6D584A15220F8F69005EC4AE /* Initable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initable.swift; sourceTree = "<group>"; };
 		6D584A17220F97E6005EC4AE /* UoWType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UoWType.swift; sourceTree = "<group>"; };
+		6D584A232210DE08005EC4AE /* CoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
 		7682527BCC0CB78CA413D014 /* Pods-ModuleCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCoreTests.release.xcconfig"; path = "Target Support Files/Pods-ModuleCoreTests/Pods-ModuleCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC9305D66DD9C59B903EBB72 /* Pods-ModuleCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.debug.xcconfig"; sourceTree = "<group>"; };
 		CA0716966DC8FFA72BEB58A0 /* Pods_ModuleCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 				03E3AA6022084A090005A0A1 /* AssociatedStore.swift */,
 				03E3AAA52209A80E0005A0A1 /* OptionalType.swift */,
 				03E3AAA72209A8C40005A0A1 /* DisposeBagHolder.swift */,
+				6D584A232210DE08005EC4AE /* CoordinatorType.swift */,
 				03E3AA5E220848C80005A0A1 /* Coordinatable.swift */,
 				03E3AA5C2208487F0005A0A1 /* Interactable.swift */,
 				03E6309F2209CBEE0082685F /* RemoteData.swift */,
@@ -447,6 +450,7 @@
 				03E3AA892208A8850005A0A1 /* View+.swift in Sources */,
 				03E3AA9D2209A71C0005A0A1 /* View+Button.swift in Sources */,
 				03E3AAA32209A7D60005A0A1 /* Schedulers.swift in Sources */,
+				6D584A242210DE08005EC4AE /* CoordinatorType.swift in Sources */,
 				6D584A18220F97E6005EC4AE /* UoWType.swift in Sources */,
 				03E3AAA82209A8C40005A0A1 /* DisposeBagHolder.swift in Sources */,
 				6D45C7002207798A00033DB2 /* ModuleType.swift in Sources */,

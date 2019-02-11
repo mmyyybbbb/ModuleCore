@@ -7,10 +7,11 @@
 //
 
 import ReactorKit
+public typealias Success = Void
 public typealias Scene = UIViewController
 public typealias SceneView = View
 public typealias SceneReactor = Reactor
-public typealias FullReactor = BaseReactor & SceneReactor & Coordinatable & Interactable
+public typealias FullSceneReactor =  SceneReactor & Coordinatable & Interactable
 
 extension Scene : AssociatedStore {}
 

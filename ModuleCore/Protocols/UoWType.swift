@@ -46,7 +46,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     public var onComplete: Single<Result> { return _onComplete.asSingle() }
     private let _onComplete = PublishSubject<Result>()
     
-    public func start(navigator: UINavigationController, animate: Bool) {
+    open func start(navigator: UINavigationController, animate: Bool) {
         self._navigator = navigator
     }
     
