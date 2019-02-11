@@ -9,6 +9,8 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
+
+
 public extension Reactor where Self: Coordinatable {
     func inject(_ coordinator: Coordinator) {
         set(coordinator: coordinator)
@@ -18,6 +20,13 @@ public extension Reactor where Self: Coordinatable {
 public extension Reactor where Self: Interactable {
     func inject(_ interactor: Interactor) {
         set(interactor: interactor)
+    }
+}
+
+public extension Reactor where Self: Interactable & Coordinatable {
+    func inject(interactor: Interactor, coordinator: Coordinator) {
+        set(interactor: interactor)
+        set(coordinator: coordinator)
     }
 }
 
