@@ -11,7 +11,7 @@ public protocol ModuleType: SelfContaner {
     associatedtype Factory
     associatedtype Notification
     var notification: Observable<Notification> { get }
-    var factory: Factory? { get }
+    var factory: Factory { get }
  
     func set(factory: Factory)
 }
