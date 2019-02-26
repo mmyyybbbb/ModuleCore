@@ -1,1 +1,1 @@
-pod lib lint ModuleCore.podspec --allow-warnings
+pod lib lint ModuleCore.podspec --allow-warnings --sources='https://gitlab.com/BCSBroker/iOS/brokerrepo.git,https://github.com/CocoaPods/Specs'
