@@ -33,7 +33,8 @@ public extension Reactor where Self: BaseReactor {
                      skipIfTrue: Bool = false,
                      complete: @escaping (Self) -> (T) -> Void,
                      error: ((Self) -> (Error) -> Void)? = nil,
-                     inProgress: ((Bool) -> Mutation)? = nil) {
+                     inProgress: ((Bool) -> Mutation)? = nil,
+                     bag: DisposeBag? = nil) {
         guard skipIfTrue == false else { return }
         
         var obs = observable
@@ -44,6 +45,6 @@ public extension Reactor where Self: BaseReactor {
                                 onError: { [weak self] _ in self?.make(inProgress(false)) })
         }
         
-        subscribe(obs, complete: complete, error: error)
+        subscribe(obs, complete: complete, error: error, bag: bag)
     }
 }
