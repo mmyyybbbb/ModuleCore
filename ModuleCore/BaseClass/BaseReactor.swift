@@ -47,4 +47,24 @@ public extension Reactor where Self: BaseReactor {
         
         subscribe(obs, complete: complete, error: error, bag: bag)
     }
+
+    func interact<T>(_ observable: Single<T>,
+                     skipIfTrue: Bool = false,
+                     complete: @escaping (Self) -> () -> Void,
+                     error: ((Self) -> (Error) -> Void)? = nil,
+                     inProgress: ((Bool) -> Mutation)? = nil,
+                     bag: DisposeBag? = nil) {
+        guard skipIfTrue == false else { return }
+
+        var obs = observable
+
+        if let inProgress = inProgress {
+            make(inProgress(true))
+            obs = observable.do(onSuccess: { [weak self] _ in self?.make(inProgress(false)) },
+                                onError: { [weak self] _ in self?.make(inProgress(false)) })
+        }
+
+        subscribe(obs, complete: complete, error: error, bag: bag)
+    }
+
 }

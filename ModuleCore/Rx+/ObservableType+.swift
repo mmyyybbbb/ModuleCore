@@ -76,6 +76,22 @@ public extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTra
             instanceFunction(error)
         }).disposed(by: bag)
     }
+
+    func subscribe<T: AnyObject>(_ instance: T,
+                                 complete classFunc: @escaping (T)->()->Void,
+                                 error errClassFunc: ((T)->(Error)->Void)? = nil,
+                                 bag: DisposeBag) {
+
+        self.subscribe(onSuccess: { [weak instance] _ in
+            guard let instance = instance else { return }
+            let instanceFunction = classFunc(instance)
+            instanceFunction()
+            }, onError:  { [weak instance] error in
+                guard let instance = instance, let errClassFunc = errClassFunc else { return }
+                let instanceFunction = errClassFunc(instance)
+                instanceFunction(error)
+        }).disposed(by: bag)
+    }
 }
 
 public extension ObservableType {

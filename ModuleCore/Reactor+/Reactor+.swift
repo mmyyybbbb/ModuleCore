@@ -57,6 +57,12 @@ public extension Reactor {
                       bag: DisposeBag? = nil) {
         observer.subscribe(self, complete: classFunc, error: errClassFunc, bag: bag ?? disposeBag)
     }
+
+    func subscribe<T>(_ observer: Single<T>, complete classFunc: @escaping (Self) -> () -> Swift.Void,
+                      error errClassFunc: ((Self) -> (Error) -> Void)? = nil,
+                      bag: DisposeBag? = nil) {
+        observer.subscribe(self, complete: classFunc, error: errClassFunc, bag: bag ?? disposeBag)
+    }
     
     func mutation(_ mutation: Mutation) -> Observable<Mutation> {
         return .just(mutation)
