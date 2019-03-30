@@ -12,7 +12,7 @@ public enum DataState {
     case hasData
     case dataIsEmpty
     
-    var hasNonEmptyData: Bool {
+    public var hasNonEmptyData: Bool {
         if case DataState.hasData = self {
             return true
         } else {
