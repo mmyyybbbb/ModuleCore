@@ -11,4 +11,12 @@ public enum DataState {
     case error(Error)
     case hasData
     case dataIsEmpty
+    
+    var hasNonEmptyData: Bool {
+        if case DataState.hasData = self {
+            return true
+        } else {
+            return false
+        }
+    }
 }

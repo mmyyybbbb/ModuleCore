@@ -17,6 +17,8 @@ public final class EmbeddedScene {
     public let loadData = PublishSubject<Void>()
     public let dataState: Observable<DataState>
     
+    public private(set) var wasFirstLoading: Bool = false
+    
     public func reloadData() {
         loadData.onNext(())
     }
@@ -33,7 +35,8 @@ public final class EmbeddedScene {
     }
     
     private func dataStateChanged(state: DataState) {
-        self.state = state 
+        self.state = state
+        self.wasFirstLoading = true 
     }
 }
 
