@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ModuleCore'
-  s.version          = '1.0.8'
+  s.version          = '1.0.9'
   s.summary          = 'Модуль ModuleCore'
   s.homepage         = 'https://gitlab.com/BCSBroker/iOS/modulecore'
   s.author           = 'BCS'
@@ -13,4 +13,5 @@ Pod::Spec.new do |s|
   s.dependency 'RxSwift', '~> 4.4.0'
   s.dependency 'RxCocoa', '~> 4.4.0'
   s.dependency 'ReactorKit', '~> 1.2.1'
+  s.dependency 'RxDataSources', '~> 3.1.0'
 end
