@@ -27,7 +27,8 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.allowsSelection = vm.canSelectItem 
+        collectionView.allowsSelection = vm.canSelectItem
+        
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -42,7 +43,8 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
         self.configurator = configurator
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: configurator.layout)
         collectionView.backgroundColor = .white
-        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         if configurator.refreshControll {
             self.refreshControl = UIRefreshControl()
             collectionView.refreshControl = refreshControl!
