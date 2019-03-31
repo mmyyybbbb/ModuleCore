@@ -10,14 +10,12 @@ public struct CollectionSceneConfigurator {
     let refreshControll: Bool
     let layout:UICollectionViewFlowLayout
     let selectedDelay: TimeInterval
-    let loadDataOnViewDidLoad: Bool
     public weak var scrollDelegate: UIScrollViewDelegate?
     
-    public init(canRefresh: Bool, layout: UICollectionViewFlowLayout, loadDataOnViewDidLoad: Bool = true, scrollDelegate: UIScrollViewDelegate? = nil, delayForSelecion: TimeInterval = 0) {
+    public init(canRefresh: Bool, layout: UICollectionViewFlowLayout, scrollDelegate: UIScrollViewDelegate? = nil, delayForSelecion: TimeInterval = 0) {
         self.refreshControll = canRefresh
         self.layout = layout
         self.selectedDelay = delayForSelecion
-        self.scrollDelegate = scrollDelegate
-        self.loadDataOnViewDidLoad = loadDataOnViewDidLoad
+        self.scrollDelegate = scrollDelegate 
     }
 }

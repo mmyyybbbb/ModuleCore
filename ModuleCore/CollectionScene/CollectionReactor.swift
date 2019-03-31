@@ -63,6 +63,7 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
 
         switch action {
         case .loadData:
+            guard currentState.inProgressLoad == false else  { break }
             reloadData()
         case .loadMore:
             guard canLoadMore && currentState.inProgressLoadMore == false && currentState.endOfData == false else { break }

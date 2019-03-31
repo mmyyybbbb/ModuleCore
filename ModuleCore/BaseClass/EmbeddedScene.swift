@@ -14,7 +14,7 @@ public final class EmbeddedScene {
  
     public let scene: Scene
     public let isLoading: Observable<Bool>
-    public let loadData = PublishSubject<Void>()
+    public let loadData: PublishSubject<Void>
     public let dataState: Observable<DataState>
     
     public private(set) var wasFirstLoading: Bool = false
@@ -29,7 +29,8 @@ public final class EmbeddedScene {
                      loadData: PublishSubject<Void>) {
         self.scene = scene
         self.isLoading  = isLoading
-        self.dataState = dataState
+        self.dataState = dataState.share()
+        self.loadData = loadData
         
         self.dataState.subscribeNext(self, with: EmbeddedScene.dataStateChanged, bag: bag)
     }

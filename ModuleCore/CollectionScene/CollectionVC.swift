@@ -27,11 +27,7 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.allowsSelection = vm.canSelectItem
-        
-        if configurator.loadDataOnViewDidLoad {
-            fire(action: .loadData)
-        } 
+        collectionView.allowsSelection = vm.canSelectItem 
     }
     
     override public func viewWillAppear(_ animated: Bool) {
