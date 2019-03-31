@@ -21,14 +21,17 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
     private let dataSource: CollectionDataSource<Item>
     private let configurator: CollectionSceneConfigurator
     
+    override public func loadView() {
+        self.view = collectionView
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         collectionView.allowsSelection = vm.canSelectItem
         
         if configurator.loadDataOnViewDidLoad {
             fire(action: .loadData)
-        }
-        setupViewAndConstraints()
+        } 
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -55,20 +58,7 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupViewAndConstraints() {
-        
-        view.layoutMargins = .zero
-        view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            ])
-    }
-    
+ 
     public func bind(reactor: CollectionReactor<Item>) {
         
         reactor.state
