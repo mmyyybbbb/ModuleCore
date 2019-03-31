@@ -14,7 +14,7 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
     public typealias Section = DataSourceSection<Item>
     public typealias DataLoaderProvider = () -> Single<[Item]>
     public typealias MoreDataLoaderProvider = (_ offset: Int) -> Single<[Item]>
-    public typealias ItemSelected = (Item) -> Void
+    public typealias ItemSelected = (Item, IndexPath) -> Void
     
     public enum Action {
         case loadData
@@ -70,7 +70,7 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
         case let .selected(indexPath):
             guard canSelectItem else { break }
             let item = currentState.sections[indexPath.section].items[indexPath.row]
-            onItemSelected?(item)
+            onItemSelected?(item, indexPath)
         }
 
         return .empty()
