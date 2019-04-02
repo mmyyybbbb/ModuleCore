@@ -17,6 +17,7 @@ public final class EmbeddedScene {
     public let loadData: PublishSubject<Void>
     public let dataState: Observable<DataState>
     
+    public var isEmbedded: Bool { return scene.parent != nil }
     public private(set) var wasFirstLoading: Bool = false
     
     public func reloadData() {
