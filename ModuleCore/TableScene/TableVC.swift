@@ -54,7 +54,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func bind(reactor: CollectionReactor<Item>) {
+    public func bind(reactor: TableReactor<Item>) {
 
         reactor.state
             .map { $0.sections }
