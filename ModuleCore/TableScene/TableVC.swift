@@ -39,7 +39,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator) {
         self.dataSource = dataSource
         self.configurator = configurator
-        self.tableView = UITableView(frame: .zero)
+        self.tableView = configurator.maxCount != nil ? StaticTableView(frame: .zero) : UITableView(frame: .zero)
 
         if configurator.refreshControll {
             self.refreshControl = UIRefreshControl()
@@ -110,5 +110,11 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         if deltaOffset <= 0 {
             fire(action: .loadMore)
         }
+    }
+}
+
+class StaticTableView: UITableView {
+    override var intrinsicContentSize: CGSize {
+        return contentSize
     }
 }
