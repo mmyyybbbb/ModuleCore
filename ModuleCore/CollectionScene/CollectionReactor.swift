@@ -50,13 +50,16 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
     let onItemSelected: ItemSelected?
     let dataLoaderProvider: DataLoaderProvider
     let moreDataLoaderProvider: MoreDataLoaderProvider?
+    let maxCount: Int?
     
     public init(loader: @escaping DataLoaderProvider,
          moreDataLoader: MoreDataLoaderProvider? = nil,
-         onItemSelected: ItemSelected? = nil ) {
+         onItemSelected: ItemSelected? = nil,
+         maxCount: Int? = nil) {
         self.dataLoaderProvider = loader
         self.moreDataLoaderProvider = moreDataLoader
         self.onItemSelected = onItemSelected
+        self.maxCount = maxCount
     }
     
     public var initialState = State()
@@ -90,6 +93,10 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
             state.inProgressLoadMore = value
 
         case let .dataReloaded(items):
+            var items = items
+            if let maxCount = maxCount {
+                items = Array(items.prefix(maxCount))
+            }
             state.sections = [Section(items)]
             state.endOfData = false
             state.firstLoading = false
