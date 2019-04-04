@@ -9,6 +9,8 @@
 import RxSwift
 import RxDataSources
 
+public typealias TableReactor = CollectionReactor
+
 public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
  
     public typealias Section = DataSourceSection<Item>

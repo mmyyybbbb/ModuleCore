@@ -63,15 +63,14 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     private func sizeHeaderToFit() {
         guard let headerView = tableView.tableHeaderView else { return }
 
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-
         let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         var frame = headerView.frame
         frame.size.height = height
         headerView.frame = frame
 
         tableView.tableHeaderView = headerView
+
+        headerView.layoutIfNeeded()
     }
 
     public func bind(reactor: CollectionReactor<Item>) {
