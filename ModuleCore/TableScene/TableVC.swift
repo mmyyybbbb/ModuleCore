@@ -39,9 +39,8 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator) {
         self.dataSource = dataSource
         self.configurator = configurator
-        let hasMaxCount = configurator.maxCount != nil
-        self.tableView = hasMaxCount ? StaticTableView(frame: .zero) : UITableView(frame: .zero)
-        self.tableView.isScrollEnabled = !hasMaxCount
+        self.tableView = configurator.isStaticTableView ? StaticTableView(frame: .zero) : UITableView(frame: .zero)
+        self.tableView.isScrollEnabled = !configurator.isStaticTableView
 
         if configurator.refreshControll {
             self.refreshControl = UIRefreshControl()

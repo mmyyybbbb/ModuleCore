@@ -8,12 +8,12 @@
 
 public struct TableSceneConfigurator {
     let refreshControll: Bool
-    let maxCount: Int?
+    let isStaticTableView: Bool
     public weak var scrollDelegate: UIScrollViewDelegate?
 
-    public init(canRefresh: Bool, scrollDelegate: UIScrollViewDelegate? = nil, maxCount: Int? = nil) {
+    public init(canRefresh: Bool, scrollDelegate: UIScrollViewDelegate? = nil, isStaticTableView: Bool = false) {
         self.refreshControll = canRefresh
         self.scrollDelegate = scrollDelegate
-        self.maxCount = maxCount
+        self.isStaticTableView = isStaticTableView
     }
 }
