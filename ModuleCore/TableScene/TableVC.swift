@@ -27,6 +27,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     override public func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = vm.canSelectItem
+        view.layoutMargins = .zero
     }
 
     override public func viewWillAppear(_ animated: Bool) {
