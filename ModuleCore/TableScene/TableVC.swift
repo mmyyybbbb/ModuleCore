@@ -27,8 +27,6 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     override public func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = vm.canSelectItem
-
-        sizeHeaderToFit()
     }
 
     override public func viewWillAppear(_ animated: Bool) {
@@ -53,20 +51,6 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    private func sizeHeaderToFit() {
-        guard let headerView = tableView.tableHeaderView else { return }
-
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-
-        let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        var frame = headerView.frame
-        frame.size.height = height
-        headerView.frame = frame
-
-        tableView.tableHeaderView = headerView
     }
 
     public func bind(reactor: CollectionReactor<Item>) {
