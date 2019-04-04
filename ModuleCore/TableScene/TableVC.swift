@@ -20,26 +20,19 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     private let dataSource: TableViewDataSource<Item>
     private let configurator: TableSceneConfigurator
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.allowsSelection = vm.canSelectItem
-
+    override public func loadView() {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         } else {
             self.automaticallyAdjustsScrollViewInsets = false
         }
 
-        view.addSubview(tableView)
+        self.view = tableView
+    }
 
-        let constraints: [NSLayoutConstraint] = [
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ]
-
-        NSLayoutConstraint.activate(constraints)
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.allowsSelection = vm.canSelectItem
     }
 
     override public func viewWillAppear(_ animated: Bool) {
