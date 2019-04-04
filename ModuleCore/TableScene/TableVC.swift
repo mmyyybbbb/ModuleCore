@@ -27,6 +27,14 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     override public func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = vm.canSelectItem
+
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+
+        tableView.contentInset = .zero
     }
 
     override public func viewWillAppear(_ animated: Bool) {
@@ -48,12 +56,6 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         }
 
         super.init(nibName: nil, bundle: nil)
-
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
