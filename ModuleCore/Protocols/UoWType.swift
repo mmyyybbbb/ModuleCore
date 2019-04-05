@@ -48,6 +48,11 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     
     open func start(navigator: UINavigationController, animate: Bool) {
         self._navigator = navigator
+        firstScene = showFirstScene(animate: animate)
+    }
+    
+    open func showFirstScene(animate: Bool) -> Scene {
+        return UIViewController()
     }
     
     public func completeUoW(_ result: Result) {
