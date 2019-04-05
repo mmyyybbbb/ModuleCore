@@ -21,18 +21,18 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     private let configurator: TableSceneConfigurator
 
     override public func loadView() {
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }
-
         self.view = tableView
     }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
         tableView.allowsSelection = vm.canSelectItem
+        tableView.tableFooterView = UIView()
     }
 
     override public func viewWillAppear(_ animated: Bool) {
@@ -60,7 +60,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func bind(reactor: CollectionReactor<Item>) {
+    public func bind(reactor: TableReactor<Item>) {
 
         reactor.state
             .map { $0.sections }
