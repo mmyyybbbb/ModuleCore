@@ -9,6 +9,8 @@
 import RxSwift
 import RxDataSources
 
+public typealias TableReactor = CollectionReactor
+
 public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
  
     public typealias Section = DataSourceSection<Item>
@@ -48,13 +50,16 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
     let onItemSelected: ItemSelected?
     let dataLoaderProvider: DataLoaderProvider
     let moreDataLoaderProvider: MoreDataLoaderProvider?
+    let maxCount: Int?
     
     public init(loader: @escaping DataLoaderProvider,
          moreDataLoader: MoreDataLoaderProvider? = nil,
-         onItemSelected: ItemSelected? = nil ) {
+         onItemSelected: ItemSelected? = nil,
+         maxCount: Int? = nil) {
         self.dataLoaderProvider = loader
         self.moreDataLoaderProvider = moreDataLoader
         self.onItemSelected = onItemSelected
+        self.maxCount = maxCount
     }
     
     public var initialState = State()
@@ -88,6 +93,10 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
             state.inProgressLoadMore = value
 
         case let .dataReloaded(items):
+            var items = items
+            if let maxCount = maxCount {
+                items = Array(items.prefix(maxCount))
+            }
             state.sections = [Section(items)]
             state.endOfData = false
             state.firstLoading = false
@@ -137,47 +146,3 @@ fileprivate extension CollectionReactor {
                 print("loadingFailed error = \(error)")
     }
 }
-
-
-//    private func loadData(fromStart: Bool = false) {
-//        let category = newsCategory?.category ?? ""
-//        let type = newsCategory?.type ?? ""
-//
-//        let offset: Int
-//        let mutation: (Bool) -> NewsListReactor.Mutation
-//        let complete: (NewsListReactor) -> ([NewsListItem]) -> Void
-//        if fromStart {
-//            offset = 0
-//            mutation = Mutation.inProgress
-//            complete = NewsListReactor.newsLoaded
-//        } else {
-//            offset = currentState.items.count
-//            mutation = Mutation.inProgressMore
-//            complete = NewsListReactor.newsMoreLoaded
-//        }
-//
-//        interact(interactor.articleList(category: category, type: type, tag: tag, offset: offset),
-//                 complete: complete,
-//                 error: NewsListReactor.newsFailed,
-//                 inProgress: mutation)
-//    }
-//
-//    private func newsLoaded(news: [NewsListItem]) {
-//        print("newsLoaded news = \(news.count)")
-//
-//        make(Mutation.loadedItems(fromStart: true, items: news))
-//    }
-//
-//    private func newsMoreLoaded(news: [NewsListItem]) {
-//        print("newsMoreLoaded news = \(news.count)")
-//
-//        make(Mutation.loadedItems(fromStart: false, items: news))
-//    }
-//
-//    private func newsFailed(_ error: Error = InterruptedError()) {
-//        print("newsFailed error = \(error)")
-//
-//    }
-//
-
-
