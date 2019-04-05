@@ -26,13 +26,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 11.0, *) {
-            tableView.contentInsetAdjustmentBehavior = .never
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }
         tableView.allowsSelection = vm.canSelectItem
-        tableView.tableFooterView = UIView()
     }
 
     override public func viewWillAppear(_ animated: Bool) {
