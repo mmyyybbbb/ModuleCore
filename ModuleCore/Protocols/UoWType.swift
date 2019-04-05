@@ -92,4 +92,53 @@ public extension UnitOfWorkType {
     func subscribeNext<T>(_ observer: Observable<T>, do classFunc: @escaping (Self) -> () -> Swift.Void) {
         observer.subscribeNext(self, do: classFunc, bag: bag)
     }
+    
+    func push<T>(_ completionScene: CompletionScene<T>,
+                 onComplete classFunc: @escaping (Self) -> (T) -> Swift.Void,
+                 onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
+                 animate: Bool = true) {
+        navigator.pushViewController(completionScene.scene, animated: animate)
+        
+        completionScene.completion
+            .subscribe(onSuccess: { [weak self] arg in
+                guard let instance = self else { return }
+                let instanceFunction = classFunc(instance)
+                instanceFunction(arg)
+                }, onError: { [weak self] error in
+                    guard let instance = self, let onInterrupt = onInterrupt else { return }
+                    let instanceFunction = onInterrupt(instance)
+                    let er = error is InterruptedError ? nil : error
+                    instanceFunction(er)
+            }).disposed(by: bag)
+    }
+    
+    func push(_ completionScene: CompletionScene<Void>,
+              onComplete classFunc: @escaping (Self) -> () -> Swift.Void,
+              onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
+              animate: Bool = true) {
+        
+        navigator.pushViewController(completionScene.scene, animated: animate)
+        
+        completionScene.completion
+            .subscribe(onSuccess: { [weak self] in
+                    guard let instance = self else { return }
+                    let instanceFunction = classFunc(instance)
+                    instanceFunction()
+                }, onError: { [weak self] error in
+                    guard let instance = self, let onInterrupt = onInterrupt else { return }
+                    let instanceFunction = onInterrupt(instance)
+                    let er = error is InterruptedError ? nil : error
+                    instanceFunction(er)
+            }).disposed(by: bag)
+    }
+    
+    func push<T>(_ uow: UnitOfWork<T>, onComplete classFunc: @escaping (Self) -> (T) -> Swift.Void, animate: Bool = true) {
+        uow.start(navigator: navigator, animate: true)
+        subscribeNext(uow.onComplete.asObservable(), with: classFunc)
+    }
+    
+    func push(_ uow: UnitOfWork<Void>, onComplete classFunc: @escaping (Self) -> () -> Swift.Void, animate: Bool = true) {
+        uow.start(navigator: navigator, animate: true)
+        subscribeNext(uow.onComplete.asObservable(), do: classFunc)
+    }
 }
