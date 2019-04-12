@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		035C89482260DA6500118435 /* StackScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89452260DA6500118435 /* StackScrollViewController.swift */; };
+		035C89492260DA6500118435 /* FixedHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89462260DA6500118435 /* FixedHeightView.swift */; };
+		035C894A2260DA6500118435 /* StackScrollSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */; };
 		0372DEC2220B4221001FCEB4 /* CompletableReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */; };
 		0372DEC4220B44F7001FCEB4 /* CompletionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */; };
 		03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF07B9220D77B20011F4EB /* BaseReactor.swift */; };
@@ -63,6 +66,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		035C89452260DA6500118435 /* StackScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackScrollViewController.swift; sourceTree = "<group>"; };
+		035C89462260DA6500118435 /* FixedHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedHeightView.swift; sourceTree = "<group>"; };
+		035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackScrollSceneBuilder.swift; sourceTree = "<group>"; };
 		0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableReactor.swift; sourceTree = "<group>"; };
 		0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionScene.swift; sourceTree = "<group>"; };
 		03CF07B9220D77B20011F4EB /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
@@ -137,6 +143,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		035C89442260DA6500118435 /* StackScrollSceneBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				035C89452260DA6500118435 /* StackScrollViewController.swift */,
+				035C89462260DA6500118435 /* FixedHeightView.swift */,
+				035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */,
+			);
+			path = StackScrollSceneBuilder;
+			sourceTree = "<group>";
+		};
 		03E3A9BD22047C210005A0A1 = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +177,7 @@
 		03E3A9C922047C210005A0A1 /* ModuleCore */ = {
 			isa = PBXGroup;
 			children = (
+				035C89442260DA6500118435 /* StackScrollSceneBuilder */,
 				B31E936D2253AFD5002EC9D1 /* DataSourceSection */,
 				B31E936C2253AFC4002EC9D1 /* TableScene */,
 				6D28497622502EBA0031ED94 /* CollectionScene */,
@@ -476,11 +493,13 @@
 			files = (
 				03E3AAA22209A7D60005A0A1 /* ObservableType+.swift in Sources */,
 				6DCA6C7B224EDD540053CC38 /* EmbeddedScene.swift in Sources */,
+				035C894A2260DA6500118435 /* StackScrollSceneBuilder.swift in Sources */,
 				6D28497C22502EBA0031ED94 /* CollectionReactor.swift in Sources */,
 				6D584A14220F8DDA005EC4AE /* SelfContaner.swift in Sources */,
 				03E3AA972209A6060005A0A1 /* View+Gesture.swift in Sources */,
 				03E3AA992209A63B0005A0A1 /* View+BarButtonItem.swift in Sources */,
 				03E3AA6322085B320005A0A1 /* BaseCoordinator.swift in Sources */,
+				035C89492260DA6500118435 /* FixedHeightView.swift in Sources */,
 				03E3AA872208A85D0005A0A1 /* Reactor+.swift in Sources */,
 				6D45C6FE220612EB00033DB2 /* Aliases.swift in Sources */,
 				03E3AAA42209A7D60005A0A1 /* UIViewController+Rx.swift in Sources */,
@@ -504,6 +523,7 @@
 				6D584A16220F8F69005EC4AE /* Initable.swift in Sources */,
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
 				03E3AA952209A5CD0005A0A1 /* View+TextField.swift in Sources */,
+				035C89482260DA6500118435 /* StackScrollViewController.swift in Sources */,
 				03E3AA6122084A090005A0A1 /* AssociatedStore.swift in Sources */,
 				03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */,
 				6DCA6C7D224EEEAD0053CC38 /* DataState.swift in Sources */,
