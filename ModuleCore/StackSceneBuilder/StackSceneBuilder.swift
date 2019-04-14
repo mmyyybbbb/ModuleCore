@@ -5,7 +5,7 @@
 //  Created by alexej_ne on 12/04/2019.
 //  Copyright © 2019 BCS. All rights reserved.
 // 
-public final class StackScrollSceneBuilder {
+public final class StackSceneBuilder {
     
     public enum ViewWidth {
         case `default`
@@ -13,20 +13,22 @@ public final class StackScrollSceneBuilder {
         case insetted(CGFloat)
         case full
     }
-    
+
     private var backgroundColor: UIColor? {
         didSet{
             scene.scrollView.backgroundColor = backgroundColor
             scene.stackView.backgroundColor = backgroundColor
+            scene.view.backgroundColor = backgroundColor
             updateSpaceViewBackgroundColor()
         }
     }
     
-    private let scene = StackScrollViewController()
+    private let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
     private var constraints: [NSLayoutConstraint] = []
     
-    public init(viewsWidthDefaultInset: CGFloat? = nil) {
+    public init(viewsWidthDefaultInset: CGFloat? = nil, contentMode: StackViewController.ContentMode = .scrollable) {
+        self.scene = StackViewController(contentMode: contentMode)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
         scene.stackView.spacing = 0
     }
@@ -62,9 +64,9 @@ public final class StackScrollSceneBuilder {
 
 
 
-public extension StackScrollSceneBuilder {
+public extension StackSceneBuilder {
     
-    func build() -> StackScrollViewController {
+    func build() -> StackViewController {
         NSLayoutConstraint.activate(constraints)
         return scene
     }

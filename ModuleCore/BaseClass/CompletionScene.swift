@@ -23,4 +23,10 @@ public class CompletionScene<T> {
         self.completion = reactor.onComplete
         self.customModalPresentatioin = customPresentation
     }
+    
+    public init(_ scene: Scene, interact: Single<T>, customPresentation: CustomPresentationFunc? = nil) {
+        self.scene = scene
+        self.completion = interact
+        self.customModalPresentatioin = customPresentation
+    }
 }

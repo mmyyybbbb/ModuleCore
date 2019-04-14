@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		035C89482260DA6500118435 /* StackScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89452260DA6500118435 /* StackScrollViewController.swift */; };
+		035C89482260DA6500118435 /* StackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89452260DA6500118435 /* StackViewController.swift */; };
 		035C89492260DA6500118435 /* FixedHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89462260DA6500118435 /* FixedHeightView.swift */; };
-		035C894A2260DA6500118435 /* StackScrollSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */; };
+		035C894A2260DA6500118435 /* StackSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89472260DA6500118435 /* StackSceneBuilder.swift */; };
 		035C894E2260E5D100118435 /* ReactorBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C894D2260E5D100118435 /* ReactorBindings.swift */; };
 		0372DEC2220B4221001FCEB4 /* CompletableReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */; };
 		0372DEC4220B44F7001FCEB4 /* CompletionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */; };
@@ -49,6 +49,7 @@
 		6D584A16220F8F69005EC4AE /* Initable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A15220F8F69005EC4AE /* Initable.swift */; };
 		6D584A18220F97E6005EC4AE /* UoWType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A17220F97E6005EC4AE /* UoWType.swift */; };
 		6D584A242210DE08005EC4AE /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D584A232210DE08005EC4AE /* CoordinatorType.swift */; };
+		6D6F0C1222634CF800794E2B /* DataLoadReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F0C1122634CF800794E2B /* DataLoadReactor.swift */; };
 		6DCA6C7B224EDD540053CC38 /* EmbeddedScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA6C7A224EDD540053CC38 /* EmbeddedScene.swift */; };
 		6DCA6C7D224EEEAD0053CC38 /* DataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA6C7C224EEEAD0053CC38 /* DataState.swift */; };
 		6DCA6C7F224EF83E0053CC38 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA6C7E224EF83E0053CC38 /* UIViewController+.swift */; };
@@ -67,9 +68,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		035C89452260DA6500118435 /* StackScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackScrollViewController.swift; sourceTree = "<group>"; };
+		035C89452260DA6500118435 /* StackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewController.swift; sourceTree = "<group>"; };
 		035C89462260DA6500118435 /* FixedHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedHeightView.swift; sourceTree = "<group>"; };
-		035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackScrollSceneBuilder.swift; sourceTree = "<group>"; };
+		035C89472260DA6500118435 /* StackSceneBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackSceneBuilder.swift; sourceTree = "<group>"; };
 		035C894D2260E5D100118435 /* ReactorBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorBindings.swift; sourceTree = "<group>"; };
 		0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableReactor.swift; sourceTree = "<group>"; };
 		0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionScene.swift; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		6D584A15220F8F69005EC4AE /* Initable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initable.swift; sourceTree = "<group>"; };
 		6D584A17220F97E6005EC4AE /* UoWType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UoWType.swift; sourceTree = "<group>"; };
 		6D584A232210DE08005EC4AE /* CoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
+		6D6F0C1122634CF800794E2B /* DataLoadReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadReactor.swift; sourceTree = "<group>"; };
 		6DCA6C7A224EDD540053CC38 /* EmbeddedScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedScene.swift; sourceTree = "<group>"; };
 		6DCA6C7C224EEEAD0053CC38 /* DataState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataState.swift; sourceTree = "<group>"; };
 		6DCA6C7E224EF83E0053CC38 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -145,14 +147,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		035C89442260DA6500118435 /* StackScrollSceneBuilder */ = {
+		035C89442260DA6500118435 /* StackSceneBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				035C89452260DA6500118435 /* StackScrollViewController.swift */,
+				035C89452260DA6500118435 /* StackViewController.swift */,
 				035C89462260DA6500118435 /* FixedHeightView.swift */,
-				035C89472260DA6500118435 /* StackScrollSceneBuilder.swift */,
+				035C89472260DA6500118435 /* StackSceneBuilder.swift */,
 			);
-			path = StackScrollSceneBuilder;
+			path = StackSceneBuilder;
 			sourceTree = "<group>";
 		};
 		03E3A9BD22047C210005A0A1 = {
@@ -179,7 +181,7 @@
 		03E3A9C922047C210005A0A1 /* ModuleCore */ = {
 			isa = PBXGroup;
 			children = (
-				035C89442260DA6500118435 /* StackScrollSceneBuilder */,
+				035C89442260DA6500118435 /* StackSceneBuilder */,
 				B31E936D2253AFD5002EC9D1 /* DataSourceSection */,
 				B31E936C2253AFC4002EC9D1 /* TableScene */,
 				6D28497622502EBA0031ED94 /* CollectionScene */,
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				03E3AA862208A85D0005A0A1 /* Reactor+.swift */,
+				6D6F0C1122634CF800794E2B /* DataLoadReactor.swift */,
 			);
 			path = "Reactor+";
 			sourceTree = "<group>";
@@ -496,7 +499,7 @@
 			files = (
 				03E3AAA22209A7D60005A0A1 /* ObservableType+.swift in Sources */,
 				6DCA6C7B224EDD540053CC38 /* EmbeddedScene.swift in Sources */,
-				035C894A2260DA6500118435 /* StackScrollSceneBuilder.swift in Sources */,
+				035C894A2260DA6500118435 /* StackSceneBuilder.swift in Sources */,
 				6D28497C22502EBA0031ED94 /* CollectionReactor.swift in Sources */,
 				6D584A14220F8DDA005EC4AE /* SelfContaner.swift in Sources */,
 				03E3AA972209A6060005A0A1 /* View+Gesture.swift in Sources */,
@@ -512,6 +515,7 @@
 				03E3AA5D2208487F0005A0A1 /* Interactable.swift in Sources */,
 				B31E936B2253AF57002EC9D1 /* TableSceneConfigurator.swift in Sources */,
 				03E3AA892208A8850005A0A1 /* View+.swift in Sources */,
+				6D6F0C1222634CF800794E2B /* DataLoadReactor.swift in Sources */,
 				6D28497B22502EBA0031ED94 /* CollectionVC.swift in Sources */,
 				03E3AA9D2209A71C0005A0A1 /* View+Button.swift in Sources */,
 				03E3AAA32209A7D60005A0A1 /* Schedulers.swift in Sources */,
@@ -527,7 +531,7 @@
 				6D584A16220F8F69005EC4AE /* Initable.swift in Sources */,
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
 				03E3AA952209A5CD0005A0A1 /* View+TextField.swift in Sources */,
-				035C89482260DA6500118435 /* StackScrollViewController.swift in Sources */,
+				035C89482260DA6500118435 /* StackViewController.swift in Sources */,
 				03E3AA6122084A090005A0A1 /* AssociatedStore.swift in Sources */,
 				03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */,
 				6DCA6C7D224EEEAD0053CC38 /* DataState.swift in Sources */,
