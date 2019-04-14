@@ -19,7 +19,7 @@ public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
     }
     
     public struct State {
-        let inProgress: Bool = false 
+        public let inProgress: Bool = false 
     }
     
     public var initialState = State()
