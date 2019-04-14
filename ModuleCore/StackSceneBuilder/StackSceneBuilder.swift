@@ -71,7 +71,7 @@ public extension StackSceneBuilder {
         return scene
     }
     
-    func build<Reactor: SceneReactor>(reactor: Reactor, viewDidLoadAction: Reactor.Action? = nil) -> Scene {
+    func build<Reactor: SceneReactor>(reactor: Reactor, viewDidLoadAction: Reactor.Action? = nil) -> StackViewController {
         let scene = build()
         scene.reactor = reactor
         if let viewDidLoadAction = viewDidLoadAction {
