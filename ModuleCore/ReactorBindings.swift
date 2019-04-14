@@ -19,8 +19,12 @@ public final class ReactorBindings<R: SceneReactor> {
         self.disposeBag = defaultDisposeBag
     }
     
+    public convenience init<S:SceneView>(_ sceneView: S) where S.Reactor == R {
+        self.init(reactor: sceneView.reactor!, defaultDisposeBag: sceneView.disposeBag)
+    }
+    
     public func map<T,O>(_ stateKey: KeyPath<R.State, T>, to property: O) where O : ObserverType, T == O.E {
-        reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
+        reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag) 
     }
     
     public func map<T>(state: @escaping (R.State) -> T, to property: Binder<T>) {
