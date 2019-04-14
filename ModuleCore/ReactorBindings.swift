@@ -23,6 +23,10 @@ public final class ReactorBindings<R: SceneReactor> {
         reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
     }
     
+    public func map<T>(_ stateKey: KeyPath<R.State, T>, to property: Binder<T>) {
+        reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
+    }
+    
     public func fire<T>(action: R.Action, on observable: Observable<T>) {
         mapFire(action: { _ in return action }, on: observable)
     }
