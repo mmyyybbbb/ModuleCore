@@ -94,6 +94,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     
     public func release() {
         _navigator = nil
+        firstScene = nil
         bag = DisposeBag()
     }
     
