@@ -20,7 +20,7 @@ public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
     }
     
     public struct State {
-        public let inProgress: Bool = false 
+        public var inProgress: Bool = false
     }
     
     public var initialState = State()
@@ -43,6 +43,17 @@ public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
             interruptByUser()
         }
         return .empty()
+    }
+    
+    public func reduce(state: State, mutation: Mutation) -> State {
+        var state = state
+        
+        switch mutation {
+        case .inProgress(let val):
+            state.inProgress = val
+        }
+        
+        return state
     }
     
     private func loaded(data: T) {
