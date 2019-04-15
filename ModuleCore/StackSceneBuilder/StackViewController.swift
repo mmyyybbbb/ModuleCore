@@ -7,7 +7,7 @@
 // 
 import RxSwift
 
-public final class StackViewController: UIViewController {
+public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public let disposeBag = DisposeBag()
     
