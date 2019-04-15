@@ -12,6 +12,7 @@ import ReactorKit
 public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
     public enum Action {
         case load
+        case interrupt
     }
     
     public enum Mutation {
@@ -38,6 +39,8 @@ public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
                       error: DataLoadReactor<T>.error,
                       inProgress: Mutation.inProgress,
                       bag: disposeBag)
+        case .interrupt:
+            interrupt()
         }
         return .empty()
     }
