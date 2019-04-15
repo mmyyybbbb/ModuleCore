@@ -21,6 +21,10 @@ open class CompletableReactor<T>: BaseReactor  {
     public func interrupt(_ error: Error = InterruptedError()) {
         _onComplete.onError(error)
     }
+    
+    public func interruptByUser() {
+        _onComplete.onError(UserInterruptedError())
+    }
 }
 
 extension CompletableReactor where T == Void {

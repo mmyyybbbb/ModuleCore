@@ -15,6 +15,8 @@ public typealias FullSceneReactor =  SceneReactor & Coordinatable & Interactable
 
 extension Scene : AssociatedStore {}
 
-public struct InterruptedError: Error {
+public class InterruptedError: Error {
     public init() {}
 }
+
+public final class UserInterruptedError: InterruptedError {}

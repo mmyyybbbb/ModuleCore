@@ -130,8 +130,7 @@ public extension UnitOfWorkType {
                 }, onError: { [weak self] error in
                     guard let instance = self, let onInterrupt = onInterrupt else { return }
                     let instanceFunction = onInterrupt(instance)
-                    let er = error is InterruptedError ? nil : error
-                    instanceFunction(er)
+                    instanceFunction(error)
             }).disposed(by: bag)
     }
     
@@ -150,8 +149,7 @@ public extension UnitOfWorkType {
                 }, onError: { [weak self] error in
                     guard let instance = self, let onInterrupt = onInterrupt else { return }
                     let instanceFunction = onInterrupt(instance)
-                    let er = error is InterruptedError ? nil : error
-                    instanceFunction(er)
+                    instanceFunction(error)
             }).disposed(by: bag)
     }
     

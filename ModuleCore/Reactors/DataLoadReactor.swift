@@ -40,7 +40,7 @@ public final class DataLoadReactor<T>: CompletableReactor<T>, SceneReactor {
                       inProgress: Mutation.inProgress,
                       bag: disposeBag)
         case .interrupt:
-            interrupt()
+            interruptByUser()
         }
         return .empty()
     }
