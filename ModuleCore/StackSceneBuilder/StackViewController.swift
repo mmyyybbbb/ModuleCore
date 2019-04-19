@@ -83,7 +83,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     private func setupViewAndConstraints() {
         
-        
         if let footerView = footerView {
             view.addSubview(footerView)
             footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,20 +107,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             view.addSubview(scrollView)
             scrollView.addSubview(stackView)
             scrollView.contentInset = contentInset
-            
-            if let footerView = footerView {
-                 constraints.append(scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor))
-            } else {
-                 constraints.append(scrollView.topAnchor.constraint(equalTo: viewTopAnchor))
-            }
-            
-            if let headerView = headerView {
-                constraints.append(scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor))
-            } else {
-                constraints.append(scrollView.bottomAnchor.constraint(equalTo: viewBottomAnchor))
-            }
-            
+ 
             constraints.append(contentsOf: [
+                scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? viewBottomAnchor),
+                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor), 
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
