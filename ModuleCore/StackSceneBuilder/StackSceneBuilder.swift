@@ -13,16 +13,7 @@ public final class StackSceneBuilder {
         case insetted(CGFloat)
         case full
     }
-
-    private var backgroundColor: UIColor? {
-        didSet{
-            scene.scrollView.backgroundColor = backgroundColor
-            scene.stackView.backgroundColor = backgroundColor
-            scene.view.backgroundColor = backgroundColor
-            updateSpaceViewBackgroundColor()
-        }
-    }
-    
+ 
     private let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
     
@@ -32,14 +23,7 @@ public final class StackSceneBuilder {
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
         scene.stackView.spacing = 0
     }
-    
-    private func updateSpaceViewBackgroundColor() {
-        for view in scene.stackView.arrangedSubviews {
-            guard let view = view as? FixedHeightView else { continue }
-            view.backgroundColor = backgroundColor
-        }
-    }
-    
+
     private func addWidthConstraintIfNeed(to view: UIView, type: ViewWidth)  {
         let inset: CGFloat?
         
@@ -80,11 +64,11 @@ public extension StackSceneBuilder {
     }
     
     func set(stackAlignment: UIStackView.Alignment) {
-        self.scene.stackView.alignment = stackAlignment
+        scene.stackView.alignment = stackAlignment
     }
     
     func set(backgroundColor: UIColor) {
-        self.backgroundColor = backgroundColor
+        scene.backgroundColor = backgroundColor
     }
     
     func set(contentInset: UIEdgeInsets) {
@@ -97,6 +81,6 @@ public extension StackSceneBuilder {
     }
     
     func addSpace(_ height: CGFloat) {
-        add(view: FixedHeightView(height: height, backgroundColor: backgroundColor))
+        add(view: FixedHeightView(height: height, backgroundColor: scene.backgroundColor))
     }
 }

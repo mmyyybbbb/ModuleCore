@@ -11,6 +11,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public let disposeBag = DisposeBag()
     
+    var backgroundColor: UIColor = .white 
     var reactor: AnyObject?
     var onViewDidLoad: () -> () = {}
     var constraints: [NSLayoutConstraint] = []
@@ -53,6 +54,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         super.viewDidLoad()
         setupViewAndConstraints()
         onViewDidLoad()
+        
+        scrollView.backgroundColor = backgroundColor
+        stackView.backgroundColor = backgroundColor
+        view.backgroundColor = backgroundColor
     }
     
     private func setupViewAndConstraints() {
@@ -80,6 +85,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
-        NSLayoutConstraint.activate(constraints) 
+        NSLayoutConstraint.activate(constraints)
     }
 }
