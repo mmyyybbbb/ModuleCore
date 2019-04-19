@@ -39,10 +39,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     var footerView: UIView?
     var headerView: UIView?
-    
-    private var topConstraint: NSLayoutConstraint?
-    private var bottomConstraint: NSLayoutConstraint?
-    
+ 
     private var isFooterHeaderConstrainted: Bool = false
     
     private let contentMode: ContentMode
@@ -68,35 +65,65 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         view.backgroundColor = backgroundColor
     }
  
-    override public func updateViewConstraints() {
-        if isFooterHeaderConstrainted == false  {
-             isFooterHeaderConstrainted = true
-            
-            if let topConstraint = topConstraint, let headerHeight = headerView?.frame.height {
-                topConstraint.constant = headerHeight
-            }
-            
-            if let bottomConstraint = bottomConstraint, let bottomHeight = footerView?.frame.height {
-                bottomConstraint.constant = bottomHeight
-            }
+    private var viewBottomAnchor: NSLayoutYAxisAnchor  {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.bottomAnchor
+        } else {
+            return view.bottomAnchor
         }
-        
-        super.updateViewConstraints()
+    }
+    
+    private var viewTopAnchor: NSLayoutYAxisAnchor  {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.topAnchor
+        } else {
+            return view.topAnchor
+        }
     }
     
     private func setupViewAndConstraints() {
+        
+        
+        if let footerView = footerView {
+            view.addSubview(footerView)
+            footerView.translatesAutoresizingMaskIntoConstraints = false
+            constraints.append(contentsOf: [
+                footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                footerView.bottomAnchor.constraint(equalTo: viewBottomAnchor)
+                ])
+        }
+        
+        if let headerView = headerView {
+            view.addSubview(headerView)
+            headerView.translatesAutoresizingMaskIntoConstraints = false
+            constraints.append(contentsOf: [
+                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                headerView.topAnchor.constraint(equalTo: viewTopAnchor)
+                ])
+        }
+        
         if contentMode == .scrollable {
             view.addSubview(scrollView)
             scrollView.addSubview(stackView)
             scrollView.contentInset = contentInset
-            topConstraint = scrollView.topAnchor.constraint(equalTo: view.topAnchor)
-            bottomConstraint = scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            NSLayoutConstraint.activate([
-                topConstraint!,
-                bottomConstraint!,
+            
+            if let footerView = footerView {
+                 constraints.append(scrollView.bottomAnchor.constraint(equalTo: footerView.topAnchor))
+            } else {
+                 constraints.append(scrollView.topAnchor.constraint(equalTo: viewTopAnchor))
+            }
+            
+            if let headerView = headerView {
+                constraints.append(scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor))
+            } else {
+                constraints.append(scrollView.bottomAnchor.constraint(equalTo: viewBottomAnchor))
+            }
+            
+            constraints.append(contentsOf: [
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
                 stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
                 stackView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
                 stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -105,32 +132,13 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 ])
         } else {
             view.addSubview(stackView)
-            NSLayoutConstraint.activate([
+            constraints.append(contentsOf: [
                 stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 stackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
+        
         NSLayoutConstraint.activate(constraints)
-        
-        if let footerView = footerView {
-            view.addSubview(footerView)
-            footerView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-                ])
-        }
-        
-        if let headerView = headerView {
-            view.addSubview(headerView)
-            headerView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: view.topAnchor)
-                ])
-        }
     }
 }
