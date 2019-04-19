@@ -18,10 +18,10 @@ public final class StackSceneBuilder {
     private var viewsWidthDefaultInset: CGFloat?
     
     
-    public init(viewsWidthDefaultInset: CGFloat? = nil, contentMode: StackViewController.ContentMode = .scrollable) {
+    public init(viewsWidthDefaultInset: CGFloat? = nil, stackViewSpacing: CGFloat = 0, contentMode: StackViewController.ContentMode = .scrollable) {
         self.scene = StackViewController(contentMode: contentMode)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
-        scene.stackView.spacing = 0
+        scene.stackView.spacing = stackViewSpacing
     }
 
     private func addWidthConstraintIfNeed(to view: UIView, type: ViewWidth)  {
