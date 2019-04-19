@@ -26,7 +26,7 @@ public extension UIViewController {
     }
 }
 
-extension DisposeBagHolder where Self: UIViewController {
+public extension DisposeBagHolder where Self: UIViewController {
     
     func subscribeShow(alert: UIAlertController, on obs: Observable<Void>) {
         subscribeShow(alert: alert, on: obs, disposeBag: disposeBag)
@@ -34,7 +34,7 @@ extension DisposeBagHolder where Self: UIViewController {
 }
 
 
-extension SceneView where Self: UIViewController {
+public extension SceneView where Self: UIViewController {
     
     func subscribeShow(alert: UIAlertController, on obs: Observable<Void>) {
         subscribeShow(alert: alert, on: obs, disposeBag: disposeBag)
