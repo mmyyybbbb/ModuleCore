@@ -82,4 +82,12 @@ public extension StackSceneBuilder {
     func addSpace(_ height: CGFloat) {
         add(view: FixedHeightView(height: height, backgroundColor: scene.backgroundColor))
     }
+    
+    func set(footer view: UIView) {
+        scene.footerView = view
+    }
+    
+    func set(header view: UIView) {
+        scene.headerView = view
+    }
 }
