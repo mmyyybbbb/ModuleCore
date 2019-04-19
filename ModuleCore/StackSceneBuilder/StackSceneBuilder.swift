@@ -16,8 +16,7 @@ public final class StackSceneBuilder {
  
     private let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
-    
-    
+     
     public init(viewsWidthDefaultInset: CGFloat? = nil, stackViewSpacing: CGFloat = 0, contentMode: StackViewController.ContentMode = .scrollable) {
         self.scene = StackViewController(contentMode: contentMode)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset

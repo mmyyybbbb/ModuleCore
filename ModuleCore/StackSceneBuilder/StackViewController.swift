@@ -37,6 +37,14 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case scrollable
     }
     
+    var footerView: UIView?
+    var headerView: UIView?
+    
+    private var topConstraint: NSLayoutConstraint?
+    private var bottomConstraint: NSLayoutConstraint?
+    
+    private var isFooterHeaderConstrainted: Bool = false
+    
     private let contentMode: ContentMode
     
     public var contentInset: UIEdgeInsets = .zero
@@ -59,15 +67,33 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         stackView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
     }
+ 
+    override public func updateViewConstraints() {
+        if isFooterHeaderConstrainted == false  {
+             isFooterHeaderConstrainted = true
+            
+            if let topConstraint = topConstraint, let headerHeight = headerView?.frame.height {
+                topConstraint.constant = headerHeight
+            }
+            
+            if let bottomConstraint = bottomConstraint, let bottomHeight = footerView?.frame.height {
+                bottomConstraint.constant = bottomHeight
+            }
+        }
+        
+        super.updateViewConstraints()
+    }
     
     private func setupViewAndConstraints() {
         if contentMode == .scrollable {
             view.addSubview(scrollView)
             scrollView.addSubview(stackView)
             scrollView.contentInset = contentInset
+            topConstraint = scrollView.topAnchor.constraint(equalTo: view.topAnchor)
+            bottomConstraint = scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                topConstraint!,
+                bottomConstraint!,
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
@@ -86,5 +112,25 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 ])
         }
         NSLayoutConstraint.activate(constraints)
+        
+        if let footerView = footerView {
+            view.addSubview(footerView)
+            footerView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                ])
+        }
+        
+        if let headerView = headerView {
+            view.addSubview(headerView)
+            headerView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                headerView.topAnchor.constraint(equalTo: view.topAnchor)
+                ])
+        }
     }
 }
