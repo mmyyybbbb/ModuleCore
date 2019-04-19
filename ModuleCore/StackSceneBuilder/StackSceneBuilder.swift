@@ -25,7 +25,7 @@ public final class StackSceneBuilder {
     
     private let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
-    private var constraints: [NSLayoutConstraint] = []
+    
     
     public init(viewsWidthDefaultInset: CGFloat? = nil, contentMode: StackViewController.ContentMode = .scrollable) {
         self.scene = StackViewController(contentMode: contentMode)
@@ -58,7 +58,7 @@ public final class StackSceneBuilder {
         guard let widthInset = inset, let superview = view.superview else { return }
         
         let constraint = view.widthAnchor.constraint(equalTo: superview.widthAnchor, constant: -widthInset)
-        constraints.append(constraint)
+        scene.constraints.append(constraint)
     }
 }
 
@@ -67,11 +67,10 @@ public final class StackSceneBuilder {
 public extension StackSceneBuilder {
     
     func build() -> StackViewController {
-        NSLayoutConstraint.activate(constraints)
         return scene
     }
     
-    func build<Reactor: SceneReactor>(reactor: Reactor, viewDidLoadAction: Reactor.Action? = nil) -> StackViewController {
+    func build<R: SceneReactor>(reactor: R, viewDidLoadAction: R.Action? = nil) -> StackViewController {
         let scene = build()
         scene.reactor = reactor
         if let viewDidLoadAction = viewDidLoadAction {

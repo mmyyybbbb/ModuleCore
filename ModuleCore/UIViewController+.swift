@@ -5,6 +5,7 @@
 //  Created by Alexej Nenastev on 30/03/2019.
 //  Copyright © 2019 BCS. All rights reserved.
 //
+import RxSwift
 
 public extension UIViewController {
     
@@ -16,5 +17,26 @@ public extension UIViewController {
         view.isHidden = false
         
         sceneVC.didMove(toParent: self)
+    }
+    
+    func subscribeShow(alert: UIAlertController, on obs: Observable<Void>, disposeBag: DisposeBag) {
+        obs.subscribe(onNext: { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+    }
+}
+
+extension DisposeBagHolder where Self: UIViewController {
+    
+    func subscribeShow(alert: UIAlertController, on obs: Observable<Void>) {
+        subscribeShow(alert: alert, on: obs, disposeBag: disposeBag)
+    }
+}
+
+
+extension SceneView where Self: UIViewController {
+    
+    func subscribeShow(alert: UIAlertController, on obs: Observable<Void>) {
+        subscribeShow(alert: alert, on: obs, disposeBag: disposeBag)
     }
 }

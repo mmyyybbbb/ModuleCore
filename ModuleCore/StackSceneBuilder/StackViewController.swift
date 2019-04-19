@@ -13,6 +13,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     var reactor: AnyObject?
     var onViewDidLoad: () -> () = {}
+    var constraints: [NSLayoutConstraint] = []
     
     lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -79,5 +80,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
+        NSLayoutConstraint.activate(constraints) 
     }
 }
