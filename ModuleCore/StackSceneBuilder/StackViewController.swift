@@ -110,9 +110,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
  
             constraints.append(contentsOf: [
                 scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? viewBottomAnchor),
-                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor), 
+                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                
                 stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
                 stackView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
                 stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),

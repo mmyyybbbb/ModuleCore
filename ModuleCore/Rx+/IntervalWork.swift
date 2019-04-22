@@ -1,0 +1,29 @@
+//
+//  IntervalWork.swift
+//  ModuleCore
+//
+//  Created by alexej_ne on 22/04/2019.
+//  Copyright © 2019 BCS. All rights reserved.
+//
+
+import RxSwift
+import RxCocoa
+
+public struct IntervalWork<T,R> {
+    
+    public var single: Single<R> { return observable.asSingle() }
+    public let observable: Observable<R>
+    
+    public init(interval: TimeInterval,
+                maxCounts: Int = Int.max,
+                work: Single<T>, onNext: @escaping (T) throws ->  (Observable<R>)) {
+        let observable = Observable<Int64>
+            .interval(RxTimeInterval(interval), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+            .startWith(0)
+            .take(maxCounts)
+            .mapToVoid()
+            .flatMapLatest { work }
+            .flatMap { (result: T) -> Observable<R> in return try onNext(result) }
+        self.observable = observable
+    }
+}

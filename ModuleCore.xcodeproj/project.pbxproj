@@ -11,6 +11,7 @@
 		035C89492260DA6500118435 /* FixedHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89462260DA6500118435 /* FixedHeightView.swift */; };
 		035C894A2260DA6500118435 /* StackSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89472260DA6500118435 /* StackSceneBuilder.swift */; };
 		035C894E2260E5D100118435 /* ReactorBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C894D2260E5D100118435 /* ReactorBindings.swift */; };
+		036B74EC226DE230002728D4 /* IntervalWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036B74EB226DE230002728D4 /* IntervalWork.swift */; };
 		0372DEC2220B4221001FCEB4 /* CompletableReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */; };
 		0372DEC4220B44F7001FCEB4 /* CompletionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */; };
 		03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CF07B9220D77B20011F4EB /* BaseReactor.swift */; };
@@ -72,6 +73,7 @@
 		035C89462260DA6500118435 /* FixedHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedHeightView.swift; sourceTree = "<group>"; };
 		035C89472260DA6500118435 /* StackSceneBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackSceneBuilder.swift; sourceTree = "<group>"; };
 		035C894D2260E5D100118435 /* ReactorBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorBindings.swift; sourceTree = "<group>"; };
+		036B74EB226DE230002728D4 /* IntervalWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalWork.swift; sourceTree = "<group>"; };
 		0372DEC1220B4221001FCEB4 /* CompletableReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletableReactor.swift; sourceTree = "<group>"; };
 		0372DEC3220B44F7001FCEB4 /* CompletionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionScene.swift; sourceTree = "<group>"; };
 		03CF07B9220D77B20011F4EB /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				03E3AA9F2209A7D60005A0A1 /* ObservableType+.swift */,
 				03E3AAA02209A7D60005A0A1 /* Schedulers.swift */,
 				03E3AAA12209A7D60005A0A1 /* UIViewController+Rx.swift */,
+				036B74EB226DE230002728D4 /* IntervalWork.swift */,
 			);
 			path = "Rx+";
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				03E3AAA62209A80E0005A0A1 /* OptionalType.swift in Sources */,
 				6D28497E22502EDE0031ED94 /* CollectionSceneConfigurator.swift in Sources */,
 				03CF07BC220D9E370011F4EB /* Test.swift in Sources */,
+				036B74EC226DE230002728D4 /* IntervalWork.swift in Sources */,
 				03E630A02209CBEE0082685F /* RemoteData.swift in Sources */,
 				6D584A16220F8F69005EC4AE /* Initable.swift in Sources */,
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
