@@ -13,7 +13,11 @@ import RxCocoa
 public enum WorkCommand<R> {
     case completeWork(R)
     case continueWork
-    case `throw`(Error)
+    case completeWith(error: Error)
+}
+
+public extension WorkCommand where R == Void {
+    static var complete: WorkCommand<Void> { return .completeWork(()) }
 }
 
 public struct IntervalWork<T,R> {
@@ -35,7 +39,7 @@ public struct IntervalWork<T,R> {
                 switch onNext(result) {
                     case let .completeWork(val): return .just(val)
                     case .continueWork: return .empty()
-                    case let .throw(err): throw err
+                    case let .completeWith(err): throw err
                 }
         }
         
