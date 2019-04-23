@@ -9,13 +9,14 @@
 import RxSwift
 import RxCocoa
 
+
+public enum WorkCommand<R> {
+    case completeWork(R)
+    case continueWork
+    case `throw`(Error)
+}
+
 public struct IntervalWork<T,R> {
-    
-    public enum WorkCommand<R> {
-        case completeWork(R)
-        case continueWork
-        case `throw`(Error)
-    }
     
     public var single: Single<R> { return observable.asSingle() }
     public let observable: Observable<R>
@@ -35,7 +36,7 @@ public struct IntervalWork<T,R> {
                     case let .completeWork(val): return .just(val)
                     case .continueWork: return .empty()
                     case let .throw(err): throw err
-                } 
+                }
         }
         
         self.observable = observable
