@@ -17,7 +17,7 @@ public enum WorkCommand<R> {
 }
 
 public extension WorkCommand where R == Void {
-    static var complete: WorkCommand<Void> { return .completeWork(()) }
+    static var completeWork: WorkCommand<Void> { return .completeWork(()) }
 }
 
 public struct IntervalWork<T,R> {
