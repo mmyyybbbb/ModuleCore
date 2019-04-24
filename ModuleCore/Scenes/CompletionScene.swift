@@ -13,7 +13,7 @@ public typealias CustomPresentationFunc = (Presenter) -> Void
 
 public class CompletionScene<T> {
     public let scene: Scene
-    public let completion: Single<T>
+    public let completion: Observable<T>
     
     // Сцена может предоставлять кастомную функцию для ее презентации
     let customModalPresentatioin: CustomPresentationFunc?
@@ -24,9 +24,9 @@ public class CompletionScene<T> {
         self.customModalPresentatioin = customPresentation
     }
     
-    public init(_ scene: Scene, interact: Single<T>, customPresentation: CustomPresentationFunc? = nil) {
+    public init(_ scene: Scene, completion: Observable<T>, customPresentation: CustomPresentationFunc? = nil) {
         self.scene = scene
-        self.completion = interact
+        self.completion = completion
         self.customModalPresentatioin = customPresentation
     }
 }

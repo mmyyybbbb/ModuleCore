@@ -12,7 +12,7 @@ import RxCocoa
 open class CompletableReactor<T>: BaseReactor  {
     
     private let _onComplete = PublishSubject<T>()
-    public lazy var onComplete: Single<T> = { return _onComplete.asSingle() }()
+    public lazy var onComplete: Observable<T> = { return _onComplete.share().asObservable() }()
     
     public func complete(_ result: T) {
         _onComplete.onNext(result)

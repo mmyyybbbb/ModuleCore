@@ -13,33 +13,16 @@ public final class StackSceneBuilder {
         case insetted(CGFloat)
         case full
     }
-
-    private var backgroundColor: UIColor? {
-        didSet{
-            scene.scrollView.backgroundColor = backgroundColor
-            scene.stackView.backgroundColor = backgroundColor
-            scene.view.backgroundColor = backgroundColor
-            updateSpaceViewBackgroundColor()
-        }
-    }
-    
+ 
     private let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
-    private var constraints: [NSLayoutConstraint] = []
-    
-    public init(viewsWidthDefaultInset: CGFloat? = nil, contentMode: StackViewController.ContentMode = .scrollable) {
+     
+    public init(viewsWidthDefaultInset: CGFloat? = nil, stackViewSpacing: CGFloat = 0, contentMode: StackViewController.ContentMode = .scrollable) {
         self.scene = StackViewController(contentMode: contentMode)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
-        scene.stackView.spacing = 0
+        scene.stackView.spacing = stackViewSpacing
     }
-    
-    private func updateSpaceViewBackgroundColor() {
-        for view in scene.stackView.arrangedSubviews {
-            guard let view = view as? FixedHeightView else { continue }
-            view.backgroundColor = backgroundColor
-        }
-    }
-    
+
     private func addWidthConstraintIfNeed(to view: UIView, type: ViewWidth)  {
         let inset: CGFloat?
         
@@ -58,7 +41,7 @@ public final class StackSceneBuilder {
         guard let widthInset = inset, let superview = view.superview else { return }
         
         let constraint = view.widthAnchor.constraint(equalTo: superview.widthAnchor, constant: -widthInset)
-        constraints.append(constraint)
+        scene.constraints.append(constraint)
     }
 }
 
@@ -67,11 +50,10 @@ public final class StackSceneBuilder {
 public extension StackSceneBuilder {
     
     func build() -> StackViewController {
-        NSLayoutConstraint.activate(constraints)
         return scene
     }
     
-    func build<Reactor: SceneReactor>(reactor: Reactor, viewDidLoadAction: Reactor.Action? = nil) -> StackViewController {
+    func build<R: SceneReactor>(reactor: R, viewDidLoadAction: R.Action? = nil) -> StackViewController {
         let scene = build()
         scene.reactor = reactor
         if let viewDidLoadAction = viewDidLoadAction {
@@ -81,11 +63,11 @@ public extension StackSceneBuilder {
     }
     
     func set(stackAlignment: UIStackView.Alignment) {
-        self.scene.stackView.alignment = stackAlignment
+        scene.stackView.alignment = stackAlignment
     }
     
     func set(backgroundColor: UIColor) {
-        self.backgroundColor = backgroundColor
+        scene.backgroundColor = backgroundColor
     }
     
     func set(contentInset: UIEdgeInsets) {
@@ -98,6 +80,14 @@ public extension StackSceneBuilder {
     }
     
     func addSpace(_ height: CGFloat) {
-        add(view: FixedHeightView(height: height, backgroundColor: backgroundColor))
+        add(view: FixedHeightView(height: height, backgroundColor: scene.backgroundColor))
+    }
+    
+    func set(footer view: UIView) {
+        scene.footerView = view
+    }
+    
+    func set(header view: UIView) {
+        scene.headerView = view
     }
 }

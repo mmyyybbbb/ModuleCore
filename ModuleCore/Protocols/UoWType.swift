@@ -124,7 +124,7 @@ public extension UnitOfWorkType {
         navigator.pushViewController(completionScene.scene, animated: animate)
         
         completionScene.completion
-            .subscribe(onSuccess: { [weak self] arg in
+            .subscribe(onNext: { [weak self] arg in
                 guard let instance = self else { return }
                 let instanceFunction = classFunc(instance)
                 instanceFunction(arg)
@@ -143,7 +143,7 @@ public extension UnitOfWorkType {
         navigator.pushViewController(completionScene.scene, animated: animate)
         
         completionScene.completion
-            .subscribe(onSuccess: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                     guard let instance = self else { return }
                     let instanceFunction = classFunc(instance)
                     instanceFunction()
