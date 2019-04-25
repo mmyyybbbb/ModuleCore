@@ -16,13 +16,13 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     var onViewDidLoad: () -> () = {}
     var constraints: [NSLayoutConstraint] = []
     
-    lazy var scrollView: UIScrollView = {
+    public lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
     
-    lazy var stackView: UIStackView = {
+    public lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -37,8 +37,8 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case scrollable
     }
     
-    var footerView: UIView?
-    var headerView: UIView?
+    public var footerView: UIView?
+    public var headerView: UIView?
  
     private var isFooterHeaderConstrainted: Bool = false
     
