@@ -51,5 +51,12 @@ public final class ReactorBindings<R: SceneReactor> {
         observable.subscribeNext(handler).disposed(by: disposeBag)
     }
     
+    public func mapIgnoreNil<T>(_ stateKey: KeyPath<R.State, T?>, to property: Binder<T>) {
+        reactor.state.map{ $0[keyPath: stateKey] }.ignoreNil().bind(to: property).disposed(by: disposeBag)
+    }
+    
+    public func mapIgnoreNil<T>(_ stateKey: KeyPath<R.State, T?>, to property: Binder<T?>) {
+        reactor.state.map{ $0[keyPath: stateKey] }.ignoreNil().bind(to: property).disposed(by: disposeBag)
+    }
     
 }
