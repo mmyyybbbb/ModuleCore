@@ -66,5 +66,11 @@ public extension Reactor where Self: BaseReactor {
 
         subscribe(obs, complete: complete, error: error, bag: bag)
     }
-
+ 
+    func subscribeNext<T>(_ observer: Observable<T>, makeMutation: @escaping (T) -> Mutation) {
+        observer.subscribe(onNext: { [weak self] (data) in
+            let mutatation = makeMutation(data)
+            self?.make(mutatation)
+        }).disposed(by: disposeBag)
+    } 
 }

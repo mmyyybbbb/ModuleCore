@@ -51,8 +51,8 @@ open class UnitOfWork<Result>: UnitOfWorkType {
         firstScene = showFirstScene(animate: animate)
     }
     
-    open func showFirstScene(animate: Bool) -> Scene {
-        return UIViewController()
+    open func showFirstScene(animate: Bool) -> Scene? {
+        return nil
     }
     
     public func completeUoW(_ result: Result) {

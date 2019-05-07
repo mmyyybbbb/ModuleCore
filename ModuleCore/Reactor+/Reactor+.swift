@@ -9,8 +9,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-
-
 public extension Reactor where Self: Coordinatable {
     func inject(_ coordinator: Coordinator) {
         set(coordinator: coordinator)
@@ -47,7 +45,7 @@ public extension Reactor {
     func subscribeNext<T>(_ observer: Observable<T>, with classFunc: @escaping (Self) -> (T) -> Swift.Void) {
         observer.subscribeNext(self, with: classFunc, bag: disposeBag)
     }
-    
+
     func subscribeNext<T>(_ observer: Observable<T>, do classFunc: @escaping (Self) -> () -> Swift.Void) {
         observer.subscribeNext(self, do: classFunc, bag: disposeBag)
     }
@@ -63,6 +61,8 @@ public extension Reactor {
                       bag: DisposeBag? = nil) {
         observer.subscribe(self, complete: classFunc, error: errClassFunc, bag: bag ?? disposeBag)
     }
+    
+    
     
     func mutation(_ mutation: Mutation) -> Observable<Mutation> {
         return .just(mutation)
@@ -87,5 +87,6 @@ public extension Reactor {
     func wrapWithDelay(_ mut: Observable<Mutation>, delay: RxTimeInterval = 0.1) -> Observable<Mutation> {
         return  mut.delaySubscription(delay, scheduler: MainScheduler.instance)
     }
+    
 }
 
