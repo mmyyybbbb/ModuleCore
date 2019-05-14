@@ -11,8 +11,8 @@ import ReactorKit
 
 public final class ReactorBindings<R: SceneReactor> {
     
-    private let reactor: R
-    private let disposeBag: DisposeBag
+    public let reactor: R
+    public let disposeBag: DisposeBag
     
     public init(reactor: R, defaultDisposeBag: DisposeBag) {
         self.reactor = reactor
@@ -57,6 +57,21 @@ public final class ReactorBindings<R: SceneReactor> {
     
     public func mapIgnoreNil<T>(_ stateKey: KeyPath<R.State, T?>, to property: Binder<T?>) {
         reactor.state.map{ $0[keyPath: stateKey] }.ignoreNil().bind(to: property).disposed(by: disposeBag)
+    }
+    
+    public func bind<T>(to property: ControlProperty<T>,
+                        action: @escaping   (T) -> R.Action,
+                        state: @escaping  (R.State) -> T) {
+        property
+            .asObservable()
+            .map(action)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map(state)
+            .observeOn(MainScheduler.asyncInstance)
+            .bind(to: property)
+            .disposed(by: disposeBag)
     }
     
 }

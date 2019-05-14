@@ -37,7 +37,9 @@ open class BaseCoordinator {
     
     public final func endEditing() {
         scene?.view.endEditing(true)
-    } 
+    }
+    
+    
 }
 
 
