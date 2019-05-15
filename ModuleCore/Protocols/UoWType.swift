@@ -37,8 +37,12 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     }
     
     public var navigator: UINavigationController {
-        guard let nav = _navigator else { fatalError() }
-        return nav
+        set { _navigator = newValue }
+        get {
+            guard let nav = _navigator else { fatalError() }
+            return nav
+        }
+        
     }
     
     private weak var _navigator: UINavigationController?
@@ -47,7 +51,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     private let _onComplete = PublishSubject<Result>()
     
     open func start(navigator: UINavigationController, animate: Bool) {
-        self._navigator = navigator
+        self.navigator = navigator
         firstScene = showFirstScene(animate: animate)
     }
     
