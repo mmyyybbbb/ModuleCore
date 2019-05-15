@@ -123,13 +123,10 @@ public extension UnitOfWorkType {
         observer.subscribeNext(self, do: classFunc, bag: bag)
     }
     
-    func push<T>(_ completionScene: CompletionScene<T>,
+    func subscribe<T>(scene: CompletionScene<T>,
                  onComplete classFunc: @escaping (Self) -> (T) -> Swift.Void,
-                 onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
-                 animate: Bool = true) {
-        navigator.pushViewController(completionScene.scene, animated: animate)
-        
-        completionScene.completion
+                 onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil) {
+        scene.completion
             .subscribe(onNext: { [weak self] arg in
                 guard let instance = self else { return }
                 let instanceFunction = classFunc(instance)
@@ -141,22 +138,35 @@ public extension UnitOfWorkType {
             }).disposed(by: bag)
     }
     
-    func push(_ completionScene: CompletionScene<Void>,
+    func subscribe(scene: CompletionScene<Void>,
               onComplete classFunc: @escaping (Self) -> () -> Swift.Void,
-              onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
-              animate: Bool = true) {
+              onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil ) {
         
-        navigator.pushViewController(completionScene.scene, animated: animate)
-        
-        completionScene.completion
+        scene.completion
             .subscribe(onNext: { [weak self] in
-                    guard let instance = self else { return }
-                    let instanceFunction = classFunc(instance)
-                    instanceFunction()
+                guard let instance = self else { return }
+                let instanceFunction = classFunc(instance)
+                instanceFunction()
                 }, onError: { [weak self] error in
                     guard let instance = self, let onInterrupt = onInterrupt else { return }
                     let instanceFunction = onInterrupt(instance)
                     instanceFunction(error)
             }).disposed(by: bag)
+    }
+    
+    func push<T>(_ completionScene: CompletionScene<T>,
+                 onComplete classFunc: @escaping (Self) -> (T) -> Swift.Void,
+                 onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
+                 animate: Bool = true) {
+        navigator.pushViewController(completionScene.scene, animated: animate)
+        subscribe(scene: completionScene, onComplete: classFunc, onInterrupt: onInterrupt)
+    }
+    
+    func push(_ completionScene: CompletionScene<Void>,
+              onComplete classFunc: @escaping (Self) -> () -> Swift.Void,
+              onInterrupt: ((Self) -> (Error?) -> Swift.Void)? = nil,
+              animate: Bool = true) {
+        navigator.pushViewController(completionScene.scene, animated: animate)
+        subscribe(scene: completionScene, onComplete: classFunc, onInterrupt: onInterrupt)
     }
 }
