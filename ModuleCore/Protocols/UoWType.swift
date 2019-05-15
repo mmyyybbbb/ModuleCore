@@ -23,13 +23,12 @@ public protocol UnitOfWorkType: class {
     var onComplete: Single<Result> { get }
     var bag: DisposeBag { get }
     var navigator: UINavigationController { get }
-    
-    func start(navigator: UINavigationController, animate: Bool)
 }
 
 open class UnitOfWork<Result>: UnitOfWorkType {
     
     private(set) public var bag = DisposeBag()
+    
     public weak var firstScene: Scene? {
         didSet {
             firstScene?.associatedUoW = self
@@ -42,21 +41,24 @@ open class UnitOfWork<Result>: UnitOfWorkType {
             guard let nav = _navigator else { fatalError() }
             return nav
         }
-        
     }
     
     private weak var _navigator: UINavigationController?
     
     public var onComplete: Single<Result> { return _onComplete.asSingle() }
     private let _onComplete = PublishSubject<Result>()
-    
-    open func start(navigator: UINavigationController, animate: Bool) {
+
+    public func set(navigator: UINavigationController) {
         self.navigator = navigator
-        firstScene = showFirstScene(animate: animate)
     }
     
-    open func showFirstScene(animate: Bool) -> Scene? {
-        return nil
+    public func set(firstScene: Scene) {
+        self.firstScene = firstScene
+    }
+    
+    public func revertUoWStateToInit() {
+        navigator.setViewControllers([], animated: false)
+        self.firstScene = nil
     }
     
     public func completeUoW(_ result: Result) {
@@ -156,15 +158,5 @@ public extension UnitOfWorkType {
                     let instanceFunction = onInterrupt(instance)
                     instanceFunction(error)
             }).disposed(by: bag)
-    }
-    
-    func push<T>(_ uow: UnitOfWork<T>, onComplete classFunc: @escaping (Self) -> (T) -> Swift.Void, animate: Bool = true) {
-        uow.start(navigator: navigator, animate: true)
-        subscribeNext(uow.onComplete.asObservable(), with: classFunc)
-    }
-    
-    func push(_ uow: UnitOfWork<Void>, onComplete classFunc: @escaping (Self) -> () -> Swift.Void, animate: Bool = true) {
-        uow.start(navigator: navigator, animate: true)
-        subscribeNext(uow.onComplete.asObservable(), do: classFunc)
     }
 }
