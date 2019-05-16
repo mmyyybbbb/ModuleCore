@@ -16,7 +16,7 @@ public class CompletionScene<T> {
     public let completion: Observable<T>
     
     // Сцена может предоставлять кастомную функцию для ее презентации
-    let customModalPresentatioin: CustomPresentationFunc?
+    public let customModalPresentatioin: CustomPresentationFunc?
     
     public init(_ scene: Scene, _ reactor: CompletableReactor<T>, customPresentation: CustomPresentationFunc? = nil) {
         self.scene = scene
@@ -28,5 +28,13 @@ public class CompletionScene<T> {
         self.scene = scene
         self.completion = completion
         self.customModalPresentatioin = customPresentation
+    }
+    
+    public func present(by presenter: UIViewController) {
+        if let custom = customModalPresentatioin {
+            custom(presenter)
+        } else {
+            presenter.present(scene, animated: true, completion: nil)
+        }
     }
 }
