@@ -37,6 +37,7 @@
 		03E3AAA62209A80E0005A0A1 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E3AAA52209A80E0005A0A1 /* OptionalType.swift */; };
 		03E3AAA82209A8C40005A0A1 /* DisposeBagHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E3AAA72209A8C40005A0A1 /* DisposeBagHolder.swift */; };
 		03E630A02209CBEE0082685F /* RemoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E6309F2209CBEE0082685F /* RemoteData.swift */; };
+		03F32278228D7FD900A19027 /* ReactorBindings+Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F32277228D7FD900A19027 /* ReactorBindings+Scene.swift */; };
 		3A1F2197D4B15FC01E1B584F /* Pods_ModuleCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0716966DC8FFA72BEB58A0 /* Pods_ModuleCoreTests.framework */; };
 		572F2766CDA68BAD745FCE16 /* Pods_ModuleCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */; };
 		6D28497A22502EBA0031ED94 /* DataSourceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28497722502EBA0031ED94 /* DataSourceSection.swift */; };
@@ -103,6 +104,7 @@
 		03E3AAA52209A80E0005A0A1 /* OptionalType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		03E3AAA72209A8C40005A0A1 /* DisposeBagHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposeBagHolder.swift; sourceTree = "<group>"; };
 		03E6309F2209CBEE0082685F /* RemoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteData.swift; sourceTree = "<group>"; };
+		03F32277228D7FD900A19027 /* ReactorBindings+Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReactorBindings+Scene.swift"; sourceTree = "<group>"; };
 		3F1C156C75D18C7931585C57 /* Pods-ModuleCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCoreTests/Pods-ModuleCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB963A3F040477600A3AD28 /* Pods-ModuleCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.release.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				6DCA6C7C224EEEAD0053CC38 /* DataState.swift */,
 				6DCA6C7E224EF83E0053CC38 /* UIViewController+.swift */,
 				035C894D2260E5D100118435 /* ReactorBindings.swift */,
+				03F32277228D7FD900A19027 /* ReactorBindings+Scene.swift */,
 			);
 			path = ModuleCore;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				6D584A242210DE08005EC4AE /* CoordinatorType.swift in Sources */,
 				6D584A18220F97E6005EC4AE /* UoWType.swift in Sources */,
 				03E3AAA82209A8C40005A0A1 /* DisposeBagHolder.swift in Sources */,
+				03F32278228D7FD900A19027 /* ReactorBindings+Scene.swift in Sources */,
 				6D28497A22502EBA0031ED94 /* DataSourceSection.swift in Sources */,
 				6D45C7002207798A00033DB2 /* ModuleType.swift in Sources */,
 				03E3AAA62209A80E0005A0A1 /* OptionalType.swift in Sources */,

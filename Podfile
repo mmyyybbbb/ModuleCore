@@ -7,6 +7,7 @@ def pods
   pod 'RxCocoa', '~> 4.4.0'
   pod 'RxDataSources', '~> 3.1.0'
   pod 'ReactorKit', '~> 1.2.1'
+  pod 'RxViewController', '~> 0.4.1'
 end
 
 target :ModuleCore do

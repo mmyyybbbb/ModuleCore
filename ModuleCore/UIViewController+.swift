@@ -6,6 +6,7 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 import RxSwift
+import ReactorKit
 
 public extension UIViewController {
     
@@ -23,6 +24,12 @@ public extension UIViewController {
         obs.subscribe(onNext: { [weak self] in
             self?.present(alert, animated: true, completion: nil)
         }).disposed(by: disposeBag)
+    }
+    
+    func dismiss<R: Reactor>(animated: Bool, reactor: R, onCompleteAction action: R.Action) {
+        self.dismiss(animated: animated) { [weak reactor] in
+            reactor?.action.onNext(action)
+        }
     }
 }
 

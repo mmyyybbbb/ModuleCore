@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
   s.dependency 'RxCocoa', '~> 4.4.0'
   s.dependency 'ReactorKit', '~> 1.2.1'
   s.dependency 'RxDataSources', '~> 3.1.0'
+  s.dependency 'RxViewController', '~> 0.4.1'
 end
