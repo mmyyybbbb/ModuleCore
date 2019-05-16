@@ -8,7 +8,7 @@
 import ReactorKit
 
 public extension UIAlertController {
-    func addAction<R:Reactor>(reactor: R, action: R.Action, title: String?, style: UIAlertAction.Style = .default  , handler: @escaping (() -> Void)? = nil) {
+    func addAction<R:Reactor>(reactor: R, action: R.Action, title: String?, style: UIAlertAction.Style = .default  , handler: (() -> Void)? = nil) {
         let alertAction = UIAlertAction(title: title, style: style) { [weak reactor] _ in
             reactor?.action.onNext(action)
             handler?()
