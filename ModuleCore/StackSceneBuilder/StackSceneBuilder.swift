@@ -14,7 +14,7 @@ public final class StackSceneBuilder {
         case full
     }
  
-    private let scene: StackViewController
+    public let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
      
     public init(viewsWidthDefaultInset: CGFloat? = nil, stackViewSpacing: CGFloat = 0, contentMode: StackViewController.ContentMode = .scrollable) {

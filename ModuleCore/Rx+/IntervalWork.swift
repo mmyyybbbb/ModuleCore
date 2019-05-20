@@ -22,7 +22,7 @@ public extension WorkCommand where R == Void {
 
 public struct IntervalWork<T,R> {
     
-    public var single: Single<R> { return observable.asSingle() }
+    public var single: Single<R> { return observable.take(1).share().asSingle() }
     public let observable: Observable<R>
     
     public init(interval: TimeInterval,
