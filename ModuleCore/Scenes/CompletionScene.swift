@@ -11,26 +11,26 @@ public typealias Presenter = UIViewController
 public typealias Next = Void
 public typealias CustomPresentationFunc = (Presenter) -> Void
 
-public class CompletionScene<T> {
-    public let scene: Scene
-    public let completion: Observable<T>
+open class CompletionScene<T> {
+    open let scene: Scene
+    open let completion: Observable<T>
     
     // Сцена может предоставлять кастомную функцию для ее презентации
-    public let customModalPresentatioin: CustomPresentationFunc?
+    open let customModalPresentatioin: CustomPresentationFunc?
     
-    public init(_ scene: Scene, _ reactor: CompletableReactor<T>, customPresentation: CustomPresentationFunc? = nil) {
+    open init(_ scene: Scene, _ reactor: CompletableReactor<T>, customPresentation: CustomPresentationFunc? = nil) {
         self.scene = scene
         self.completion = reactor.onComplete
         self.customModalPresentatioin = customPresentation
     }
     
-    public init(_ scene: Scene, completion: Observable<T>, customPresentation: CustomPresentationFunc? = nil) {
+    open init(_ scene: Scene, completion: Observable<T>, customPresentation: CustomPresentationFunc? = nil) {
         self.scene = scene
         self.completion = completion
         self.customModalPresentatioin = customPresentation
     }
     
-    public func present(by presenter: UIViewController) {
+    open func present(by presenter: UIViewController) {
         if let custom = customModalPresentatioin {
             custom(presenter)
         } else {
