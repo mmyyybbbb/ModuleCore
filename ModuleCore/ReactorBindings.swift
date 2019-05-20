@@ -61,13 +61,14 @@ public final class ReactorBindings<R: SceneReactor> {
     
     public func bind<T>(to property: ControlProperty<T>,
                         action: @escaping   (T) -> R.Action,
-                        state: @escaping  (R.State) -> T) {
+                        state: ((R.State) -> T)? = nil) {
         property
             .asObservable()
             .map(action)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        guard let state = state else { return }
         reactor.state.map(state)
             .observeOn(MainScheduler.asyncInstance)
             .bind(to: property)
