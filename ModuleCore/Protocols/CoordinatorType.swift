@@ -7,5 +7,6 @@
 //
 
 public protocol CoordinatorType: class {
-     func show(_ style: UIAlertController.Style, title: String?, message: String, items: UIAlertAction...)
+    func show(_ style: UIAlertController.Style, title: String?, message: String, items: UIAlertAction...)
+    func dismiss(completion: (() -> Void)?)
 }
