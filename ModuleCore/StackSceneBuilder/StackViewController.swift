@@ -39,14 +39,16 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public var footerView: UIView?
     public var headerView: UIView?
- 
-    private var isFooterHeaderConstrainted: Bool = false
+    public var scrollableContent: Bool { return scrollView.contentSize.height > scrollView.frame.height }
     
+    private var isFooterHeaderConstrainted: Bool = false
+    private let stackContainer: UIView
     private let contentMode: ContentMode
     
     public var contentInset: UIEdgeInsets = .zero
     
-    init(contentMode: ContentMode) {
+    init(contentMode: ContentMode, stackContainerType: UIView.Type) {
+        self.stackContainer = stackContainerType.init()
         self.contentMode = contentMode
         super.init(nibName: nil, bundle: nil)
     }
@@ -80,7 +82,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             return view.topAnchor
         }
     }
-    
+     
     private func setupViewAndConstraints() {
         
         if let footerView = footerView {
@@ -103,9 +105,18 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 ])
         }
         
+        stackContainer.addSubview(stackView)
+        stackContainer.translatesAutoresizingMaskIntoConstraints = false
+        constraints.append(contentsOf: [
+            stackView.leftAnchor.constraint(equalTo: stackContainer.leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: stackContainer.rightAnchor),
+            stackView.topAnchor.constraint(equalTo: stackContainer.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: stackContainer.bottomAnchor)
+            ])
+        
         if contentMode == .scrollable {
             view.addSubview(scrollView)
-            scrollView.addSubview(stackView)
+            scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
  
             constraints.append(contentsOf: [
@@ -114,18 +125,18 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
-                stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                stackView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
-                stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -(scrollView.contentInset.left + scrollView.contentInset.right))
+                stackContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                stackContainer.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
+                stackContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                stackContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+                stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -(scrollView.contentInset.left + scrollView.contentInset.right))
                 ])
         } else {
-            view.addSubview(stackView)
+            view.addSubview(stackContainer)
             constraints.append(contentsOf: [
-                stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                stackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
+                stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                stackContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
         
