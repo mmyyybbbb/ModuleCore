@@ -17,8 +17,11 @@ public final class StackSceneBuilder {
     public let scene: StackViewController
     private var viewsWidthDefaultInset: CGFloat?
      
-    public init(viewsWidthDefaultInset: CGFloat? = nil, stackViewSpacing: CGFloat = 0, contentMode: StackViewController.ContentMode = .scrollable) {
-        self.scene = StackViewController(contentMode: contentMode)
+    public init(viewsWidthDefaultInset: CGFloat? = nil,
+                stackViewSpacing: CGFloat = 0,
+                contentMode: StackViewController.ContentMode = .scrollable,
+                stackContainerType: UIView.Type = UIView.self) {
+        self.scene = StackViewController(contentMode: contentMode, stackContainerType: stackContainerType)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
         scene.stackView.spacing = stackViewSpacing
     }
@@ -71,7 +74,7 @@ public extension StackSceneBuilder {
     }
     
     func set(contentInset: UIEdgeInsets) {
-        scene.scrollView.contentInset = contentInset
+        scene.contentInset = contentInset
     }
     
     func add(view: UIView, width: ViewWidth = .default) {
@@ -89,5 +92,5 @@ public extension StackSceneBuilder {
     
     func set(header view: UIView) {
         scene.headerView = view
-    }
+    } 
 }

@@ -12,6 +12,7 @@ public typealias Scene = UIViewController
 public typealias SceneView = View
 public typealias SceneReactor = Reactor
 public typealias FullSceneReactor =  SceneReactor & Coordinatable & Interactable
+public typealias DisposeBagScene = DisposeBagHolder & Scene
 
 extension Scene : AssociatedStore {}
 
