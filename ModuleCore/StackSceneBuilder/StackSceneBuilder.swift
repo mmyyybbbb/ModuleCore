@@ -74,7 +74,7 @@ public extension StackSceneBuilder {
     }
     
     func set(contentInset: UIEdgeInsets) {
-        scene.scrollView.contentInset = contentInset
+        scene.contentInset = contentInset
     }
     
     func add(view: UIView, width: ViewWidth = .default) {
