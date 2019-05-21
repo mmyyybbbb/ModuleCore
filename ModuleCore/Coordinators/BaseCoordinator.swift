@@ -49,6 +49,12 @@ extension BaseCoordinator : CoordinatorType {
         items.forEach(alertVc.addAction)
         scene?.present(alertVc, animated: true)
     }
+
+    public func dismiss(completion: (() -> Void)? = nil) {
+        guard let scene = scene else { return }
+        endEditing()
+        scene.dismiss(animated: true, completion: completion)
+    }
 }
 
 
