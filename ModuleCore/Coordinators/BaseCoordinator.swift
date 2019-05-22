@@ -53,7 +53,7 @@ extension BaseCoordinator : CoordinatorType {
         scene.dismiss(animated: true, completion: completion)
     }
 
-    func pop() {
+    public func pop() {
         guard let scene = scene else { return }
 
         scene.navigationController?.popViewController(animated: true)
