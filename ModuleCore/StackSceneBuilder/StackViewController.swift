@@ -14,6 +14,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     var backgroundColor: UIColor = .white 
     var reactor: AnyObject?
     var onViewDidLoad: () -> () = {}
+    var onViewDidAppear: () -> () = {}
+    var onViewDidDisappear: () -> () = {}
+    var onViewWillAppear: () -> () = {}
+    var onViewWillDisappear: () -> () = {}
     var constraints: [NSLayoutConstraint] = []
     
     public lazy var scrollView: UIScrollView = {
@@ -65,6 +69,30 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         scrollView.backgroundColor = backgroundColor
         stackView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
+    }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        onViewWillAppear()
+    }
+
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        onViewWillDisappear()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        onViewDidAppear()
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        onViewDidDisappear()
     }
  
     private var viewBottomAnchor: NSLayoutYAxisAnchor  {

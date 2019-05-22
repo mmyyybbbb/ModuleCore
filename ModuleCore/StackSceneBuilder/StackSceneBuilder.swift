@@ -56,11 +56,28 @@ public extension StackSceneBuilder {
         return scene
     }
     
-    func build<R: SceneReactor>(reactor: R, viewDidLoadAction: R.Action? = nil) -> StackViewController {
+    func build<R: SceneReactor>(reactor: R,
+                                viewDidLoadAction: R.Action? = nil,
+                                viewWillAppearAction: R.Action? = nil,
+                                viewWilDisappearAction: R.Action? = nil,
+                                viewDidAppearAction: R.Action? = nil,
+                                viewDidDisappearAction: R.Action? = nil) -> StackViewController {
         let scene = build()
         scene.reactor = reactor
         if let viewDidLoadAction = viewDidLoadAction {
             scene.onViewDidLoad = { [weak reactor] in reactor?.action.onNext(viewDidLoadAction) }
+        }
+        if let viewWillAppearAction = viewWillAppearAction {
+            scene.onViewWillAppear = { [weak reactor] in reactor?.action.onNext(viewWillAppearAction) }
+        }
+        if let viewWilDisappearAction = viewWilDisappearAction {
+            scene.onViewWillDisappear = { [weak reactor] in reactor?.action.onNext(viewWilDisappearAction) }
+        }
+        if let viewDidAppearAction = viewDidAppearAction {
+            scene.onViewDidAppear = { [weak reactor] in reactor?.action.onNext(viewDidAppearAction) }
+        }
+        if let viewDidDisappearAction = viewDidDisappearAction {
+            scene.onViewDidDisappear = { [weak reactor] in reactor?.action.onNext(viewDidDisappearAction) }
         }
         return scene
     }
