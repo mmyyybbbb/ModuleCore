@@ -5,7 +5,6 @@
 //  Created by alexej_ne on 04/02/2019.
 //  Copyright © 2019 BCS. All rights reserved.
 //
-
 open class BaseCoordinator {
     weak private(set) var scene: Scene?
     
@@ -38,8 +37,6 @@ open class BaseCoordinator {
     public final func endEditing() {
         scene?.view.endEditing(true)
     }
-    
-    
 }
 
 
@@ -54,6 +51,12 @@ extension BaseCoordinator : CoordinatorType {
         guard let scene = scene else { return }
         endEditing()
         scene.dismiss(animated: true, completion: completion)
+    }
+
+    func pop() {
+        guard let scene = scene else { return }
+
+        scene.navigationController?.popViewController(animated: true)
     }
 }
 
