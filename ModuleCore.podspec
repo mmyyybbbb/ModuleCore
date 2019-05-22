@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ModuleCore'
-  s.version          = '1.0.18'
+  s.version          = '1.0.19'
   s.summary          = 'Модуль ModuleCore'
   s.homepage         = 'https://gitlab.com/BCSBroker/iOS/modulecore'
   s.author           = 'BCS'
