@@ -64,6 +64,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
     public func completeUoW(_ result: Result) {
         firstScene?.associatedUoW = nil
         _onComplete.onNext(result)
+        _onComplete.onCompleted()
     }
     
     public func interruptUoW(error: Error = InterruptedError()) {
