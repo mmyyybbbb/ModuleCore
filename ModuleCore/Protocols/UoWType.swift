@@ -81,7 +81,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
         navigator.popToViewController(firstScene, animated: true)
     }
     
-    public func dismissOrPopToRoot() {
+    public func dismissOrPopToRoot(completion: (() -> Void)? = nil) {
         guard let firstScene = firstScene else {
             debugPrint("UoW firstScene не установлен")
             return
@@ -90,7 +90,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
         guard let firstSceneStackIndex = navigator.viewControllers.index(of: firstScene) else { return  }
         
         if firstSceneStackIndex == 0 {
-            navigator.dismiss(animated: true, completion: nil)
+            navigator.dismiss(animated: true, completion: completion)
             release()
         } else {
             let indexTo = firstSceneStackIndex - 1
