@@ -113,6 +113,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
      
     private func setupViewAndConstraints() {
         
+        let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
+        let topOffset: CGFloat
+        if #available(*, iOS 10.0), navigationBarIsHidden { topOffset = 20 } else { topOffset = 0 }
+        
         if let footerView = footerView {
             view.addSubview(footerView)
             footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,13 +128,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         }
         
         if let headerView = headerView {
-            let topOffset: CGFloat
-            if #available(*, iOS 10.0), String(describing: type(of: headerView)) == "BroNavigationBar" {
-                topOffset = 20
-            } else {
-                topOffset = 0
-            }
-            
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
             constraints.append(contentsOf: [
@@ -153,10 +150,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             view.addSubview(scrollView)
             scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
- 
             constraints.append(contentsOf: [
                 scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? viewBottomAnchor),
-                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor),
+                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor,
+                                                constant: headerView == nil ? topOffset : 0),
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
