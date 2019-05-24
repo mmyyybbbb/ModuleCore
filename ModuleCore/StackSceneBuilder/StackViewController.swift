@@ -124,12 +124,19 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         }
         
         if let headerView = headerView {
+            let topOffset: CGFloat
+            if #available(*, iOS 10.0), String(describing: type(of: headerView)) == "BroNavigationBar" {
+                topOffset = 20
+            } else {
+                topOffset = 0
+            }
+            
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
             constraints.append(contentsOf: [
                 headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: viewTopAnchor)
+                headerView.topAnchor.constraint(equalTo: viewTopAnchor, constant: topOffset)
                 ])
         }
         
