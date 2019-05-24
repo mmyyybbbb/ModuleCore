@@ -114,8 +114,8 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     private func setupViewAndConstraints() {
         
         let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
-        let topOffset: CGFloat
-        if #available(*, iOS 10.3), navigationBarIsHidden { topOffset = 20 } else { topOffset = 0 }
+        var topOffset: CGFloat = 0
+        if #available(iOS 11.0, *) {} else if navigationBarIsHidden { topOffset = 20 }
         
         if let footerView = footerView {
             view.addSubview(footerView)
