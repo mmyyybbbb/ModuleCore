@@ -20,14 +20,11 @@ private var notificationKey = "notificationKey"
 private var notificationPublisherKey = "notificationPublisherKey"
 
 public struct NoNotification {}
-
-fileprivate extension ModuleType {
+ 
+public extension ModuleType {
     var notificationPublisher: PublishSubject<Notification> {
         get { return self.associatedObject(forKey: &notificationPublisherKey, default: PublishSubject<Notification>()) }
     }
-}
-
-public extension ModuleType {
     
     var notification: Observable<Notification> {
         get { return notificationPublisher.asObservable() }
