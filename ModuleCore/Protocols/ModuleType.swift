@@ -42,8 +42,8 @@ public extension ModuleType {
         get { return self.associatedObject(forKey: &outputKey, default: PublishSubject<OutputNotification>()) }
     }
     
-    func notify(_ notification: InputNotification) {
-        input.onNext(notification)
+    func sendOutput(_ notification: OutputNotification) {
+        outputPublisher.onNext(notification)
     }
 }
 
