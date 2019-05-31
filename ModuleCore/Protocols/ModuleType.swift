@@ -9,28 +9,26 @@ import RxSwift
 
 public protocol ModuleType: SelfContaner {
     associatedtype Factory
-    associatedtype Notification
-    var notification: Observable<Notification> { get }
+    associatedtype InputNotification
+    associatedtype ModuleEvent
+    var inputNotification: PublishSubject<InputNotification> { get }
+    var moduleEvents: Observable<ModuleEvent> { get }
     var factory: Factory { get }
  
     func set(factory: Factory)
 }
 
 private var notificationKey = "notificationKey"
-private var notificationPublisherKey = "notificationPublisherKey"
 
 public struct NoNotification {}
+public struct NoEvents {}
  
 public extension ModuleType {
-    var notificationPublisher: PublishSubject<Notification> {
-        get { return self.associatedObject(forKey: &notificationPublisherKey, default: PublishSubject<Notification>()) }
+    var inputNotification: PublishSubject<InputNotification> {
+        get { return self.associatedObject(forKey: &notificationKey, default: PublishSubject<InputNotification>()) }
     }
     
-    var notification: Observable<Notification> {
-        get { return notificationPublisher.asObservable() }
-    }
-    
-    func send(notification: Notification) {
-        notificationPublisher.onNext(notification)
+    func notify(_ notification: InputNotification) {
+        inputNotification.onNext(notification)
     }
 }
