@@ -31,4 +31,7 @@ public extension ModuleType {
     func notify(_ notification: InputNotification) {
         inputNotification.onNext(notification)
     }
+    
+    var moduleEvents: Observable<ModuleEvent> { return .never() }
 }
+
