@@ -36,7 +36,7 @@ public extension ModuleType {
     
     var inputObservable: Observable<InputNotification> { return  input.asObservable() }
     
-    var output: Observable<OutputNotification> { return .never() }
+    var output: Observable<OutputNotification> { return outputPublisher.asObservable() }
     
     var outputPublisher: PublishSubject<OutputNotification> {
         get { return self.associatedObject(forKey: &outputKey, default: PublishSubject<OutputNotification>()) }
