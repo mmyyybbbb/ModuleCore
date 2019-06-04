@@ -188,9 +188,9 @@ public extension ObservableType {
     }
     
     func subscribe<T: AnyObject>(_ instance: T,
-                                 onNext classFunc: @escaping (T)->(E)->Void,
-                                 error errClassFunc: ((T)->(Error)->Void)? = nil,
-                                 bag: DisposeBag) {
+                                 with classFunc: @escaping (T)->(E)->Void,
+                                 error errClassFunc: ((T)->(Error)->Void)?,
+                                 disposeBy bag: DisposeBag) {
         
         self.subscribe(onNext: { [weak instance] args in
             guard let instance = instance else { return }
@@ -204,9 +204,9 @@ public extension ObservableType {
     }
     
     func subscribe<T: AnyObject>(_ instance: T,
-                                 onNext classFunc: @escaping (T)->()->Void,
-                                 error errClassFunc: ((T)->(Error)->Void)? = nil,
-                                 bag: DisposeBag) {
+                                 do classFunc: @escaping (T)->()->Void,
+                                 error errClassFunc: ((T)->(Error)->Void)?,
+                                 disposeBy bag: DisposeBag) {
         
         self.subscribe(onNext: { [weak instance] _ in
             guard let instance = instance else { return }
