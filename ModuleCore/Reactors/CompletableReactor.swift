@@ -18,6 +18,10 @@ open class CompletableReactor<T>: BaseReactor  {
         _onComplete.onNext(result)
     }
     
+    public func completed() {
+        _onComplete.onCompleted()
+    }
+    
     public func interrupt(_ error: Error = InterruptedError()) {
         _onComplete.onError(error)
     }
