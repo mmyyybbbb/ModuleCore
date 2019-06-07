@@ -94,6 +94,13 @@ public extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTra
     }
 }
 
+public extension PrimitiveSequence {
+    
+    func map<R>(_ transform: @escaping (PrimitiveSequence.E) throws -> R) -> Single<R> {
+        return self.asObservable().map(transform).asSingle()
+    }
+}
+
 public extension ObservableType {
 
     func onlyOnce() -> Observable<Self.E> {
