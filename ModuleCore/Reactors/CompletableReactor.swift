@@ -18,7 +18,7 @@ open class CompletableReactor<T>: BaseReactor  {
         _onComplete.onNext(result)
     }
     
-    public func completed() {
+    public func finish() {
         _onComplete.onCompleted()
     }
     
