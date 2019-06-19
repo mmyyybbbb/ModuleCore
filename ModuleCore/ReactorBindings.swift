@@ -38,6 +38,10 @@ public final class ReactorBindings<R: SceneReactor> {
     public func map<T>(state: @escaping (R.State) -> T, do handler: @escaping (T)->Void) {
         reactor.state.map { state($0) }.subscribeNext(handler).disposed(by: disposeBag)
     }
+
+    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, do handler: @escaping (T)->Void) {
+        reactor.state.map { state($0) }.ignoreNil().subscribeNext(handler).disposed(by: disposeBag)
+    }
     
     public func map<T>(_ stateKey: KeyPath<R.State, T>, to property: Binder<T>) {
         reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
