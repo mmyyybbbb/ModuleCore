@@ -44,7 +44,11 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
 
         if configurator.refreshControll {
             self.refreshControl = UIRefreshControl()
-            tableView.refreshControl = refreshControl!
+            if #available(iOS 10.0, *) {
+                tableView.refreshControl = refreshControl!
+            } else {
+                tableView.addSubview(refreshControl!)
+            }
         }
 
         super.init(nibName: nil, bundle: nil)

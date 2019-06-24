@@ -87,7 +87,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
             return
         }
         
-        guard let firstSceneStackIndex = navigator.viewControllers.index(of: firstScene) else { return  }
+        guard let firstSceneStackIndex = navigator.viewControllers.firstIndex(of: firstScene) else { return  }
         
         if firstSceneStackIndex == 0 {
             navigator.dismiss(animated: true, completion: completion)

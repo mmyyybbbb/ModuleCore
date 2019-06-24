@@ -47,7 +47,11 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
         collectionView.showsVerticalScrollIndicator = false
         if configurator.refreshControll {
             self.refreshControl = UIRefreshControl()
-            collectionView.refreshControl = refreshControl!
+            if #available(iOS 10.0, *) {
+                collectionView.refreshControl = refreshControl!
+            } else {
+                collectionView.addSubview(refreshControl!)
+            }
         }
         
         super.init(nibName: nil, bundle: nil)
