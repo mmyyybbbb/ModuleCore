@@ -5,8 +5,12 @@
 //  Created by alexej_ne on 04/02/2019.
 //  Copyright © 2019 BCS. All rights reserved.
 //
-open class BaseCoordinator {
+import RxSwift
+
+open class BaseCoordinator: DisposeBagHolder {
     weak private(set) var scene: Scene?
+    
+    open var disposeBag = DisposeBag()
     
     public var sceneOrFatal: Scene {
         guard let scene = self.scene else {
