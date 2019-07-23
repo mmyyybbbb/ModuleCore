@@ -28,7 +28,7 @@ open class BaseCoordinator: DisposeBagHolder {
         case inStack
     }
     
-    public final func present(_ vcToPresent: UIViewController, type: PresentType = .inStack ) {
+    public final func present(_ vcToPresent: UIViewController, type: PresentType = .inStack) {
         guard let scene = scene else { return }
         switch type {
         case .modally:
@@ -61,6 +61,17 @@ extension BaseCoordinator : CoordinatorType {
         guard let scene = scene else { return }
 
         scene.navigationController?.popViewController(animated: true)
+    }
+    
+    public func close(animated: Bool = true, completion: (() -> Void)? = nil) {
+        guard let scene = scene else { return }
+        
+        endEditing()
+        if scene.presentingViewController != nil {
+            scene.dismiss(animated: animated, completion: completion)
+        } else {
+            scene.navigationController?.pop(animated: animated, completion: completion)
+        }
     }
 }
 
