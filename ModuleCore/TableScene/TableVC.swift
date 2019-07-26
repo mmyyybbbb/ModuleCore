@@ -21,7 +21,9 @@ public extension UITableView {
     }
 }
 
-public typealias TableViewDataSource<Section:IdentifiableType, Item: IdentifiableType & Equatable> = RxTableViewSectionedReloadDataSource<AnimatableSectionModel<Section, Item>>
+public typealias SectionedTableViewDataSource<Section:IdentifiableType, Item: IdentifiableType & Equatable> = RxTableViewSectionedReloadDataSource<AnimatableSectionModel<Section, Item>>
+
+public typealias TableViewDataSource<Item: IdentifiableType & Equatable> =  SectionedTableViewDataSource<OneSection, Item>
 
 public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Equatable>: UIViewController, SceneView, UIScrollViewDelegate {
 
@@ -30,7 +32,7 @@ public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Eq
     private var refreshControl: UIRefreshControl?
     public let tableView: UITableView
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
-    private let dataSource: TableViewDataSource<Section,Item>
+    private let dataSource: SectionedTableViewDataSource<Section,Item>
 
     override public func loadView() {
         self.view = tableView
@@ -48,7 +50,7 @@ public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Eq
         }
     }
 
-    public init(dataSource: TableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool) {
+    public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool) {
         self.dataSource = dataSource
         self.tableView = tableView
         
@@ -67,7 +69,7 @@ public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Eq
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public func bind(reactor: TableReactor<Section,Item>) {
 
         reactor.state
@@ -120,6 +122,20 @@ public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Eq
         if deltaOffset <= 0 {
             fire(action: .loadMore)
         }
+    }
+    
+    public func setReactor(loader: @escaping TableReactor<Section,Item>.DataLoaderProvider,
+                                sectionBuilder: @escaping TableReactor<Section,Item>.SectionBuilder,
+                                moreDataLoader: TableReactor<Section,Item>.MoreDataLoaderProvider? = nil,
+                                onItemSelected: TableReactor<Section,Item>.ItemSelected? = nil,
+                                maxCount: Int? = nil) -> TableReactor<Section,Item> {
+        let reactor = TableReactor<Section,Item>(loader: loader,
+                                                 sectionBuilder: sectionBuilder,
+                                                 moreDataLoader: moreDataLoader,
+                                                 onItemSelected: onItemSelected,
+                                                 maxCount: maxCount)
+        self.inject(reactor)
+        return reactor
     }
 }
 

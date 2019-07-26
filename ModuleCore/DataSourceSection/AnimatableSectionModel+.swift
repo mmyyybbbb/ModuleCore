@@ -14,3 +14,6 @@ public extension AnimatableSectionModel {
     }
 }
 
+public struct OneSection: IdentifiableType {
+   public var identity : Int { return 1 }
+}
