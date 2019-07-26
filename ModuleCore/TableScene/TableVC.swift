@@ -8,17 +8,29 @@
 import RxSwift
 import RxDataSources
 
-public typealias TableViewDataSource<Item> = RxTableViewSectionedReloadDataSource<DataSourceSection<Item>>
+public extension UITableView {
+    static var staticDefault: UITableView { return configureDefault(StaticTableView(frame: .zero)) }
+    
+    static var `default`: UITableView { return configureDefault(UITableView(frame: .zero)) }
+    
+    private static func configureDefault(_ tv: UITableView) -> UITableView {
+       tv.delaysContentTouches = false
+       tv.tableFooterView = UIView()
+       tv.showsVerticalScrollIndicator = false
+       return tv
+    }
+}
 
-public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDelegate {
+public typealias TableViewDataSource<Section:IdentifiableType, Item: IdentifiableType & Equatable> = RxTableViewSectionedReloadDataSource<AnimatableSectionModel<Section, Item>>
+
+public final class TableVC<Section:IdentifiableType, Item: IdentifiableType & Equatable>: UIViewController, SceneView, UIScrollViewDelegate {
 
     public var disposeBag = DisposeBag()
 
     private var refreshControl: UIRefreshControl?
     public let tableView: UITableView
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
-    private let dataSource: TableViewDataSource<Item>
-    private let configurator: TableSceneConfigurator
+    private let dataSource: TableViewDataSource<Section,Item>
 
     override public func loadView() {
         self.view = tableView
@@ -36,13 +48,11 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         }
     }
 
-    public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator) {
+    public init(dataSource: TableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool) {
         self.dataSource = dataSource
-        self.configurator = configurator
-        self.tableView = configurator.isStaticTableView ? StaticTableView(frame: .zero) : UITableView(frame: .zero)
-        self.tableView.isScrollEnabled = !configurator.isStaticTableView
-
-        if configurator.refreshControll {
+        self.tableView = tableView
+        
+        if canRefresh {
             self.refreshControl = UIRefreshControl()
             if #available(iOS 10.0, *) {
                 tableView.refreshControl = refreshControl!
@@ -50,7 +60,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
                 tableView.addSubview(refreshControl!)
             }
         }
-
+ 
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -58,7 +68,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func bind(reactor: TableReactor<Item>) {
+    public func bind(reactor: TableReactor<Section,Item>) {
 
         reactor.state
             .map { $0.sections }
@@ -70,12 +80,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
             .map(Reactor.Action.selected)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
-
-        if let delegate = configurator.scrollDelegate {
-            tableView.rx.setDelegate(delegate).disposed(by: disposeBag)
-        }
-
+ 
         if let refresher = refreshControl {
             refresher.rx.controlEvent(.valueChanged).asObservable()
                 .subscribe(onNext: { [weak self] in self?.fire(action: .loadData) })
@@ -85,7 +90,7 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         }
 
         if reactor.canLoadMore {
-            tableView.rx.didScroll.subscribeNext(self, do: TableVC<Item>.loadMoreIfNeed, bag: disposeBag)
+            tableView.rx.didScroll.subscribeNext(self, do: TableVC<Section,Item>.loadMoreIfNeed, bag: disposeBag)
             subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: TableVC.setProgressMore)
         }
 
@@ -118,8 +123,8 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     }
 }
 
-class StaticTableView: UITableView {
-    override var intrinsicContentSize: CGSize {
+public class StaticTableView: UITableView {
+    override public var intrinsicContentSize: CGSize {
         return contentSize
     }
 }
