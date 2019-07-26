@@ -20,6 +20,13 @@ public extension UIViewController {
         sceneVC.didMove(toParent: self)
     }
     
+    func exclude(scene: EmbeddedScene, to view: UIView) {
+        let sceneVC = scene.scene
+        view.isHidden = true
+        sceneVC.view.removeFromSuperview()
+        sceneVC.removeFromParent()
+    }
+    
     func subscribeShow(alert: UIAlertController, on obs: Observable<Void>, disposeBag: DisposeBag) {
         obs.subscribe(onNext: { [weak self] in
             self?.present(alert, animated: true, completion: nil)
