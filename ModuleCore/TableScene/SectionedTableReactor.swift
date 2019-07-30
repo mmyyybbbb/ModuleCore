@@ -10,8 +10,8 @@ import RxSwift
 import RxDataSources
 
 
-public final class TableReactor<Section:IdentifiableType, Item: IdentifiableType & Equatable>: BaseReactor, SceneReactor {
- 
+public final class SectionedTableReactor<Section:IdentifiableType, Item: IdentifiableType & Equatable>: BaseReactor, SceneReactor {
+    
     public typealias SectionData = AnimatableSectionModel<Section, Item>
     public typealias SectionBuilder = ([Item]) -> [SectionData]
     public typealias DataLoaderProvider = () -> Single<[Item]>
@@ -66,9 +66,9 @@ public final class TableReactor<Section:IdentifiableType, Item: IdentifiableType
     }
     
     public var initialState = State()
-
+    
     public func mutate(action: Action) -> Observable<Mutation> {
-
+        
         switch action {
         case .loadData:
             guard currentState.inProgressLoad == false else  { break }
@@ -81,20 +81,20 @@ public final class TableReactor<Section:IdentifiableType, Item: IdentifiableType
             let item = currentState.sections[indexPath.section].items[indexPath.row]
             onItemSelected?(item, indexPath)
         }
-
+        
         return .empty()
     }
-
+    
     public func reduce(state: State, mutation: Mutation) -> State {
         var state = state
-
+        
         switch mutation {
         case let .inProgressLoad(value):
             state.inProgressLoad = value
-
+            
         case let .inProgressLoadMore(value):
             state.inProgressLoadMore = value
-
+            
         case let .dataReloaded(items):
             var items = items
             if let maxCount = maxCount {
@@ -120,17 +120,17 @@ public final class TableReactor<Section:IdentifiableType, Item: IdentifiableType
         case let .dataLoadError(error):
             state.dataState = .error(error)
         }
-
+        
         return state
     }
 }
 
 
-fileprivate extension TableReactor {
+fileprivate extension SectionedTableReactor {
     func reloadData() {
         interact(dataLoaderProvider(),
-                 complete: TableReactor<Section,Item>.dataReloaded,
-                 error: TableReactor<Section,Item>.loadingFailed,
+                 complete: SectionedTableReactor<Section,Item>.dataReloaded,
+                 error: SectionedTableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoad)
     }
     
@@ -140,11 +140,11 @@ fileprivate extension TableReactor {
     
     func loadMore() {
         guard let moreLoader = moreDataLoaderProvider,
-              let offset = currentState.sections.first?.items.count  else { return }
+            let offset = currentState.sections.first?.items.count  else { return }
         
         interact(moreLoader(offset),
-                 complete: TableReactor<Section,Item>.loadedMore,
-                 error: TableReactor<Section,Item>.loadingFailed,
+                 complete: SectionedTableReactor<Section,Item>.loadedMore,
+                 error: SectionedTableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoadMore)
     }
     
@@ -154,6 +154,6 @@ fileprivate extension TableReactor {
     
     func loadingFailed(_ error: Error = InterruptedError()) {
         make(.dataLoadError(error))
-                print("loadingFailed error = \(error)")
+        print("loadingFailed error = \(error)")
     }
 }
