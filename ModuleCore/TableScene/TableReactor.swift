@@ -8,10 +8,12 @@
 
 import RxSwift
 import RxDataSources
+
+
+public final class TableReactor<Section:IdentifiableType, Item: IdentifiableType & Equatable>: BaseReactor, SceneReactor {
  
-public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
- 
-    public typealias Section = DataSourceSection<Item>
+    public typealias SectionData = AnimatableSectionModel<Section, Item>
+    public typealias SectionBuilder = ([Item]) -> [SectionData]
     public typealias DataLoaderProvider = () -> Single<[Item]>
     public typealias MoreDataLoaderProvider = (_ offset: Int) -> Single<[Item]>
     public typealias ItemSelected = (Item, IndexPath) -> Void
@@ -40,7 +42,7 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
         public var firstLoading = true
         public var endOfData = false
         public var dataState: DataState = .none
-        public var sections: [Section] = []
+        public var sections: [SectionData] = []
     }
     var canSelectItem: Bool  { return onItemSelected != nil }
     var canLoadMore: Bool { return moreDataLoaderProvider != nil }
@@ -48,16 +50,19 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
     let onItemSelected: ItemSelected?
     let dataLoaderProvider: DataLoaderProvider
     let moreDataLoaderProvider: MoreDataLoaderProvider?
+    let sectionBuilder: SectionBuilder
     let maxCount: Int?
     
     public init(loader: @escaping DataLoaderProvider,
-         moreDataLoader: MoreDataLoaderProvider? = nil,
-         onItemSelected: ItemSelected? = nil,
-         maxCount: Int? = nil) {
+                sectionBuilder: @escaping SectionBuilder,
+                moreDataLoader: MoreDataLoaderProvider? = nil,
+                onItemSelected: ItemSelected? = nil,
+                maxCount: Int? = nil) {
         self.dataLoaderProvider = loader
         self.moreDataLoaderProvider = moreDataLoader
         self.onItemSelected = onItemSelected
         self.maxCount = maxCount
+        self.sectionBuilder = sectionBuilder
     }
     
     public var initialState = State()
@@ -95,13 +100,20 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
             if let maxCount = maxCount {
                 items = Array(items.prefix(maxCount))
             }
-            state.sections = [Section(items)]
+            state.sections = sectionBuilder(items)
             state.endOfData = false
             state.firstLoading = false
             state.dataState = items.count > 0 ? .hasData : .dataIsEmpty
             
         case let .moreDataLoaded(items):
-            state.sections[0].addItems(items: items)
+            var newSections = sectionBuilder(items)
+            var oldSections = state.sections
+            if let oldLast = oldSections.last, let newFirst = newSections.first, oldLast.identity == newFirst.identity   {
+                let lastIndex = oldSections.count - 1
+                oldSections[lastIndex].addItems(items: newFirst.items)
+                newSections.removeFirst()
+                state.sections = oldSections + newSections
+            }
             state.endOfData = items.isEmpty
             state.firstLoading = false
             
@@ -113,11 +125,12 @@ public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
     }
 }
 
-fileprivate extension CollectionReactor {
+
+fileprivate extension TableReactor {
     func reloadData() {
         interact(dataLoaderProvider(),
-                 complete: CollectionReactor<Item>.dataReloaded,
-                 error: CollectionReactor<Item>.loadingFailed,
+                 complete: TableReactor<Section,Item>.dataReloaded,
+                 error: TableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoad)
     }
     
@@ -130,8 +143,8 @@ fileprivate extension CollectionReactor {
               let offset = currentState.sections.first?.items.count  else { return }
         
         interact(moreLoader(offset),
-                 complete: CollectionReactor<Item>.loadedMore,
-                 error: CollectionReactor<Item>.loadingFailed,
+                 complete: TableReactor<Section,Item>.loadedMore,
+                 error: TableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoadMore)
     }
     
