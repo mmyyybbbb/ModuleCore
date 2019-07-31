@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0355B13422F053490064FB83 /* SectionedTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355B13322F053490064FB83 /* SectionedTableVC.swift */; };
 		0355B13622F0540E0064FB83 /* SectionedTableReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355B13522F0540E0064FB83 /* SectionedTableReactor.swift */; };
-		0355B13822F054A40064FB83 /* AnimatableSectionModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355B13722F054A40064FB83 /* AnimatableSectionModel+.swift */; };
+		0355B13822F054A40064FB83 /* SectionModelType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355B13722F054A40064FB83 /* SectionModelType+.swift */; };
 		0355B13A22F05A530064FB83 /* TableSceneConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355B13922F05A530064FB83 /* TableSceneConfigurator.swift */; };
 		035C89482260DA6500118435 /* StackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89452260DA6500118435 /* StackViewController.swift */; };
 		035C89492260DA6500118435 /* FixedHeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035C89462260DA6500118435 /* FixedHeightView.swift */; };
@@ -76,7 +76,7 @@
 /* Begin PBXFileReference section */
 		0355B13322F053490064FB83 /* SectionedTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedTableVC.swift; sourceTree = "<group>"; };
 		0355B13522F0540E0064FB83 /* SectionedTableReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedTableReactor.swift; sourceTree = "<group>"; };
-		0355B13722F054A40064FB83 /* AnimatableSectionModel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnimatableSectionModel+.swift"; sourceTree = "<group>"; };
+		0355B13722F054A40064FB83 /* SectionModelType+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionModelType+.swift"; sourceTree = "<group>"; };
 		0355B13922F05A530064FB83 /* TableSceneConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSceneConfigurator.swift; sourceTree = "<group>"; };
 		035C89452260DA6500118435 /* StackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewController.swift; sourceTree = "<group>"; };
 		035C89462260DA6500118435 /* FixedHeightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixedHeightView.swift; sourceTree = "<group>"; };
@@ -341,7 +341,7 @@
 				B31E93662253AC2B002EC9D1 /* TableVC.swift */,
 				0355B13322F053490064FB83 /* SectionedTableVC.swift */,
 				0355B13522F0540E0064FB83 /* SectionedTableReactor.swift */,
-				0355B13722F054A40064FB83 /* AnimatableSectionModel+.swift */,
+				0355B13722F054A40064FB83 /* SectionModelType+.swift */,
 				0355B13922F05A530064FB83 /* TableSceneConfigurator.swift */,
 			);
 			path = TableScene;
@@ -569,7 +569,7 @@
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
 				03E3AA952209A5CD0005A0A1 /* View+TextField.swift in Sources */,
 				035C89482260DA6500118435 /* StackViewController.swift in Sources */,
-				0355B13822F054A40064FB83 /* AnimatableSectionModel+.swift in Sources */,
+				0355B13822F054A40064FB83 /* SectionModelType+.swift in Sources */,
 				03E3AA6122084A090005A0A1 /* AssociatedStore.swift in Sources */,
 				0355B13A22F05A530064FB83 /* TableSceneConfigurator.swift in Sources */,
 				03CF07BA220D77B20011F4EB /* BaseReactor.swift in Sources */,
