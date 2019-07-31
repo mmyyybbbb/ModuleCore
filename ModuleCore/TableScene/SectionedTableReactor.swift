@@ -12,6 +12,27 @@ import RxDataSources
 
 public final class SectionedTableReactor<Section:IdentifiableType, Item: IdentifiableType & Equatable>: BaseReactor, SceneReactor {
     
+    public struct Config {
+        public let onItemSelected: ItemSelected?
+        public let dataLoaderProvider: DataLoaderProvider
+        public let moreDataLoaderProvider: MoreDataLoaderProvider?
+        public let sectionBuilder: SectionBuilder
+        public let maxCount: Int?
+        
+        public init(onItemSelected: ItemSelected?,
+                    dataLoaderProvider: @escaping DataLoaderProvider,
+                    moreDataLoaderProvider: MoreDataLoaderProvider?,
+                    sectionBuilder: @escaping SectionBuilder,
+                    maxCount: Int?) {
+            self.onItemSelected = onItemSelected
+            self.dataLoaderProvider = dataLoaderProvider
+            self.moreDataLoaderProvider = moreDataLoaderProvider
+            self.sectionBuilder = sectionBuilder
+            self.maxCount = maxCount
+        }
+        
+    }
+    
     public typealias SectionData = AnimatableSectionModel<Section, Item>
     public typealias SectionBuilder = ([Item]) -> [SectionData]
     public typealias DataLoaderProvider = () -> Single<[Item]>
@@ -44,6 +65,7 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
         public var dataState: DataState = .none
         public var sections: [SectionData] = []
     }
+    
     var canSelectItem: Bool  { return onItemSelected != nil }
     var canLoadMore: Bool { return moreDataLoaderProvider != nil }
     
@@ -53,16 +75,12 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
     let sectionBuilder: SectionBuilder
     let maxCount: Int?
     
-    public init(loader: @escaping DataLoaderProvider,
-                sectionBuilder: @escaping SectionBuilder,
-                moreDataLoader: MoreDataLoaderProvider? = nil,
-                onItemSelected: ItemSelected? = nil,
-                maxCount: Int? = nil) {
-        self.dataLoaderProvider = loader
-        self.moreDataLoaderProvider = moreDataLoader
-        self.onItemSelected = onItemSelected
-        self.maxCount = maxCount
-        self.sectionBuilder = sectionBuilder
+    public init(config: Config) {
+        self.dataLoaderProvider = config.dataLoaderProvider
+        self.moreDataLoaderProvider = config.moreDataLoaderProvider
+        self.onItemSelected = config.onItemSelected
+        self.maxCount = config.maxCount
+        self.sectionBuilder = config.sectionBuilder
     }
     
     public var initialState = State()

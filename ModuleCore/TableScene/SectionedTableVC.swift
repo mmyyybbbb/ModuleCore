@@ -122,16 +122,8 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         }
     }
     
-    public func setReactor(loader: @escaping SectionedTableReactor<Section,Item>.DataLoaderProvider,
-                           sectionBuilder: @escaping SectionedTableReactor<Section,Item>.SectionBuilder,
-                           moreDataLoader: SectionedTableReactor<Section,Item>.MoreDataLoaderProvider? = nil,
-                           onItemSelected: SectionedTableReactor<Section,Item>.ItemSelected? = nil,
-                           maxCount: Int? = nil) -> SectionedTableReactor<Section,Item> {
-        let reactor = SectionedTableReactor<Section,Item>(loader: loader,
-                                                 sectionBuilder: sectionBuilder,
-                                                 moreDataLoader: moreDataLoader,
-                                                 onItemSelected: onItemSelected,
-                                                 maxCount: maxCount)
+    public func setReactor(config: SectionedTableReactor<Section, Item>.Config) -> SectionedTableReactor<Section,Item> {
+        let reactor = SectionedTableReactor<Section,Item>(config: config)
         self.inject(reactor)
         return reactor
     }
