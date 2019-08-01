@@ -24,7 +24,7 @@ public extension Array where Element: SectionModelType {
 }
 
 public extension AnimatableSectionModel {
-    static func merge(new array: [Self], to old: inout [Self]) {
+    static func merge(new array: [AnimatableSectionModel], to old: inout [AnimatableSectionModel]) {
         if let last = old.last, let newFirst = old.first, last.identity == newFirst.identity   {
             let lastIndex = old.count - 1
             old[lastIndex].addItems(items: newFirst.items)
