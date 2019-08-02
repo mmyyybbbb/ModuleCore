@@ -89,7 +89,13 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
     
     public init(config: Config) {
         self.config = config
-        self.initialState = State(currentPage: config.defaultPage)
+        self.initialState = State(inProgressLoad: false,
+                                  inProgressLoadMore: false,
+                                  firstLoading: true,
+                                  endOfData: false,
+                                  dataState:  .none,
+                                  sections: [],
+                                  currentPage: config.defaultPage)
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
