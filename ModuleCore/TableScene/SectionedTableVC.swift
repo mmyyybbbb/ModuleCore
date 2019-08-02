@@ -23,41 +23,55 @@ public extension UITableView {
 
 public typealias SectionedTableViewDataSource<Section:IdentifiableType, Item: IdentifiableType & Equatable> = RxTableViewSectionedReloadDataSource<AnimatableSectionModel<Section, Item>>
 
-public final class SectionedTableVC<Section:IdentifiableType, Item: IdentifiableType & Equatable>: UIViewController, SceneView, UIScrollViewDelegate {
+public final class SectionedTableVC<Section:IdentifiableType, Item: IdentifiableType & Equatable>: UIViewController, SceneView, UITableViewDelegate {
+    
+    public typealias ViewForSectionBuilder = (_ tableView: UITableView, _ sectionIndex: Int,  _ model: Section) -> UIView?
     
     public var disposeBag = DisposeBag()
-    
     private var refreshControl: UIRefreshControl?
-    public let tableView: UITableView
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
-    private let dataSource: SectionedTableViewDataSource<Section,Item>
     
     override public func loadView() {
-        self.view = tableView
+        self.view = config.tableView
     }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        tableView.allowsSelection = vm.canSelectItem
+        config.tableView.allowsSelection = vm.canSelectItem
     }
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        for indexPath in tableView.indexPathsForSelectedRows ?? [] {
-            tableView.deselectRow(at: indexPath, animated: animated)
+        for indexPath in config.tableView.indexPathsForSelectedRows ?? [] {
+            config.tableView.deselectRow(at: indexPath, animated: animated)
         }
     }
     
-    public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool) {
-        self.dataSource = dataSource
-        self.tableView = tableView
+    private let config: Config
+    
+    public struct Config {
+        public let dataSource: SectionedTableViewDataSource<Section,Item>
+        public let tableView: UITableView
+        public let canRefresh: Bool
+        public let viewForSection: ViewForSectionBuilder
         
-        if canRefresh {
+        public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, sectionForView: @escaping ViewForSectionBuilder ) {
+            self.dataSource = dataSource
+            self.tableView = tableView
+            self.viewForSection = sectionForView
+            self.canRefresh = canRefresh
+        }
+    }
+    
+    public init(config: Config) {
+        self.config = config
+        
+        if config.canRefresh {
             self.refreshControl = UIRefreshControl()
             if #available(iOS 10.0, *) {
-                tableView.refreshControl = refreshControl!
+                config.tableView.refreshControl = refreshControl!
             } else {
-                tableView.addSubview(refreshControl!)
+                config.tableView.addSubview(refreshControl!)
             }
         }
         
@@ -72,11 +86,11 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         
         reactor.state
             .map { $0.sections }
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .bind(to: config.tableView.rx.items(dataSource: config.dataSource))
             .disposed(by: disposeBag)
         
         
-        tableView.rx.itemSelected
+        config.tableView.rx.itemSelected
             .map(Reactor.Action.selected)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -89,12 +103,15 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
             bindState(\.inProgressRefreshLoading, to: refresher.rx.isRefreshing)
         }
         
+        config.tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         if reactor.config.canLoadMore {
-            tableView.rx.didScroll.subscribeNext(self, do: SectionedTableVC<Section,Item>.loadMoreIfNeed, bag: disposeBag)
+            config.tableView.rx.didScroll.subscribeNext(self, do: SectionedTableVC<Section,Item>.loadMoreIfNeed, bag: disposeBag)
             subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: SectionedTableVC.setProgressMore)
         }
         
     }
+    
     
     func setRefreshInProgress(inProgress: Bool) {
         if !inProgress && (refreshControl?.isRefreshing ?? false) { refreshControl?.endRefreshing() }
@@ -109,7 +126,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     
     public func loadMoreIfNeed() {
         
-        let scrollView = tableView as UIScrollView
+        let scrollView = config.tableView as UIScrollView
         
         if scrollView.contentSize.height < scrollView.frame.size.height { return }
         
@@ -126,5 +143,10 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         let reactor = SectionedTableReactor<Section,Item>(config: config)
         self.inject(reactor)
         return reactor
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionData = vm.currentState.sections[section]
+        return config.viewForSection(tableView, section, sectionData.model)
     }
 }
