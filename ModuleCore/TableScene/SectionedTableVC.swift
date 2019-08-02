@@ -89,7 +89,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
             bindState(\.inProgressRefreshLoading, to: refresher.rx.isRefreshing)
         }
         
-        if reactor.canLoadMore {
+        if reactor.config.canLoadMore {
             tableView.rx.didScroll.subscribeNext(self, do: SectionedTableVC<Section,Item>.loadMoreIfNeed, bag: disposeBag)
             subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: SectionedTableVC.setProgressMore)
         }
