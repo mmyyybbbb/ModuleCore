@@ -30,6 +30,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     public var disposeBag = DisposeBag()
     private var refreshControl: UIRefreshControl?
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
+    public var tableView: UITableView { return config.tableView }
     
     override public func loadView() {
         self.view = config.tableView
