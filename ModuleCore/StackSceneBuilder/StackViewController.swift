@@ -41,6 +41,11 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case scrollable
     }
     
+    public enum HeaderTopLayout {
+        case upToNavBarOrSafeArea
+        case upToDeviceTopEdge
+    }
+    
     public var footerView: UIView?
     public var headerView: UIView?
     public var scrollableContent: Bool { return scrollView.contentSize.height > scrollView.frame.height }
@@ -50,8 +55,9 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     private let contentMode: ContentMode
     
     public var contentInset: UIEdgeInsets = .zero
+    public var headerTopLayout: HeaderTopLayout = .upToNavBarOrSafeArea
     
-    init(contentMode: ContentMode, stackContainerType: UIView.Type) {
+    init(contentMode: ContentMode, stackContainerType: UIView.Type ) {
         self.stackContainer = stackContainerType.init()
         self.contentMode = contentMode
         super.init(nibName: nil, bundle: nil)
@@ -130,10 +136,14 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         if let headerView = headerView {
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
+            
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? viewTopAnchor : view.topAnchor
+            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 0 : 20
+                
             constraints.append(contentsOf: [
                 headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: viewTopAnchor, constant: topOffset)
+                headerView.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
                 ])
         }
         
