@@ -137,7 +137,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
             
-            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? viewTopAnchor : view.topAnchor
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor 
             let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 0 : 20
                 
             constraints.append(contentsOf: [
