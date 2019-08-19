@@ -39,6 +39,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     public enum ContentMode {
         case center
         case scrollable
+        case selfHeight
     }
     
     public enum HeaderTopLayout {
@@ -173,11 +174,19 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -(scrollView.contentInset.left + scrollView.contentInset.right))
                 ])
-        } else {
+        } else if contentMode == .center {
             view.addSubview(stackContainer)
             constraints.append(contentsOf: [
                 stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
+                ])
+        } else {
+            view.addSubview(stackContainer)
+            constraints.append(contentsOf: [
+                stackContainer.topAnchor.constraint(equalTo: view.topAnchor),
+                stackContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
