@@ -184,8 +184,8 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         } else {
             view.addSubview(stackContainer)
             constraints.append(contentsOf: [
-                stackContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: -contentInset.top),
-                stackContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -contentInset.bottom),
+                stackContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: contentInset.top),
+                stackContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: contentInset.bottom),
                 stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
