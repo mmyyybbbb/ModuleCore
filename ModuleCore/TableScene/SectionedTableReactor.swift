@@ -9,34 +9,49 @@
 import RxSwift
 import RxDataSources
 
+public struct ListPage {
+    public let offset: Int
+    public let count: Int
+    
+    public init(offset: Int, count: Int) {
+        self.count = count
+        self.offset = offset
+    }
+    
+    public static var first20: ListPage {
+        return .init(offset: 0, count: 20)
+    }
+    
+    public var next: ListPage {
+        return .init(offset: self.offset + self.count, count: self.count)
+    }
+}
 
 public final class SectionedTableReactor<Section:IdentifiableType, Item: IdentifiableType & Equatable>: BaseReactor, SceneReactor {
     
     public struct Config {
         public let onItemSelected: ItemSelected?
-        public let dataLoaderProvider: DataLoaderProvider
-        public let moreDataLoaderProvider: MoreDataLoaderProvider?
+        public let dataLoader: DataLoaderProvider
         public let sectionBuilder: SectionBuilder
-        public let maxCount: Int?
+        public let defaultPage: ListPage
+        public let canLoadMore: Bool
         
         public init(onItemSelected: ItemSelected?,
-                    dataLoaderProvider: @escaping DataLoaderProvider,
-                    moreDataLoaderProvider: MoreDataLoaderProvider?,
+                    dataLoader: @escaping DataLoaderProvider,
                     sectionBuilder: @escaping SectionBuilder,
-                    maxCount: Int?) {
+                    defaultPage: ListPage = .first20,
+                    canLoadMore: Bool = true) {
             self.onItemSelected = onItemSelected
-            self.dataLoaderProvider = dataLoaderProvider
-            self.moreDataLoaderProvider = moreDataLoaderProvider
+            self.dataLoader = dataLoader
             self.sectionBuilder = sectionBuilder
-            self.maxCount = maxCount
+            self.defaultPage = defaultPage
+            self.canLoadMore = canLoadMore
         }
-        
     }
     
     public typealias SectionData = AnimatableSectionModel<Section, Item>
     public typealias SectionBuilder = ([Item]) -> [SectionData]
-    public typealias DataLoaderProvider = () -> Single<[Item]>
-    public typealias MoreDataLoaderProvider = (_ offset: Int) -> Single<[Item]>
+    public typealias DataLoaderProvider = (ListPage) -> Single<[Item]>
     public typealias ItemSelected = (Item, IndexPath) -> Void
     
     public enum Action {
@@ -64,26 +79,24 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
         public var endOfData = false
         public var dataState: DataState = .none
         public var sections: [SectionData] = []
+        public fileprivate(set) var currentPage: ListPage
     }
     
-    var canSelectItem: Bool  { return onItemSelected != nil }
-    var canLoadMore: Bool { return moreDataLoaderProvider != nil }
+    var canSelectItem: Bool  { return config.onItemSelected != nil }
     
-    let onItemSelected: ItemSelected?
-    let dataLoaderProvider: DataLoaderProvider
-    let moreDataLoaderProvider: MoreDataLoaderProvider?
-    let sectionBuilder: SectionBuilder
-    let maxCount: Int?
+    public let config: Config
+    public let initialState: State
     
     public init(config: Config) {
-        self.dataLoaderProvider = config.dataLoaderProvider
-        self.moreDataLoaderProvider = config.moreDataLoaderProvider
-        self.onItemSelected = config.onItemSelected
-        self.maxCount = config.maxCount
-        self.sectionBuilder = config.sectionBuilder
+        self.config = config
+        self.initialState = State(inProgressLoad: false,
+                                  inProgressLoadMore: false,
+                                  firstLoading: true,
+                                  endOfData: false,
+                                  dataState:  .none,
+                                  sections: [],
+                                  currentPage: config.defaultPage)
     }
-    
-    public var initialState = State()
     
     public func mutate(action: Action) -> Observable<Mutation> {
         
@@ -92,12 +105,12 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
             guard currentState.inProgressLoad == false else  { break }
             reloadData()
         case .loadMore:
-            guard canLoadMore && currentState.inProgressLoadMore == false && currentState.endOfData == false else { break }
+            guard config.canLoadMore && currentState.inProgressLoadMore == false && currentState.endOfData == false else { break }
             loadMore()
         case let .selected(indexPath):
             guard canSelectItem else { break }
             let item = currentState.sections[indexPath.section].items[indexPath.row]
-            onItemSelected?(item, indexPath)
+            config.onItemSelected?(item, indexPath)
         }
         
         return .empty()
@@ -114,25 +127,19 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
             state.inProgressLoadMore = value
             
         case let .dataReloaded(items):
-            var items = items
-            if let maxCount = maxCount {
-                items = Array(items.prefix(maxCount))
-            }
-            state.sections = sectionBuilder(items)
+            state.currentPage = config.defaultPage
+            state.sections = config.sectionBuilder(items)
             state.endOfData = false
             state.firstLoading = false
             state.dataState = items.count > 0 ? .hasData : .dataIsEmpty
             
         case let .moreDataLoaded(items):
-            var newSections = sectionBuilder(items)
-            var oldSections = state.sections
-            if let oldLast = oldSections.last, let newFirst = newSections.first, oldLast.identity == newFirst.identity   {
-                let lastIndex = oldSections.count - 1
-                oldSections[lastIndex].addItems(items: newFirst.items)
-                newSections.removeFirst()
-                state.sections = oldSections + newSections
-            }
-            state.endOfData = items.isEmpty
+            state.currentPage = currentState.currentPage.next
+            let newSections = config.sectionBuilder(items)
+            var sections = state.sections
+            SectionData.merge(new: newSections, to: &sections)
+            state.sections = sections
+            state.endOfData = items.count < state.currentPage.count
             state.firstLoading = false
             
         case let .dataLoadError(error):
@@ -146,7 +153,7 @@ public final class SectionedTableReactor<Section:IdentifiableType, Item: Identif
 
 fileprivate extension SectionedTableReactor {
     func reloadData() {
-        interact(dataLoaderProvider(),
+        interact(config.dataLoader(config.defaultPage),
                  complete: SectionedTableReactor<Section,Item>.dataReloaded,
                  error: SectionedTableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoad)
@@ -157,10 +164,7 @@ fileprivate extension SectionedTableReactor {
     }
     
     func loadMore() {
-        guard let moreLoader = moreDataLoaderProvider,
-            let offset = currentState.sections.first?.items.count  else { return }
-        
-        interact(moreLoader(offset),
+        interact(config.dataLoader(currentState.currentPage.next),
                  complete: SectionedTableReactor<Section,Item>.loadedMore,
                  error: SectionedTableReactor<Section,Item>.loadingFailed,
                  inProgress: Mutation.inProgressLoadMore)

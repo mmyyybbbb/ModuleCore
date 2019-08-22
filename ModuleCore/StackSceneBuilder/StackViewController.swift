@@ -39,6 +39,12 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     public enum ContentMode {
         case center
         case scrollable
+        case selfHeight
+    }
+    
+    public enum HeaderTopLayout {
+        case upToNavBarOrSafeArea
+        case upToDeviceTopEdge
     }
     
     public var footerView: UIView?
@@ -50,8 +56,9 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     private let contentMode: ContentMode
     
     public var contentInset: UIEdgeInsets = .zero
+    public var headerTopLayout: HeaderTopLayout = .upToNavBarOrSafeArea
     
-    init(contentMode: ContentMode, stackContainerType: UIView.Type) {
+    init(contentMode: ContentMode, stackContainerType: UIView.Type ) {
         self.stackContainer = stackContainerType.init()
         self.contentMode = contentMode
         super.init(nibName: nil, bundle: nil)
@@ -130,10 +137,14 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         if let headerView = headerView {
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
+            
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor 
+            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
+                
             constraints.append(contentsOf: [
                 headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: viewTopAnchor, constant: topOffset)
+                headerView.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
                 ])
         }
         
@@ -163,11 +174,19 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -(scrollView.contentInset.left + scrollView.contentInset.right))
                 ])
-        } else {
+        } else if contentMode == .center {
             view.addSubview(stackContainer)
             constraints.append(contentsOf: [
                 stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
+                ])
+        } else {
+            view.addSubview(stackContainer)
+            constraints.append(contentsOf: [
+                stackContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: contentInset.top),
+                stackContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: contentInset.bottom),
+                stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
