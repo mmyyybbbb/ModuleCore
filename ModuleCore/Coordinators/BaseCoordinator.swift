@@ -63,14 +63,14 @@ extension BaseCoordinator : CoordinatorType {
         scene.navigationController?.popViewController(animated: true)
     }
     
-    public func close(animated: Bool = true, completion: (() -> Void)? = nil) {
+    public func close(completion: (() -> Void)? = nil) {
         guard let scene = scene else { return }
         
         endEditing()
         if scene.presentingViewController != nil {
-            scene.dismiss(animated: animated, completion: completion)
+            scene.dismiss(animated: true, completion: completion)
         } else {
-            scene.navigationController?.pop(animated: animated, completion: completion)
+            scene.navigationController?.pop(animated: true, completion: completion)
         }
     }
 }
