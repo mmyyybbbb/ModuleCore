@@ -50,16 +50,16 @@ extension BaseCoordinator : CoordinatorType {
         items.forEach(alertVc.addAction)
         scene?.present(alertVc, animated: true)
     }
-
+    
     public func dismiss(completion: (() -> Void)? = nil) {
         guard let scene = scene else { return }
         endEditing()
         scene.dismiss(animated: true, completion: completion)
     }
-
+    
     public func pop() {
         guard let scene = scene else { return }
-
+        
         scene.navigationController?.popViewController(animated: true)
     }
     
@@ -67,10 +67,11 @@ extension BaseCoordinator : CoordinatorType {
         guard let scene = scene else { return }
         
         endEditing()
-        if scene.presentingViewController != nil {
-            scene.dismiss(animated: true, completion: completion)
+        
+        if let navController = scene.navigationController, navController.viewControllers.first != scene {
+            navController.pop(animated: true, completion: completion)
         } else {
-            scene.navigationController?.pop(animated: true, completion: completion)
+            scene.dismiss(animated: true, completion: completion)
         }
     }
 }
