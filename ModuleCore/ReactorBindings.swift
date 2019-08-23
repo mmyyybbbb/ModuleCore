@@ -91,4 +91,48 @@ public final class ReactorBindings<R: SceneReactor> {
             .disposed(by: disposeBag)
     }
     
+    
+    // методы с transform
+    public func mapFireTransform<T, E>(action: @escaping (T) -> R.Action,
+                                       on observable: Observable<E>,
+                                       transform: @escaping (E) -> T = { $0 as! T }) {
+        
+        mapFire(action: action, on: observable.map(transform))
+    }
+    
+    public func mapTransform<T, E>(state: @escaping (R.State) -> T,
+                                   transform: @escaping (T) -> E = { $0 as! E },
+                                   to property: ControlProperty<E>) {
+        
+        reactor.state.map { state($0) }.map(transform).bind(to: property).disposed(by: disposeBag)
+    }
+    
+    public func mapTransform<T, E>(_ stateKey: KeyPath<R.State, T>,
+                                   transform: @escaping (T) -> E = { $0 as! E },
+                                   to property: ControlProperty<E>) {
+        
+        reactor.state.map { $0[keyPath: stateKey] }.map(transform).bind(to: property).disposed(by: disposeBag)
+    }
+    
+    public func bindTransform<T, E>(action: @escaping (T) -> R.Action,
+                                    to property: ControlProperty<E>,
+                                    state: ((R.State) -> T)? = nil) {
+        
+        mapFireTransform(action: action, on: property.asObservable())
+        
+        guard let state = state else { return }
+        mapTransform(state: state, to: property)
+    }
+    
+    public func bindTransform<T, E>(action: @escaping (T) -> R.Action,
+                                    to property: ControlProperty<E>,
+                                    stateKey: KeyPath<R.State, T>? = nil) {
+        
+        mapFireTransform(action: action, on: property.asObservable())
+        
+        guard let stateKey = stateKey else { return }
+        mapTransform(stateKey, to: property)
+    }
+    
+    
 }
