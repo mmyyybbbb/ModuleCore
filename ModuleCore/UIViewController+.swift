@@ -10,21 +10,25 @@ import ReactorKit
 
 public extension UIViewController {
     
-    func embed(scene: EmbeddedScene, to view: UIView) {
-        let sceneVC = scene.scene
-        addChild(sceneVC)
-        
-        view.addSubview(sceneVC.view)
-        view.isHidden = false
-        
-        sceneVC.didMove(toParent: self)
+    func embed(scene embeddedScene: EmbeddedScene, to view: UIView) {
+        self.embed(scene: embeddedScene.scene, to: view)
     }
     
-    func exclude(scene: EmbeddedScene, to view: UIView) {
-        let sceneVC = scene.scene
+    func exclude(scene embeddedScene: EmbeddedScene, to view: UIView) {
+        self.exclude(scene: embeddedScene.scene, to: view)
+    }
+    
+    func embed(scene: Scene, to view: UIView) {
+        addChild(scene)
+        view.addSubview(scene.view)
+        view.isHidden = false
+        scene.didMove(toParent: self)
+    }
+    
+    func exclude(scene: Scene, to view: UIView) {
         view.isHidden = true
-        sceneVC.view.removeFromSuperview()
-        sceneVC.removeFromParent()
+        scene.view.removeFromSuperview()
+        scene.removeFromParent()
     }
     
     func subscribeShow(alert: UIAlertController, on obs: Observable<Void>, disposeBag: DisposeBag) {
