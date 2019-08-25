@@ -25,8 +25,8 @@ public extension UIViewController {
         scene.didMove(toParent: self)
     }
     
-    func exclude(scene: Scene, to view: UIView) {
-        view.isHidden = true
+    func exclude(scene: Scene, to view: UIView, shouldHiddenView: Bool = true) {
+        view.isHidden = shouldHiddenView
         scene.view.removeFromSuperview()
         scene.removeFromParent()
     }
