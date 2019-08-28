@@ -35,12 +35,24 @@ public final class ReactorBindings<R: SceneReactor> {
         reactor.state.map { state($0) }.bind(to: property).disposed(by: disposeBag)
     }
     
-    public func map<T>(state: @escaping (R.State) -> T, do handler: @escaping (T)->Void) {
+    public func map<T>(state: @escaping (R.State) -> T, do handler: @escaping (T) -> Void) {
         reactor.state.map { state($0) }.subscribeNext(handler).disposed(by: disposeBag)
     }
 
-    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, do handler: @escaping (T)->Void) {
+    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, do handler: @escaping (T) -> Void) {
         reactor.state.map { state($0) }.ignoreNil().subscribeNext(handler).disposed(by: disposeBag)
+    }
+    
+    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, do handler: @escaping (T?) -> Void) {
+        reactor.state.map { state($0) }.ignoreNil().subscribeNext(handler).disposed(by: disposeBag)
+    }
+    
+    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, to property: Binder<T>) {
+        reactor.state.map { state($0) }.ignoreNil().bind(to: property).disposed(by: disposeBag)
+    }
+    
+    public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, to property: Binder<T?>) {
+        reactor.state.map { state($0) }.ignoreNil().bind(to: property).disposed(by: disposeBag)
     }
     
     public func map<T>(_ stateKey: KeyPath<R.State, T>, to property: Binder<T>) {
@@ -51,7 +63,7 @@ public final class ReactorBindings<R: SceneReactor> {
         reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
     }
     
-    public func map<T>(_ stateKey: KeyPath<R.State, T>, do handler: @escaping (T)->Void) {
+    public func map<T>(_ stateKey: KeyPath<R.State, T>, do handler: @escaping (T) -> Void) {
         reactor.state.map{ $0[keyPath: stateKey] }.subscribeNext(handler).disposed(by: disposeBag)
     }
     
@@ -63,7 +75,7 @@ public final class ReactorBindings<R: SceneReactor> {
         observable.map(action).bind(to: reactor.action).disposed(by: disposeBag)
     }
     
-    public func onNext<T>(_ observable: Observable<T>, do handler: @escaping (T)->Void) {
+    public func onNext<T>(_ observable: Observable<T>, do handler: @escaping (T) -> Void) {
         observable.subscribeNext(handler).disposed(by: disposeBag)
     }
     
