@@ -31,6 +31,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     private var refreshControl: UIRefreshControl?
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
     public var tableView: UITableView { return config.tableView }
+    public weak var scrollDelegate: UIScrollViewDelegate?
     
     override public func loadView() {
         self.view = config.tableView
@@ -54,7 +55,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         public let dataSource: SectionedTableViewDataSource<Section,Item>
         public let tableView: UITableView
         public let canRefresh: Bool
-        public let viewForSection: ViewForSectionBuilder
+        public let viewForSection: ViewForSectionBuilder 
         
         public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, sectionForView: @escaping ViewForSectionBuilder ) {
             self.dataSource = dataSource
@@ -150,4 +151,21 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         let sectionData = vm.currentState.sections[section]
         return config.viewForSection(tableView, section, sectionData.model)
     }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidScroll?(scrollView)
+    }
+    
+    public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return scrollDelegate?.scrollViewShouldScrollToTop?(scrollView) ?? true
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+         scrollDelegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.scrollViewDidEndDecelerating?(scrollView)
+    }
+    
 }
