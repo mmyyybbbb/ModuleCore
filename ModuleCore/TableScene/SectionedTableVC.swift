@@ -32,14 +32,24 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
     public var tableView: UITableView { return config.tableView }
     public weak var scrollDelegate: UIScrollViewDelegate?
-    
-    override public func loadView() {
-        self.view = config.tableView
-    }
-    
+ 
     override public func viewDidLoad() {
         super.viewDidLoad()
         config.tableView.allowsSelection = vm.canSelectItem
+        view.layoutMargins = .zero
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let customContraintsBuilder = config.customContraintsBuilder {
+            customContraintsBuilder(view, tableView)
+        } else {
+            NSLayoutConstraint.activate([
+                tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                tableView.topAnchor.constraint(equalTo: view.topAnchor),
+                tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                ])
+        }
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -54,14 +64,16 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     public struct Config {
         public let dataSource: SectionedTableViewDataSource<Section,Item>
         public let tableView: UITableView
+        public let customContraintsBuilder: ((UIView, UITableView) -> Void)?
         public let canRefresh: Bool
         public let viewForSection: ViewForSectionBuilder 
         
-        public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, sectionForView: @escaping ViewForSectionBuilder ) {
+        public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, customContraintsBuilder: ((UIView, UITableView) -> Void)? = nil, sectionForView: @escaping ViewForSectionBuilder ) {
             self.dataSource = dataSource
             self.tableView = tableView
             self.viewForSection = sectionForView
             self.canRefresh = canRefresh
+            self.customContraintsBuilder = customContraintsBuilder
         }
     }
     
