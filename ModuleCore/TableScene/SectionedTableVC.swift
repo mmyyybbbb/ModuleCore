@@ -41,7 +41,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         if let customContraintsBuilder = config.customContraintsBuilder {
-            customContraintsBuilder(view, tableView)
+            customContraintsBuilder(self, tableView)
         } else {
             NSLayoutConstraint.activate([
                 tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -64,11 +64,11 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     public struct Config {
         public let dataSource: SectionedTableViewDataSource<Section,Item>
         public let tableView: UITableView
-        public let customContraintsBuilder: ((UIView, UITableView) -> Void)?
+        public let customContraintsBuilder: ((UIViewController, UITableView) -> Void)?
         public let canRefresh: Bool
         public let viewForSection: ViewForSectionBuilder 
         
-        public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, customContraintsBuilder: ((UIView, UITableView) -> Void)? = nil, sectionForView: @escaping ViewForSectionBuilder ) {
+        public init(dataSource: SectionedTableViewDataSource<Section,Item>, tableView: UITableView, canRefresh: Bool, customContraintsBuilder: ((UIViewController, UITableView) -> Void)? = nil, sectionForView: @escaping ViewForSectionBuilder ) {
             self.dataSource = dataSource
             self.tableView = tableView
             self.viewForSection = sectionForView
