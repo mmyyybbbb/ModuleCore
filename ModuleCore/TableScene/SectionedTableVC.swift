@@ -28,7 +28,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
     public typealias ViewForSectionBuilder = (_ tableView: UITableView, _ sectionIndex: Int,  _ model: Section) -> UIView?
     
     public var disposeBag = DisposeBag()
-    private var refreshControl: UIRefreshControl?
+    public var refreshControl: UIRefreshControl?
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
     public var tableView: UITableView { return config.tableView }
     public weak var scrollDelegate: UIScrollViewDelegate?
