@@ -114,7 +114,7 @@ public final class SectionedTableVC<Section:IdentifiableType, Item: Identifiable
                 .subscribe(onNext: { [weak self] in self?.fire(action: .loadData) })
                 .disposed(by: disposeBag)
             
-            bindState(\.inProgressRefreshLoading, to: refresher.rx.isRefreshing)
+            subscribeNext(reactor.state.map { $0.inProgressRefreshLoading }, with: SectionedTableVC.setRefreshInProgress)
         }
         
         config.tableView.rx.setDelegate(self).disposed(by: disposeBag)
