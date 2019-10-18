@@ -20,8 +20,11 @@ public final class StackSceneBuilder {
     public init(viewsWidthDefaultInset: CGFloat? = nil,
                 stackViewSpacing: CGFloat = 0,
                 contentMode: StackViewController.ContentMode = .scrollable,
-                stackContainerType: UIView.Type = UIView.self) {
-        self.scene = StackViewController(contentMode: contentMode, stackContainerType: stackContainerType)
+                stackContainerType: UIView.Type = UIView.self,
+                backgroundColor: UIColor = .white) {
+        self.scene = StackViewController(contentMode: contentMode,
+                                         stackContainerType: stackContainerType,
+                                         backgroundColor: backgroundColor)
         self.viewsWidthDefaultInset = viewsWidthDefaultInset
         scene.stackView.spacing = stackViewSpacing
     }

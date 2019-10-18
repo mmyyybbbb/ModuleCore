@@ -11,7 +11,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public let disposeBag = DisposeBag()
     
-    var backgroundColor: UIColor = .white 
     var reactor: AnyObject?
     var onViewDidLoad: () -> () = {}
     var onViewDidAppear: () -> () = {}
@@ -54,12 +53,14 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     private var isFooterHeaderConstrainted: Bool = false
     private let stackContainer: UIView
     private let contentMode: ContentMode
+    public var backgroundColor: UIColor
     
     public var contentInset: UIEdgeInsets = .zero
     public var headerTopLayout: HeaderTopLayout = .upToNavBarOrSafeArea
     
-    init(contentMode: ContentMode, stackContainerType: UIView.Type ) {
+    init(contentMode: ContentMode, stackContainerType: UIView.Type, backgroundColor: UIColor) {
         self.stackContainer = stackContainerType.init()
+        self.backgroundColor = backgroundColor
         self.contentMode = contentMode
         super.init(nibName: nil, bundle: nil)
     }
@@ -119,6 +120,9 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     }
      
     private func setupViewAndConstraints() {
+        view.backgroundColor = backgroundColor
+        scrollView.backgroundColor = backgroundColor
+        stackView.backgroundColor = backgroundColor
         
         let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
         var topOffset: CGFloat = 0
