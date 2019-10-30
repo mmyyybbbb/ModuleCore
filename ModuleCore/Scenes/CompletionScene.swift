@@ -30,13 +30,7 @@ open class CompletionScene<T> {
         self.customModalPresentatioin = customPresentation
     }
     
-    open func present(by presenter: UIViewController, forceModalPresentation: Bool = false) {
-        
-        if #available(iOS 13, *), !forceModalPresentation {
-            presenter.present(scene, animated: true, completion: nil)
-            return
-        }
-        
+    open func present(by presenter: UIViewController) {
         if let custom = customModalPresentatioin {
             custom(presenter)
         } else {
