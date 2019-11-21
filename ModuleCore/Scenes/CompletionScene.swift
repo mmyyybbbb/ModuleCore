@@ -47,4 +47,14 @@ open class CompletionScene<T> {
             .disposed(by: disposHolderScene.disposeBag)
         return self
     }
+    
+    @discardableResult
+    public func popOnComplete() -> Self {
+        guard let disposHolderScene = scene as? DisposeBagHolder else { return self }
+        
+        completion.subscribeNext { [weak scene] _  in
+            scene?.navigationController?.pop() }
+            .disposed(by: disposHolderScene.disposeBag)
+        return self
+    }
 }
