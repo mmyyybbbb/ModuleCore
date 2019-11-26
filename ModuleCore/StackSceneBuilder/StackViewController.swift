@@ -46,8 +46,9 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case upToDeviceTopEdge
     }
     
-    public var footerView: UIView?
+    public var navigationBar: UIViewController?
     public var headerView: UIView?
+    public var footerView: UIView?
     public var scrollableContent: Bool { return scrollView.contentSize.height > scrollView.frame.height }
     
     private var isFooterHeaderConstrainted: Bool = false
@@ -128,6 +129,22 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         var topOffset: CGFloat = 0
         if #available(iOS 11.0, *) {} else if navigationBarIsHidden { topOffset = 20 }
         
+        if headerView == nil { headerView = navigationBar?.view }
+        
+        if let headerView = headerView {
+            view.addSubview(headerView)
+            headerView.translatesAutoresizingMaskIntoConstraints = false
+            
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor
+            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
+                
+            constraints.append(contentsOf: [
+                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                headerView.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
+                ])
+        }
+        
         if let footerView = footerView {
             view.addSubview(footerView)
             footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,20 +152,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
                 footerView.bottomAnchor.constraint(equalTo: viewBottomAnchor)
-                ])
-        }
-        
-        if let headerView = headerView {
-            view.addSubview(headerView)
-            headerView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor 
-            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
-                
-            constraints.append(contentsOf: [
-                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
                 ])
         }
         

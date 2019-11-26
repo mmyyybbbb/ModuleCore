@@ -112,5 +112,9 @@ public extension StackSceneBuilder {
     
     func set(header view: UIView) {
         scene.headerView = view
-    } 
+    }
+    
+    func set(navigationBar: UIViewController) {
+        scene.navigationBar = navigationBar
+    }
 }
