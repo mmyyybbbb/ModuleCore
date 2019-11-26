@@ -125,13 +125,24 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         scrollView.backgroundColor = backgroundColor
         stackView.backgroundColor = backgroundColor
         
-        let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
-        var topOffset: CGFloat = 0
-        if #available(iOS 11.0, *) {} else if navigationBarIsHidden { topOffset = 20 }
-        
-        if headerView == nil { headerView = navigationBar?.view }
-        
-        if let headerView = headerView {
+        if let navigationBar = navigationBar {
+            
+            addChild(navigationBar)
+            view.addSubview(navigationBar.view)
+            navigationBar.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor
+            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
+                
+            constraints.append(contentsOf: [
+                navigationBar.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+                navigationBar.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+                navigationBar.view.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
+                ])
+            
+            navigationBar.didMove(toParent: self)
+            
+        } else if let headerView = headerView {
             view.addSubview(headerView)
             headerView.translatesAutoresizingMaskIntoConstraints = false
             
@@ -165,6 +176,11 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             ])
         
         if contentMode == .scrollable {
+            
+            let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
+            var topOffset: CGFloat = 0
+            if #available(iOS 11.0, *) {} else if navigationBarIsHidden { topOffset = 20 }
+            
             view.addSubview(scrollView)
             scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
