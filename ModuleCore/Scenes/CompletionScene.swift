@@ -37,4 +37,24 @@ open class CompletionScene<T> {
             presenter.present(scene, animated: true, completion: nil)
         }
     }
+     
+    @discardableResult
+    public func dismissOnComplete() -> Self {
+        guard let disposHolderScene = scene as? DisposeBagHolder else { return self }
+        
+        completion.subscribeNext { [weak scene] _  in
+            scene?.dismiss(animated: true, completion: nil) }
+            .disposed(by: disposHolderScene.disposeBag)
+        return self
+    }
+    
+    @discardableResult
+    public func popOnComplete() -> Self {
+        guard let disposHolderScene = scene as? DisposeBagHolder else { return self }
+        
+        completion.subscribeNext { [weak scene] _  in
+            scene?.navigationController?.pop() }
+            .disposed(by: disposHolderScene.disposeBag)
+        return self
+    }
 }
