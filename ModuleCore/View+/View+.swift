@@ -35,7 +35,7 @@ public extension SceneView {
         observer.subscribeNext(self, do: classFunc, bag: disposeBag)
     }
     
-    func bindState<T,O>(_ key: KeyPath<Reactor.State, T>, to observer: O) where O: ObserverType, O.E == T {
+    func bindState<T,O>(_ key: KeyPath<Reactor.State, T>, to observer: O) where O: ObserverType, O.Element == T {
         rctr.state.map { $0[keyPath: key] }.bind(to: observer).disposed(by: disposeBag)
     }
 }

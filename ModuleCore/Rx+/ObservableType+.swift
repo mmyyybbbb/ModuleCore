@@ -36,7 +36,7 @@ public extension Observable where Element: OptionalType {
     }
 }
 
-public extension ObservableType where E == Bool {
+public extension ObservableType where Element == Bool {
 
    func bindsIsHidden(bag: DisposeBag, to views: UIView?...) {
         let shared = self.share()
@@ -50,19 +50,19 @@ public extension ObservableType where E == Bool {
     }
 }
 
-public extension ObservableType where Self.E == Any {
+public extension ObservableType where Self.Element == Any {
 
      static func timerWithTrigger(trigger: Observable<Bool>, timer: Observable<Int>) -> Observable<Void> {
         return Observable.combineLatest(trigger, timer)
             .flatMapLatest {
-                $0.0 ? Observable<Int64>.interval(RxTimeInterval($0.1), scheduler: MainScheduler.instance).startWith(0).map { _ in () } : .empty() }
+                $0.0 ? Observable<Int64>.interval(.seconds($0.1), scheduler: MainScheduler.instance).startWith(0).map { _ in () } : .empty() }
     }
 }
 
-public extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait {
+public extension PrimitiveSequenceType where Self.Trait == RxSwift.SingleTrait {
     
     func subscribe<T: AnyObject>(_ instance: T,
-                                 complete classFunc: @escaping (T)->(ElementType)->Void,
+                                 complete classFunc: @escaping (T)->(Element)->Void,
                                  error errClassFunc: ((T)->(Error)->Void)? = nil,
         bag: DisposeBag) {
         
@@ -96,14 +96,14 @@ public extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTra
 
 public extension PrimitiveSequence {
     
-    func map<R>(_ transform: @escaping (PrimitiveSequence.E) throws -> R) -> Single<R> {
+    func map<R>(_ transform: @escaping (PrimitiveSequence.Element) throws -> R) -> Single<R> {
         return self.asObservable().map(transform).asSingle()
     }
 }
 
 public extension ObservableType {
 
-    func onlyOnce() -> Observable<Self.E> {
+    func onlyOnce() -> Observable<Self.Element> {
         return self.take(1)
     }
 
@@ -111,7 +111,7 @@ public extension ObservableType {
         return map { _ in ()}
     }
 
-    func binds<O>(bag: DisposeBag, to observer: O...) where O: ObserverType, Self.E == O.E {
+    func binds<O>(bag: DisposeBag, to observer: O...) where O: ObserverType, Self.Element == O.Element {
         let shared = self.share()
         observer.forEach { shared.bind(to: $0).disposed(by: bag) }
     }
@@ -119,14 +119,14 @@ public extension ObservableType {
     /**
      Добавляет в observable объект как weak ссылку, когда произойдет событие будет проверка что объект доступен иначе вернется .empty()
      */
-    func guardWeak<WeakObj: AnyObject>(_ weakObj: WeakObj) -> Observable<(WeakObj, Self.E)> {
-        return self.flatMap({ [weak weakObj] (obj) -> Observable<(WeakObj, Self.E)> in
+    func guardWeak<WeakObj: AnyObject>(_ weakObj: WeakObj) -> Observable<(WeakObj, Self.Element)> {
+        return self.flatMap({ [weak weakObj] (obj) -> Observable<(WeakObj, Self.Element)> in
             guard let weakObj = weakObj else { return Observable.empty() }
             return Observable.just((weakObj, obj))
         })
     }
 
-    func map<T: AnyObject, Res>(_ instance: T, with classFunc: @escaping (T)->(Self.E)->(Res)) -> Observable<Res> {
+    func map<T: AnyObject, Res>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->(Res)) -> Observable<Res> {
         return self.flatMap { [weak instance] args -> Observable<Res> in
             guard let instance = instance else { return Observable.empty() }
             let instanceFunction = classFunc(instance)
@@ -134,7 +134,7 @@ public extension ObservableType {
         }
     }
 
-    func filter<T: AnyObject>(_ instance: T, with classFunc: @escaping (T) -> () -> (Bool)) -> Observable<Self.E> {
+    func filter<T: AnyObject>(_ instance: T, with classFunc: @escaping (T) -> () -> (Bool)) -> Observable<Self.Element> {
         return self.filter { [weak instance] _  in
             guard let instance = instance else { return false}
             let instanceFunction = classFunc(instance)
@@ -142,16 +142,16 @@ public extension ObservableType {
         }
     }
 
-    func subscribeNext(_ handler: @escaping (Self.E) -> Void) -> Disposable {
+    func subscribeNext(_ handler: @escaping (Self.Element) -> Void) -> Disposable {
         return self.subscribe(onNext: handler)
     }
 
-    func subscribeNextOnMain<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.E)->Void, bag: DisposeBag) {
+    func subscribeNextOnMain<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void, bag: DisposeBag) {
         self.observeOn(MainScheduler.asyncInstance)
             .subscribeNext(instance, with: classFunc, bag: bag)
     }
     
-    func subscribeNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.E)->Void, bag: DisposeBag) {
+    func subscribeNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void, bag: DisposeBag) {
          self.subscribe(onNext: { [weak instance] args in
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
@@ -167,7 +167,7 @@ public extension ObservableType {
         }).disposed(by: bag)
     }
 
-    func doNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.E)->Void) -> Observable<Self.E> {
+    func doNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void) -> Observable<Self.Element> {
         return self.do(onNext: { [weak instance] args in
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
@@ -175,7 +175,7 @@ public extension ObservableType {
         })
     }
 
-    func doNext<T: AnyObject>(_ instance: T, do classFunc: @escaping (T) -> () -> Void) -> Observable<Self.E> {
+    func doNext<T: AnyObject>(_ instance: T, do classFunc: @escaping (T) -> () -> Void) -> Observable<Self.Element> {
         return  self.do(onNext: { [weak instance] _ in
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
@@ -183,11 +183,11 @@ public extension ObservableType {
         })
     }
 
-    func filter(_ val: Variable<Bool>) -> Observable<E> {
+    func filter(_ val: Variable<Bool>) -> Observable<Element> {
         return filter { _ in val.value }
     }
 
-    func doOnError<T: AnyObject>(_ instance: T, _ classFunc: @escaping (T) -> (Error) -> Void) -> Observable<E> {
+    func doOnError<T: AnyObject>(_ instance: T, _ classFunc: @escaping (T) -> (Error) -> Void) -> Observable<Element> {
         return self.do(onError: { [unowned instance] err in
             let instanceFunction = classFunc(instance)
             instanceFunction(err)
@@ -195,7 +195,7 @@ public extension ObservableType {
     }
     
     func subscribe<T: AnyObject>(_ instance: T,
-                                 with classFunc: @escaping (T)->(E)->Void,
+                                 with classFunc: @escaping (T)->(Element)->Void,
                                  error errClassFunc: ((T)->(Error)->Void)?,
                                  disposeBy bag: DisposeBag) {
         
@@ -229,7 +229,7 @@ public extension ObservableType {
 
 public extension ObservableType {
 
-    func endEditingOnNext<T: UIViewController>(_ instance: T) -> Observable<E> {
+    func endEditingOnNext<T: UIViewController>(_ instance: T) -> Observable<Element> {
         return self.do(onNext: { [weak instance] _ in
             guard let instance = instance else { return }
             instance.view.endEditing(true)
@@ -239,35 +239,35 @@ public extension ObservableType {
 
 public typealias Seconds = Int
 
-public extension ObservableType where E == Seconds {
+public extension ObservableType where Element == Seconds {
    func intervalMapLatest() -> Observable<Int64> {
          return flatMapLatest ({ seconds in
             Observable<Int64>
-                .interval(RxTimeInterval(seconds), scheduler: MainScheduler.instance)
+                .interval(.seconds(seconds), scheduler: MainScheduler.instance)
                 .startWith(0)})
     }
 }
 
 public extension ObservableType {
     // swiftlint:disable all
-    func flatMapCatchError<O: ObservableConvertibleType>(_ selector: @escaping (E) throws -> O,
-                                                           doOnNext: @escaping (O.E) -> Void = { _ in },
+    func flatMapCatchError<O: ObservableConvertibleType>(_ selector: @escaping (Element) throws -> O,
+                                                           doOnNext: @escaping (O.Element) -> Void = { _ in },
                                                           doOnError:  @escaping (Error) -> Void = { _ in })
-        -> Observable<O.E> {
-            return self.flatMap({ (val) -> Observable<O.E> in
-                return try selector(val).asObservable().catchError({ error ->  Observable<O.E> in
+        -> Observable<O.Element> {
+            return self.flatMap({ (val) -> Observable<O.Element> in
+                return try selector(val).asObservable().catchError({ error ->  Observable<O.Element> in
                     doOnError(error)
                     return Observable.empty()
                 })
             }).do(onNext: doOnNext)
     }
 
-    func flatMapFirstCatchError<O>(_ selector: @escaping (Self.E) throws -> O,
-                                   doOnNext: @escaping (O.E) -> Void = { _ in },
-                                   doOnError:  @escaping (Error) -> Void = { _ in }) -> RxSwift.Observable<O.E> where O: ObservableConvertibleType {
+    func flatMapFirstCatchError<O>(_ selector: @escaping (Self.Element) throws -> O,
+                                   doOnNext: @escaping (O.Element) -> Void = { _ in },
+                                   doOnError:  @escaping (Error) -> Void = { _ in }) -> RxSwift.Observable<O.Element> where O: ObservableConvertibleType {
 
-        return self.flatMapFirst({ (val) -> Observable<O.E> in
-            return try selector(val).asObservable().catchError({ error ->  Observable<O.E> in
+        return self.flatMapFirst({ (val) -> Observable<O.Element> in
+            return try selector(val).asObservable().catchError({ error ->  Observable<O.Element> in
                 doOnError(error)
                 return Observable.empty()
             })

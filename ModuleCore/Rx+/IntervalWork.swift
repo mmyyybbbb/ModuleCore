@@ -25,12 +25,12 @@ public struct IntervalWork<T,R> {
     public var single: Single<R> { return observable.take(1).share().asSingle() }
     let observable: Observable<R>
     
-    public init(interval: TimeInterval,
+    public init(interval: RxTimeInterval,
                 maxCounts: Int = Int.max,
                 work: Single<T>, onNext: @escaping (T) -> WorkCommand<R>) {
         
         let observable = Observable<Int64>
-            .interval(RxTimeInterval(interval), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+            .interval(interval, scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
             .startWith(0)
             .take(maxCounts)
             .mapToVoid()

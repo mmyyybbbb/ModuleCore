@@ -3,11 +3,10 @@ use_frameworks!
 inhibit_all_warnings!
 
 def pods
-  pod 'RxSwift', '~> 4.5'
-  pod 'RxCocoa', '~> 4.5'
-  pod 'RxDataSources', '~> 3.1.0'
-  pod 'ReactorKit', '~> 1.2.1'
-  pod 'RxViewController', '~> 0.4.1'
+  pod 'RxCocoa', '~> 5.0.1'
+  pod 'RxDataSources', '~> 4.0.1'
+  pod 'ReactorKit', '~> 2.0.1'
+  pod 'RxViewController', '~> 1.0.0'
 end
 
 target :ModuleCore do
@@ -16,7 +15,7 @@ target :ModuleCore do
   target :ModuleCoreTests do
     inherit! :search_paths
     pods
-    pod 'RxBlocking', '~> 4.5'
+    pod 'RxBlocking'
   end
 end
 
