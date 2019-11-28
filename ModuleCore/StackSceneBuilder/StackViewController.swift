@@ -46,7 +46,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case upToDeviceTopEdge
     }
     
-    public var navigationBar: UIViewController?
+    public var navigationBar: UIViewController? // если задан, то перезатрет headerView
     public var headerView: UIView?
     public var footerView: UIView?
     public var scrollableContent: Bool { return scrollView.contentSize.height > scrollView.frame.height }
@@ -126,24 +126,15 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         stackView.backgroundColor = backgroundColor
         
         if let navigationBar = navigationBar {
-            
             addChild(navigationBar)
-            view.addSubview(navigationBar.view)
-            navigationBar.view.translatesAutoresizingMaskIntoConstraints = false
+            headerView = navigationBar.view
+        }
             
-            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor
-            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
-                
-            constraints.append(contentsOf: [
-                navigationBar.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-                navigationBar.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-                navigationBar.view.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
-                ])
-            
-            navigationBar.didMove(toParent: self)
-            
-        } else if let headerView = headerView {
+        if let headerView = headerView {
             view.addSubview(headerView)
+            
+            navigationBar?.didMove(toParent: self)
+            
             headerView.translatesAutoresizingMaskIntoConstraints = false
             
             let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor
