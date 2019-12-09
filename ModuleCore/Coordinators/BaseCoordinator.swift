@@ -68,7 +68,7 @@ extension BaseCoordinator : CoordinatorType {
         
         endEditing()
         
-        if let navController = scene.navigationController, navController.viewControllers.first != scene {
+        if let navController = scene.navigationController, navController.viewControllers.count > 1 {
             navController.pop(animated: true, completion: completion)
         } else {
             scene.dismiss(animated: true, completion: completion)
