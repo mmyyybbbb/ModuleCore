@@ -80,11 +80,11 @@ public extension Reactor {
         return Observable.concat(mutations.map { just($0)}).concat(obs)
     }
     
-    func wrapWithDelay(_ mut: SharedSequence<DriverSharingStrategy, Mutation>, delay: RxTimeInterval = 0.1) -> Observable<Mutation> {
+    func wrapWithDelay(_ mut: SharedSequence<DriverSharingStrategy, Mutation>, delay: RxTimeInterval = .milliseconds(10)) -> Observable<Mutation> {
         return  mut.asObservable().delaySubscription(delay, scheduler: MainScheduler.instance)
     }
     
-    func wrapWithDelay(_ mut: Observable<Mutation>, delay: RxTimeInterval = 0.1) -> Observable<Mutation> {
+    func wrapWithDelay(_ mut: Observable<Mutation>, delay: RxTimeInterval = .milliseconds(10)) -> Observable<Mutation> {
         return  mut.delaySubscription(delay, scheduler: MainScheduler.instance)
     }
     
