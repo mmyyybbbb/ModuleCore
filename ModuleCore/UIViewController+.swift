@@ -42,6 +42,20 @@ public extension UIViewController {
             reactor?.action.onNext(action)
         }
     }
+    
+    final func endEditing() {
+        view.endEditing(true)
+    }
+    
+    func close(completion: (() -> Void)? = nil) {
+        endEditing()
+        
+        if let navController = navigationController, navController.viewControllers.count > 1 {
+            navController.pop(animated: true, completion: completion)
+        } else {
+            dismiss(animated: true, completion: completion)
+        }
+    }
 }
 
 public extension DisposeBagHolder where Self: UIViewController {

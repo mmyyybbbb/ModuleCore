@@ -39,7 +39,7 @@ open class BaseCoordinator: DisposeBagHolder {
     }
     
     public final func endEditing() {
-        scene?.view.endEditing(true)
+        scene?.endEditing()
     }
 }
 
