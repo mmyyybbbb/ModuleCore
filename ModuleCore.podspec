@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'ModuleCore'
-  s.version          = '2.0.0'
-  s.summary          = 'Модуль ModuleCore'
-  s.homepage         = 'https://gitlab.com/BCSBroker/iOS/modulecore'
-  s.author           = 'BCS'
-  s.source           = { :git => 'https://gitlab.com/BCSBroker/iOS/modulecore.git', :tag => s.version.to_s }
+  s.version          = '2.0.1'
+  s.summary          = 'Архитектура для создания модулей'
+  s.homepage         = 'https://github.com/BCS-Broker/ModuleCore'
+  s.author           = 'BCS-Broker'
+  s.source           = { :git => 'https://github.com/BCS-Broker/ModuleCore.git', :tag => s.version.to_s }
   s.license      = { :type => 'MIT', :file => "LICENSE" }
   s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
