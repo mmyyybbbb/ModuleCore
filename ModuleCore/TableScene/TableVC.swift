@@ -16,17 +16,26 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
     
     private var refreshControl: UIRefreshControl?
     public let tableView: UITableView
+    public let customConstraintMaker: ((UITableView) -> Void)?
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
     private let dataSource: TableViewDataSource<Item>
     private let configurator: TableSceneConfigurator
     
     override public func loadView() {
-        self.view = tableView
+        if customConstraintMaker == nil {
+            super.loadView()
+        } else {
+            self.view = tableView
+        }
     }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = vm.canSelectItem
+        if let maker = customConstraintMaker {
+            view.addSubview(tableView)
+            maker(tableView)
+        }
     }
     
     override public func viewWillAppear(_ animated: Bool) {
@@ -36,8 +45,9 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         }
     }
     
-    public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator) {
+    public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator, customConstraintMaker: ((UITableView) -> Void)? = nil) {
         self.dataSource = dataSource
+        self.customConstraintMaker = customConstraintMaker
         self.configurator = configurator
         self.tableView = configurator.isStaticTableView ? StaticTableView(frame: .zero) : UITableView(frame: .zero)
         self.tableView.isScrollEnabled = !configurator.isStaticTableView
