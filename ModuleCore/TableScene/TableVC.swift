@@ -41,7 +41,11 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         }
     }
     
-    public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator, setConstraintsForTableViewManualy: Bool = false ) {
+    public convenience init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator) {
+        self.init(dataSource: dataSource, configurator: configurator, setConstraintsForTableViewManualy: false)
+    }
+    
+    public init(dataSource: TableViewDataSource<Item>, configurator: TableSceneConfigurator, setConstraintsForTableViewManualy: Bool ) {
         self.dataSource = dataSource
         self.setConstraintsForTableViewManualy = setConstraintsForTableViewManualy
         self.configurator = configurator
