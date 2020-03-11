@@ -98,4 +98,27 @@ public extension Reactor where Self: BaseReactor {
         }).disposed(by: disposeBag)
     }
     
+    func interact<T>(_ observer: Single<T>,
+                     successMutation: @escaping (T) -> Mutation,
+                     error: ((Self) -> (Error) -> Void)? = nil,
+                     inProgress: ((Bool) -> Mutation)? = nil) {
+        
+        var obs = observer
+
+        if let inProgress = inProgress {
+            make(inProgress(true))
+            obs = observer.do(onSuccess: { [weak self] _ in self?.make(inProgress(false)) },
+                                onError: { [weak self] _ in self?.make(inProgress(false)) })
+        }
+
+        let onError = error
+        obs.subscribe(onSuccess: { [weak self] (data) in
+            let mutatation = successMutation(data)
+            self?.make(mutatation)
+            }, onError: { [weak self] error in
+                guard let instance = self, let errClassFunc = onError else { return }
+                let instanceFunction = errClassFunc(instance)
+                instanceFunction(error)
+        }).disposed(by: disposeBag)
+    }
 }
