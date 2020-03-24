@@ -69,5 +69,10 @@ public extension Reactive where Base: UIViewController {
         let source = self.sentMessage(#selector(Base.dismiss)).map { $0.first as? Bool ?? false }
         return ControlEvent(events: source)
     }
-
+    
+    /// Rx observable, triggered when the shake phone
+    var motionBegan: ControlEvent<Void> {
+        let source = self.methodInvoked(#selector(Base.motionBegan)).map { _ in }
+        return ControlEvent(events: source)
+    }
 }
