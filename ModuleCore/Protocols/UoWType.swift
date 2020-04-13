@@ -95,7 +95,7 @@ open class UnitOfWork<Result>: UnitOfWorkType {
         } else {
             let indexTo = firstSceneStackIndex - 1
             let vc = navigator.viewControllers[indexTo]
-            navigator.popToViewController(vc, animated: true)
+            navigator.popToViewController(vc, animated: true, completion: completion)
         }
     }
     
