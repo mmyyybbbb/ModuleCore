@@ -3,7 +3,7 @@ use_frameworks!
 inhibit_all_warnings!
 
 def pods
-  pod 'RxCocoa', '~> 5.0.1'
+  pod 'RxCocoa', '~> 5.1.0'
   pod 'RxDataSources', '~> 4.0.1'
   pod 'ReactorKit', '~> 2.0.1'
   pod 'RxViewController', '~> 1.0.0'
