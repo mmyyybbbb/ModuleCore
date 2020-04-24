@@ -19,6 +19,7 @@ public final class EmbeddedScene {
     
     public var isEmbedded: Bool { return scene.parent != nil }
     public private(set) var wasFirstLoading: Bool = false
+    public var preferredSize: CGSize?
     
     public func reloadData() {
         loadData.onNext(())
@@ -27,12 +28,13 @@ public final class EmbeddedScene {
     fileprivate init(scene: Scene,
                      isLoading: Observable<Bool>,
                      dataState: Observable<DataState>,
-                     loadData: PublishSubject<Void>) {
+                     loadData: PublishSubject<Void>,
+                     preferredSize: CGSize? = nil) {
         self.scene = scene
         self.isLoading  = isLoading
         self.dataState = dataState.share()
         self.loadData = loadData
-        
+        self.preferredSize = preferredSize
         self.dataState.subscribeNext(self, with: EmbeddedScene.dataStateChanged, bag: bag)
     }
     
