@@ -28,7 +28,11 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
     override public func viewDidLoad() {
         super.viewDidLoad()
         collectionView.allowsSelection = vm.canSelectItem
-        
+    }
+    
+    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        collectionView.reloadData()
     }
     
     override public func viewWillAppear(_ animated: Bool) {
