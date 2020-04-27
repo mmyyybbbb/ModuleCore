@@ -11,7 +11,7 @@ import RxDataSources
 
 public typealias TableReactor = CollectionReactor
 
-public final class CollectionReactor<Item>: BaseReactor, SceneReactor {
+open class CollectionReactor<Item>: BaseReactor, SceneReactor {
  
     public typealias Section = DataSourceSection<Item>
     public typealias DataLoaderProvider = () -> Single<[Item]>
