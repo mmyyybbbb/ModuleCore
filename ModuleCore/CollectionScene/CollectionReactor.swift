@@ -51,7 +51,7 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
     let dataLoaderProvider: DataLoaderProvider
     let moreDataLoaderProvider: MoreDataLoaderProvider?
     let maxCount: Int?
-    let cache: Cache<[Item]>?
+    public var cache: Cache<[Item]>?
     
     public init(loader: @escaping DataLoaderProvider,
                 moreDataLoader: MoreDataLoaderProvider? = nil,
