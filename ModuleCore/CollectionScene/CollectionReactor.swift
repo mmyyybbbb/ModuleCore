@@ -100,10 +100,6 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
             state.inProgressLoadMore = value
  
         case let .setData(items, dataLoadDate):
-            var items = items
-            if let maxCount = maxCount {
-                items = Array(items.prefix(maxCount))
-            }
             state.sections = [Section(items)]
             state.endOfData = false
             state.firstLoading = false
@@ -149,7 +145,13 @@ fileprivate extension CollectionReactor {
     }
     
     func dataReloaded(items: [Item]) {
-        cache?.push(data: items)
+        var items = items
+        if let maxCount = maxCount {
+            items = Array(items.prefix(maxCount))
+        }
+        DispatchQueue.global().async {
+            self.cache?.push(data: items)
+        }
         make(.setData(items, dataLoadedDate: Date()))
     }
     

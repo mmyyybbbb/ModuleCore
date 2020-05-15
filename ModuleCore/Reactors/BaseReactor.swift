@@ -25,7 +25,7 @@ public extension Reactor where Self: BaseReactor {
         return Observable.merge(mutation, mutationStream)
     }
     
-    func make(_ mutations: Mutation...) {
+    func make(_ mutations: Mutation...) { 
         mutations.forEach { [weak self] in self?.mutationStream.onNext($0) }
     }
     
