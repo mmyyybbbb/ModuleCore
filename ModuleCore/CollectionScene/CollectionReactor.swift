@@ -126,7 +126,7 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
 fileprivate extension CollectionReactor {
     
     func loadData() {
-        if let cache = cache {
+        if let cache = cache, currentState.firstLoading == true {
             switch cache.state {
             case .noCachedData: break
             case .hasFreshData:
