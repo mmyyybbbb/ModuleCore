@@ -22,10 +22,7 @@ class ModuleCoreTests: XCTestCase {
     }
 
     func test_configuratingSomeScene() {
-        let factory = MyFactory()
-        factory.register(for: MyCoorinatorType.self, resolve: MyCoordinator.self)
-        factory.register(for: MyInteractorType.self, resolve: MyInteractor.self)
-        
+        let factory = MyFactory() 
         let sc = factory.myScene()
         
         guard let reactor = (sc as! MyViewController).reactor else {
@@ -35,6 +32,7 @@ class ModuleCoreTests: XCTestCase {
         
         XCTAssertTrue(reactor.interactor is MyInteractor)
         XCTAssertTrue(reactor.coordinator is MyCoordinator)
-    }
- 
+    } 
 }
+
+

@@ -13,7 +13,7 @@ import ReactorKit
 protocol MyCoorinatorType : CoordinatorType {}
 final class MyCoordinator: BaseCoordinator, MyCoorinatorType {}
 
-protocol MyInteractorType : InteractorType {}
+protocol MyInteractorType {}
 final class MyInteractor: MyInteractorType {}
 
 final class MyReactor: SceneReactor, Interactable, Coordinatable {
@@ -30,13 +30,14 @@ final class MyViewController: UIViewController, SceneView {
     func bind(reactor: MyReactor) {}
 }
 
+public protocol FactoryType {}
 // Фабрика
-final class MyFactory : Factory {
+final class MyFactory : FactoryType {
     
     func myScene() -> Scene {
         let sv = MyViewController()
         let sr = MyReactor()
-        configurate(vc: sv, reactor: sr)
+        sv.inject(sr)
         return sv
     }
 }

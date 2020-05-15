@@ -51,15 +51,18 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
     let dataLoaderProvider: DataLoaderProvider
     let moreDataLoaderProvider: MoreDataLoaderProvider?
     let maxCount: Int?
+    let cache: Cache<[Item]>?
     
     public init(loader: @escaping DataLoaderProvider,
-         moreDataLoader: MoreDataLoaderProvider? = nil,
-         onItemSelected: ItemSelected? = nil,
-         maxCount: Int? = nil) {
+                moreDataLoader: MoreDataLoaderProvider? = nil,
+                onItemSelected: ItemSelected? = nil,
+                maxCount: Int? = nil,
+                cache: Cache<[Item]>? = nil) {
         self.dataLoaderProvider = loader
         self.moreDataLoaderProvider = moreDataLoader
         self.onItemSelected = onItemSelected
         self.maxCount = maxCount
+        self.cache = cache
     }
     
     public var initialState = State()
@@ -69,7 +72,7 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
         switch action {
         case .loadData:
             guard currentState.inProgressLoad == false else  { break }
-            reloadData()
+            loadData()
         case .loadMore:
             guard canLoadMore && currentState.inProgressLoadMore == false && currentState.endOfData == false else { break }
             loadMore()
@@ -116,6 +119,23 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
 }
 
 fileprivate extension CollectionReactor {
+    
+    func loadData() {
+        if let cache = cache {
+            switch cache.state {
+            case .noCachedData: break
+            case .hasFreshData:
+                guard let data = cache.pull() else { break }
+                make(.dataReloaded(data))
+                return
+            case .hasExpiredData:
+                guard let data = cache.pull() else { break }
+                make(.dataReloaded(data))
+            }
+        }
+        reloadData()
+    }
+    
     func reloadData() {
         interact(dataLoaderProvider(),
                  complete: CollectionReactor<Item>.dataReloaded,
