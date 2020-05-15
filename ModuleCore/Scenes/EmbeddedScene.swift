@@ -16,6 +16,8 @@ public final class EmbeddedScene {
     public let isLoading: Observable<Bool>
     public let loadData: PublishSubject<Void>
     public let dataState: Observable<DataState>
+    /// Дата загрузки данных
+    public let dataLoadingDate: Observable<Date?>?
     
     public var isEmbedded: Bool { return scene.parent != nil }
     public private(set) var wasFirstLoading: Bool = false
@@ -29,12 +31,14 @@ public final class EmbeddedScene {
                      isLoading: Observable<Bool>,
                      dataState: Observable<DataState>,
                      loadData: PublishSubject<Void>,
+                     dataLoadingDate: Observable<Date?>? = nil,
                      preferredSize: CGSize? = nil) {
         self.scene = scene
         self.isLoading  = isLoading
         self.dataState = dataState.share()
         self.loadData = loadData
         self.preferredSize = preferredSize
+        self.dataLoadingDate = dataLoadingDate
         self.dataState.subscribeNext(self, with: EmbeddedScene.dataStateChanged, bag: bag)
     }
     
@@ -49,9 +53,15 @@ public extension SceneReactor {
     func buildEmbeddedScene(for scene: Scene,
                                    loadDataAction: Action,
                                    isLoadingKey: KeyPath<State, Bool>,
-                                   dataStateKey: KeyPath<State, DataState>) -> EmbeddedScene {
+                                   dataStateKey: KeyPath<State, DataState>,
+                                   dataLoadingDate: KeyPath<State, Date?>? = nil) -> EmbeddedScene {
         let isLoadingObservable = self.state.map { $0[keyPath: isLoadingKey]}
         let dataStateObservable = self.state.map { $0[keyPath: dataStateKey]}
+        
+        var dataLoadingDateObservable: Observable<Date?>? = nil
+        if let dataLoadingDate = dataLoadingDate {
+            dataLoadingDateObservable = self.state.map { $0[keyPath: dataLoadingDate]}
+        }
         
         let loadData = PublishSubject<Void>()
         
@@ -60,6 +70,7 @@ public extension SceneReactor {
         return EmbeddedScene(scene: scene,
                              isLoading: isLoadingObservable,
                              dataState: dataStateObservable,
-                             loadData: loadData)
+                             loadData: loadData,
+                             dataLoadingDate: dataLoadingDateObservable)
     }
 }

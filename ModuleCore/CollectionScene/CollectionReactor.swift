@@ -28,7 +28,7 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
         case inProgressLoad(Bool)
         case inProgressLoadMore(Bool)
         
-        case dataReloaded([Item])
+        case setData([Item], dataLoadedDate: Date?)
         case moreDataLoaded([Item])
         case dataLoadError(Error)
     }
@@ -43,7 +43,11 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
         public var endOfData = false
         public var dataState: DataState = .none
         public var sections: [Section] = []
+        
+        /// Когда были загружены данные
+        public var dataLoadDate: Date? = nil
     }
+    
     var canSelectItem: Bool  { return onItemSelected != nil }
     var canLoadMore: Bool { return moreDataLoaderProvider != nil }
     
@@ -94,8 +98,8 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
 
         case let .inProgressLoadMore(value):
             state.inProgressLoadMore = value
-
-        case let .dataReloaded(items):
+ 
+        case let .setData(items, dataLoadDate):
             var items = items
             if let maxCount = maxCount {
                 items = Array(items.prefix(maxCount))
@@ -104,6 +108,7 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
             state.endOfData = false
             state.firstLoading = false
             state.dataState = items.count > 0 ? .hasData : .dataIsEmpty
+            state.dataLoadDate = dataLoadDate
             
         case let .moreDataLoaded(items):
             state.sections[0].addItems(items: items)
@@ -125,12 +130,12 @@ fileprivate extension CollectionReactor {
             switch cache.state {
             case .noCachedData: break
             case .hasFreshData:
-                guard let data = cache.pull() else { break }
-                make(.dataReloaded(data))
+                guard let data = cache.pull(), data.isEmpty == false else { break }
+                make(.setData(data, dataLoadedDate: cache.pushDate))
                 return
             case .hasExpiredData:
-                guard let data = cache.pull() else { break }
-                make(.dataReloaded(data))
+                guard let data = cache.pull(), data.isEmpty == false  else { break }
+                make(.setData(data, dataLoadedDate: cache.pushDate))
             }
         }
         reloadData()
@@ -145,7 +150,7 @@ fileprivate extension CollectionReactor {
     
     func dataReloaded(items: [Item]) {
         cache?.push(data: items)
-        make(.dataReloaded(items))
+        make(.setData(items, dataLoadedDate: Date()))
     }
     
     func loadMore() {
