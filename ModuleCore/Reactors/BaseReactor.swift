@@ -26,7 +26,7 @@ public extension Reactor where Self: BaseReactor {
     }
     
     func make(_ mutations: Mutation...) { 
-        mutations.forEach { [weak self] in self?.mutationStream.onNext($0) }
+        DispatchQueue.main.async { mutations.forEach { [weak self] in self?.mutationStream.onNext($0) } }
     }
     
     func interact<T>(_ observable: Single<T>,

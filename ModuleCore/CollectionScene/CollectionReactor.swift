@@ -122,19 +122,20 @@ open class CollectionReactor<Item>: BaseReactor, SceneReactor {
 fileprivate extension CollectionReactor {
     
     func loadData() {
-        if let cache = cache, currentState.firstLoading == true {
-            switch cache.state {
-            case .noCachedData: break
-            case .hasFreshData:
-                guard let data = cache.pull(), data.isEmpty == false else { break }
-                make(.setData(data, dataLoadedDate: cache.pushDate))
-                return
-            case .hasExpiredData:
-                guard let data = cache.pull(), data.isEmpty == false  else { break }
-                make(.setData(data, dataLoadedDate: cache.pushDate))
+        if let cache = cache, currentState.firstLoading == true, cache.state != .noCachedData {
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                guard let data = cache.pull(), data.isEmpty == false else { self.reloadData(); return }
+                self.make(.setData(data, dataLoadedDate: cache.pushDate))
+                if cache.state == .hasExpiredData {
+                    DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(200)) {
+                        self.reloadData()
+                    }
+                }
             }
+        } else {
+            reloadData()
         }
-        reloadData()
     }
     
     func reloadData() {
@@ -149,7 +150,7 @@ fileprivate extension CollectionReactor {
         if let maxCount = maxCount {
             items = Array(items.prefix(maxCount))
         }
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .background).async {
             self.cache?.push(data: items)
         }
         make(.setData(items, dataLoadedDate: Date()))
