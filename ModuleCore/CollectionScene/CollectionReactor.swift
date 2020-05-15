@@ -144,6 +144,7 @@ fileprivate extension CollectionReactor {
     }
     
     func dataReloaded(items: [Item]) {
+        cache?.push(data: items)
         make(.dataReloaded(items))
     }
     
