@@ -8,8 +8,10 @@
 
 import RxSwift
 import RxDataSources
-
+ 
 public typealias TableReactor = CollectionReactor
+
+public final class AnimatableCollectionReactor<Item: IdentifiableType & Equatable> : CollectionReactor<Item> { }
 
 open class CollectionReactor<Item>: BaseReactor, SceneReactor {
  

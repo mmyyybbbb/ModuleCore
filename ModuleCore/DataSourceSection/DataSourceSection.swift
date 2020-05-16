@@ -7,7 +7,8 @@
 //
 import RxDataSources
 
-public struct DataSourceSection<Item> {
+public struct DataSourceSection<Item>: IdentifiableType {
+    public var identity: String = "SupportOnlyOneSection"
     public var items: [Item]
     
     public init(_ items: [Item]) {
@@ -25,3 +26,7 @@ extension DataSourceSection: SectionModelType {
         self.items = items
     }
 }
+ 
+extension DataSourceSection : AnimatableSectionModelType where DataSourceSection.Item: IdentifiableType & Equatable { }
+
+ 

@@ -10,17 +10,16 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+public typealias AnimatableCollectionDataSource<Item: IdentifiableType & Equatable> = RxCollectionViewSectionedAnimatedDataSource<DataSourceSection<Item>>
  
-public typealias CollectionDataSource<Item> = RxCollectionViewSectionedReloadDataSource<DataSourceSection<Item>>
-
-public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollViewDelegate {
+public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: UIViewController, SceneView, UIScrollViewDelegate {
     
     public var disposeBag = DisposeBag()
     
     private var refreshControl: UIRefreshControl?
     public let collectionView: UICollectionView
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
-    private let dataSource: CollectionDataSource<Item>
+    private let dataSource: AnimatableCollectionDataSource<Item>
     private let configurator: CollectionSceneConfigurator
     
     override public func loadView() {
@@ -44,7 +43,7 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
         }
     }
     
-    public init(dataSource: CollectionDataSource<Item>, configurator: CollectionSceneConfigurator) {
+    public init(dataSource: AnimatableCollectionDataSource<Item>, configurator: CollectionSceneConfigurator) {
         self.dataSource = dataSource
         self.configurator = configurator
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: configurator.layout)
@@ -67,7 +66,7 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
         fatalError("init(coder:) has not been implemented")
     }
  
-    public func bind(reactor: CollectionReactor<Item>) {
+    public func bind(reactor: AnimatableCollectionReactor<Item>) {
         
         reactor.state
             .map { $0.sections }
@@ -95,8 +94,8 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
         }
         
         if reactor.canLoadMore {
-            collectionView.rx.didScroll.subscribeNext(self, do: CollectionVC<Item>.loadMoreIfNeed, bag: disposeBag)
-            subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: CollectionVC.setProgressMore)
+            collectionView.rx.didScroll.subscribeNext(self, do: AnimatableCollectionVC<Item>.loadMoreIfNeed, bag: disposeBag)
+            subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: AnimatableCollectionVC.setProgressMore)
         }
        
     }

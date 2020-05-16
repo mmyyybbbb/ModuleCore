@@ -48,6 +48,7 @@
 		4F5D18B7246E5D6D004AA1FA /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5D18B6246E5D6D004AA1FA /* Cache.swift */; };
 		4F5D18B9246E68C9004AA1FA /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5D18B8246E68C9004AA1FA /* CacheTests.swift */; };
 		4F9C49F72457173A00B6CF3E /* CollectionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C49F62457173A00B6CF3E /* CollectionsCell.swift */; };
+		4FC3B4D2246FE2B6006B2CFA /* AnimatableCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC3B4D1246FE2B6006B2CFA /* AnimatableCollectionVC.swift */; };
 		572F2766CDA68BAD745FCE16 /* Pods_ModuleCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */; };
 		6D28497A22502EBA0031ED94 /* DataSourceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28497722502EBA0031ED94 /* DataSourceSection.swift */; };
 		6D28497B22502EBA0031ED94 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28497822502EBA0031ED94 /* CollectionVC.swift */; };
@@ -123,6 +124,7 @@
 		4F5D18B6246E5D6D004AA1FA /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		4F5D18B8246E68C9004AA1FA /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		4F9C49F62457173A00B6CF3E /* CollectionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsCell.swift; sourceTree = "<group>"; };
+		4FC3B4D1246FE2B6006B2CFA /* AnimatableCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableCollectionVC.swift; sourceTree = "<group>"; };
 		55F615B3D7711408D5ADC701 /* Pods_ModuleCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB963A3F040477600A3AD28 /* Pods-ModuleCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.release.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.release.xcconfig"; sourceTree = "<group>"; };
 		6D28497722502EBA0031ED94 /* DataSourceSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceSection.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				6D28497822502EBA0031ED94 /* CollectionVC.swift */,
+				4FC3B4D1246FE2B6006B2CFA /* AnimatableCollectionVC.swift */,
 				6D28497922502EBA0031ED94 /* CollectionReactor.swift */,
 				6D28497D22502EDE0031ED94 /* CollectionSceneConfigurator.swift */,
 				4F9C49F62457173A00B6CF3E /* CollectionsCell.swift */,
@@ -561,6 +564,7 @@
 				03E3AA992209A63B0005A0A1 /* View+BarButtonItem.swift in Sources */,
 				03E3AA6322085B320005A0A1 /* BaseCoordinator.swift in Sources */,
 				0355B13422F053490064FB83 /* SectionedTableVC.swift in Sources */,
+				4FC3B4D2246FE2B6006B2CFA /* AnimatableCollectionVC.swift in Sources */,
 				035C89492260DA6500118435 /* FixedHeightView.swift in Sources */,
 				4F9C49F72457173A00B6CF3E /* CollectionsCell.swift in Sources */,
 				03E3AA872208A85D0005A0A1 /* Reactor+.swift in Sources */,
