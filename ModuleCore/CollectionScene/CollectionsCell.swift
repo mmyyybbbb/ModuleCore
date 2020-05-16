@@ -6,6 +6,8 @@
 //  Copyright © 2020 BCS. All rights reserved.
 //
 
+import Differentiator
+
 /// Ячейка в коллекции
 public enum CollectionCell<T> {
     case item(T)
@@ -46,11 +48,34 @@ extension CollectionCell: Codable where T: Codable {
 
 
 /// Данные в ячейке ShowMore
-public struct ShowMoreCellData: Codable {
+public struct ShowMoreCellData: Codable, Equatable {
     public let title: String
     
     public init(title: String) {
         self.title = title
     }
+    
+    public static func == (lhs: ShowMoreCellData, rhs: ShowMoreCellData) -> Bool {
+        lhs.title == rhs.title
+    }
 }
 
+
+extension CollectionCell: IdentifiableType where T: IdentifiableType {
+     public var identity : String {
+        switch self {
+        case let .item(item): return "\(item.identity)"
+        case let .showMore(data): return data.title
+        }
+    }
+}
+
+extension CollectionCell: Equatable where T: Equatable {
+    public static func == (lhs: CollectionCell<T>, rhs: CollectionCell<T>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.item(l), .item(r)):  return l == r
+        case let (.showMore(l), .showMore(r)):  return l == r
+        default: return false
+        }
+    }
+}
