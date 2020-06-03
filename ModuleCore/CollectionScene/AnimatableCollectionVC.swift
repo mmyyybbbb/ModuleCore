@@ -11,19 +11,25 @@ import RxCocoa
 import RxDataSources
 
 public typealias AnimatableCollectionDataSource<Item: IdentifiableType & Equatable> = RxCollectionViewSectionedAnimatedDataSource<DataSourceSection<Item>>
- 
+
 public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: UIViewController, SceneView, UIScrollViewDelegate {
     
     public var disposeBag = DisposeBag()
     
     private var refreshControl: UIRefreshControl?
     public let collectionView: UICollectionView
+    public let setConstraintsForCollectionViewManualy: Bool
     private var footerActivityIndicator = UIActivityIndicatorView(style: .gray)
     private let dataSource: AnimatableCollectionDataSource<Item>
     private let configurator: CollectionSceneConfigurator
     
+    
     override public func loadView() {
-        self.view = collectionView
+        if setConstraintsForCollectionViewManualy {
+            super.loadView()
+        } else {
+            self.view = collectionView
+        }
     }
     
     override public func viewDidLoad() {
@@ -42,8 +48,12 @@ public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: U
             collectionView.deselectItem(at: indexPath, animated: animated)
         }
     }
-    
-    public init(dataSource: AnimatableCollectionDataSource<Item>, configurator: CollectionSceneConfigurator) {
+    public convenience init(dataSource: AnimatableCollectionDataSource<Item>, configurator: CollectionSceneConfigurator) {
+           self.init(dataSource: dataSource, configurator: configurator, setConstraintsForCollectionViewManualy: false)
+       }
+       
+    public init(dataSource: AnimatableCollectionDataSource<Item>, configurator: CollectionSceneConfigurator, setConstraintsForCollectionViewManualy: Bool) {
+        self.setConstraintsForCollectionViewManualy = setConstraintsForCollectionViewManualy
         self.dataSource = dataSource
         self.configurator = configurator
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: configurator.layout)
@@ -65,7 +75,7 @@ public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: U
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
- 
+    
     public func bind(reactor: AnimatableCollectionReactor<Item>) {
         
         reactor.state
@@ -97,7 +107,7 @@ public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: U
             collectionView.rx.didScroll.subscribeNext(self, do: AnimatableCollectionVC<Item>.loadMoreIfNeed, bag: disposeBag)
             subscribeNext(reactor.state.map { $0.inProgressLoadMore }, with: AnimatableCollectionVC.setProgressMore)
         }
-       
+        
     }
     
     func setRefreshInProgress(inProgress: Bool) {
@@ -122,7 +132,7 @@ public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: U
         let deltaOffset    = maiximumOffset - currentOffset
         
         if deltaOffset <= 0 {
-           fire(action: .loadMore)
+            fire(action: .loadMore)
         }
     }
 }
