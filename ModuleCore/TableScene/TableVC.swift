@@ -10,7 +10,7 @@ import RxDataSources
 
 public typealias TableViewDataSource<Item> = RxTableViewSectionedReloadDataSource<DataSourceSection<Item>>
 
-public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDelegate {
+public final class TableVC<Item>: EmbeddedScrollScene, SceneView {
     
     public var disposeBag = DisposeBag()
     
@@ -84,6 +84,8 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         
         if let delegate = configurator.scrollDelegate {
             tableView.rx.setDelegate(delegate).disposed(by: disposeBag)
+        } else {
+            tableView.rx.setDelegate(self).disposed(by: disposeBag)
         }
         
         if let refresher = refreshControl {
@@ -125,6 +127,12 @@ public final class TableVC<Item>: UIViewController, SceneView, UIScrollViewDeleg
         if deltaOffset <= 0 {
             fire(action: .loadMore)
         }
+    }
+    
+    public override var embeddedScrollView: UIScrollView? { return tableView as UIScrollView }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !canListScroll() { return }
     }
 }
 
