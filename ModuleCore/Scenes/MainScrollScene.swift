@@ -7,8 +7,8 @@
 //
 
 open class MainScrollScene: UIViewController {
-    open var mainScrollView: UIScrollView? { return nil }
-    open var embedSceneScrollOffset: CGFloat? { return nil }
+    open var mainScrollView: UIScrollView? { nil }
+    open var embedSceneScrollOffset: CGFloat { 0 }
     open var hackScrollOffset: CGFloat { 3 }
     
     /// высота когда триггеться метод хидера
@@ -16,8 +16,8 @@ open class MainScrollScene: UIViewController {
     /// метод когда показывать или скрыть хидер main скролла
     open func changedHeader(isHidden: Bool) {}
 
-    open var searchBar: UIView? { return nil }
-    open var searchBarHeight: CGFloat? { return nil }
+    open var searchBar: UIView? { nil }
+    open var searchBarHeight: CGFloat? { nil }
     open func updateSearchBarHeight(_ newHeight: CGFloat) {}
 }
 
@@ -32,7 +32,7 @@ extension MainScrollScene: MainScrollSceneDelegate {
     
     // можно ли скролить вложенный scrollView/tableView/collectionView (который в pageController)
     public func isCanScroll() -> Bool {
-        guard let mainScrollView = mainScrollView, let embedSceneScrollOffset = embedSceneScrollOffset else { return false }
+        guard let mainScrollView = mainScrollView else { return false }
         
         var hackOffsetScroll = self.hackScrollOffset
         if let searchBar = searchBar, let searchBarHeight = searchBarHeight {
@@ -55,7 +55,7 @@ extension MainScrollScene: MainScrollSceneDelegate {
     
     // скролл
     public func scrollTo(_ contentOffset: CGPoint) {
-        guard let mainScrollView = mainScrollView, let embedSceneScrollOffset = embedSceneScrollOffset else { return }
+        guard let mainScrollView = mainScrollView else { return }
         
         var hackOffsetScroll: CGFloat = 3
         if let searchBar = searchBar, let searchBarHeight = searchBarHeight {
@@ -87,7 +87,7 @@ extension MainScrollScene: MainScrollSceneDelegate {
     
     // остановка скрола при свайпе
     public func scrollStoped(_ contentOffset: CGPoint, _ decelerate: Bool) {
-        guard let mainScrollView = mainScrollView, let embedSceneScrollOffset = embedSceneScrollOffset else { return }
+        guard let mainScrollView = mainScrollView else { return }
         
         if contentOffset.y > 0 { return }
         
@@ -118,14 +118,14 @@ extension MainScrollScene: UIScrollViewDelegate {
     
     // изменение положения кастомного навбара
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let embedSceneScrollOffset = embedSceneScrollOffset else { return }
+        guard !embedSceneScrollOffset.isZero else { return }
         
         let contentOffset = scrollView.contentOffset
         if contentOffset.y > embedSceneScrollOffset {
             scrollView.setContentOffset(CGPoint(x: 0, y: embedSceneScrollOffset), animated: false)
         }
         
-        let isHidden = !embedSceneScrollOffset.isZero && contentOffset.y > (embedSceneScrollOffset - 8)
+        let isHidden = contentOffset.y > (embedSceneScrollOffset - 8)
         changedHeader(isHidden: isHidden)
     }
 }
