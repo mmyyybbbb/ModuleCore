@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ModuleCore'
-  s.version          = '2.1.15'
+  s.version          = '2.1.16'
   s.summary          = 'Архитектура для создания модулей'
   s.homepage         = 'https://github.com/BCS-Broker/ModuleCore'
   s.author           = 'BCS-Broker'

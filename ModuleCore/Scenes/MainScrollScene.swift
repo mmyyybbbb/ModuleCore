@@ -125,7 +125,7 @@ extension MainScrollScene: UIScrollViewDelegate {
             scrollView.setContentOffset(CGPoint(x: 0, y: embedSceneScrollOffset), animated: false)
         }
         
-        let isHidden = contentOffset.y > (embedSceneScrollOffset - 8)
+        let isHidden = contentOffset.y > (embedSceneScrollOffset - changedHeaderOffset)
         changedHeader(isHidden: isHidden)
     }
 }
