@@ -11,6 +11,9 @@ open class MainScrollScene: UIViewController {
     open var embedSceneScrollOffset: CGFloat { 0 }
     open var hackScrollOffset: CGFloat { 3 }
     
+    /// отступ с которого начинает работать свайп доводка
+    open var decelerateScrollOffset: CGFloat { 50 }
+
     /// высота когда триггеться метод хидера
     open var changedHeaderOffset: CGFloat { 8 }
     /// метод когда показывать или скрыть хидер main скролла
@@ -25,7 +28,7 @@ public protocol MainScrollSceneDelegate: UIScrollViewDelegate {
     func isCanScroll() -> Bool
     func scrollTo(_ contentOffset: CGPoint)
     func scrollToTop()
-    func scrollStoped(_ contentOffset: CGPoint, _ decelerate: Bool)
+    func scrollStoped(_ contentOffset: CGPoint)
 }
 
 extension MainScrollScene: MainScrollSceneDelegate {
@@ -78,18 +81,19 @@ extension MainScrollScene: MainScrollSceneDelegate {
             }
         }
         
+        let maxY = embedSceneScrollOffset - hackOffsetScroll
+        let minY: CGFloat = 0
         var newY = mainScrollView.contentOffset.y + contentOffset.y
-        if newY > (embedSceneScrollOffset - hackOffsetScroll) { newY = (embedSceneScrollOffset - hackOffsetScroll) }
-        if newY < 0 { newY = 0 }
-        
+
+        if newY > maxY { newY = maxY }
+        if newY < minY { newY = minY }
+
         mainScrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: false)
     }
     
     // остановка скрола при свайпе
-    public func scrollStoped(_ contentOffset: CGPoint, _ decelerate: Bool) {
+    public func scrollStoped(_ contentOffset: CGPoint) {
         guard let mainScrollView = mainScrollView else { return }
-        
-        if contentOffset.y > 0 { return }
         
         var hackOffsetScroll: CGFloat = 3
         if let searchBar = searchBar, let searchBarHeight = searchBarHeight {
@@ -103,7 +107,21 @@ extension MainScrollScene: MainScrollSceneDelegate {
             }
         }
         
-        let newY = mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) ? (embedSceneScrollOffset - hackOffsetScroll) : 0
+        let minY: CGFloat = 0
+        let maxY = (embedSceneScrollOffset - hackOffsetScroll)
+        var newY = mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) ? maxY : minY
+
+        if mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) {
+            if abs(maxY - mainScrollView.contentOffset.y) > decelerateScrollOffset {
+                newY = minY
+            }
+            
+        } else {
+            if mainScrollView.contentOffset.y > decelerateScrollOffset {
+                newY = maxY
+            }
+        }
+
         mainScrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: true)
     }
     
@@ -121,11 +139,12 @@ extension MainScrollScene: UIScrollViewDelegate {
         guard !embedSceneScrollOffset.isZero else { return }
         
         let contentOffset = scrollView.contentOffset
+
         if contentOffset.y > embedSceneScrollOffset {
             scrollView.setContentOffset(CGPoint(x: 0, y: embedSceneScrollOffset), animated: false)
         }
         
-        let isHidden = contentOffset.y > (embedSceneScrollOffset - changedHeaderOffset)
+        let isHidden = contentOffset.y > (embedSceneScrollOffset - 8)
         changedHeader(isHidden: isHidden)
     }
 }
