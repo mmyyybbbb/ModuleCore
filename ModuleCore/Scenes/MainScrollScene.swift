@@ -22,13 +22,20 @@ open class MainScrollScene: UIViewController {
     open var searchBar: UIView? { nil }
     open var searchBarHeight: CGFloat? { nil }
     open func updateSearchBarHeight(_ newHeight: CGFloat) {}
+    
+    public enum Direction: String {
+        case nothing
+        case up
+        case down
+    }
 }
 
 public protocol MainScrollSceneDelegate: UIScrollViewDelegate {
     func isCanScroll() -> Bool
     func scrollTo(_ contentOffset: CGPoint)
     func scrollToTop()
-    func scrollStoped(_ contentOffset: CGPoint)
+    func scrollStoped(_ contentOffset: CGPoint, decelerate: Bool, direction: MainScrollScene.Direction)
+    
 }
 
 extension MainScrollScene: MainScrollSceneDelegate {
@@ -81,19 +88,33 @@ extension MainScrollScene: MainScrollSceneDelegate {
             }
         }
         
+        var newY = mainScrollView.contentOffset.y + contentOffset.y
+        
+//        debugPrint("SCROLL scrollTo contentOffset.y", contentOffset.y)
+//        debugPrint("SCROLL scrollTo mainScrollView.contentOffset.y", mainScrollView.contentOffset.y)
+//        debugPrint("SCROLL scrollTo newY", newY)
+        
         let maxY = embedSceneScrollOffset - hackOffsetScroll
         let minY: CGFloat = 0
-        var newY = mainScrollView.contentOffset.y + contentOffset.y
+//        debugPrint("SCROLL scrollTo maxY", maxY)
 
-        if newY > maxY { newY = maxY }
-        if newY < minY { newY = minY }
+        if newY > maxY {
+            newY = maxY
+        }
+        if newY < minY {
+            newY = minY
+        }
+//        debugPrint("SCROLL scrollTo newY_", newY)
 
         mainScrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: false)
     }
     
     // остановка скрола при свайпе
-    public func scrollStoped(_ contentOffset: CGPoint) {
+    public func scrollStoped(_ contentOffset: CGPoint, decelerate: Bool, direction: MainScrollScene.Direction) {
         guard let mainScrollView = mainScrollView else { return }
+        
+//        debugPrint("SCROLL scrollStoped contentOffset.y", contentOffset.y, "decelerate", decelerate, "direction", direction)
+//        debugPrint("SCROLL scrollStoped mainScrollView.contentOffset.y", mainScrollView.contentOffset.y)
         
         var hackOffsetScroll: CGFloat = 3
         if let searchBar = searchBar, let searchBarHeight = searchBarHeight {
@@ -107,22 +128,60 @@ extension MainScrollScene: MainScrollSceneDelegate {
             }
         }
         
+//        debugPrint("SCROLL scrollStoped embedSceneScrollOffset / 2", embedSceneScrollOffset / 2)
+//        debugPrint("SCROLL scrollStoped сссс", (mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2)))
+
+        
         let minY: CGFloat = 0
         let maxY = (embedSceneScrollOffset - hackOffsetScroll)
+        
         var newY = mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) ? maxY : minY
 
-        if mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) {
-            if abs(maxY - mainScrollView.contentOffset.y) > decelerateScrollOffset {
-                newY = minY
+//        debugPrint("SCROLL scrollStoped decelerate", decelerate, "maxY", maxY)
+
+        switch direction {
+        case .down:
+            
+            if mainScrollView.contentOffset.y > decelerateScrollOffset {
+//                debugPrint("SCROLL scrollStoped свайпнули вниз БОЛЬШЕ чем на 50")
+                newY = maxY
+            } else {
+//                debugPrint("SCROLL scrollStoped свайпнули вниз МЕНЬШЕ чем на 50")
             }
             
-        } else {
-            if mainScrollView.contentOffset.y > decelerateScrollOffset {
-                newY = maxY
+        case .up:
+            
+            if abs(maxY - mainScrollView.contentOffset.y) > decelerateScrollOffset {
+//                debugPrint("SCROLL scrollStoped свайпнули вверх БОЛЬШЕ чем на 50")
+                newY = minY
+            } else {
+//                debugPrint("SCROLL scrollStoped свайпнули вверх МЕНЬШЕ чем на 50")
+            }
+            
+        case .nothing:
+            
+            if mainScrollView.contentOffset.y > (embedSceneScrollOffset / 2) {
+
+                if abs(maxY - mainScrollView.contentOffset.y) > decelerateScrollOffset {
+
+//                    debugPrint("SCROLL scrollStoped отпустили снизу наверх больше чем на 50")
+
+                    newY = minY
+                }
+
+            } else {
+                if mainScrollView.contentOffset.y > decelerateScrollOffset {
+
+//                    debugPrint("SCROLL scrollStoped отпустили сверзу вниз больше чем на 50")
+
+                    newY = maxY
+                }
             }
         }
-
+        
+//        debugPrint("SCROLL scrollStoped newY", newY)
         mainScrollView.setContentOffset(CGPoint(x: 0, y: newY), animated: true)
+
     }
     
 }
@@ -139,8 +198,11 @@ extension MainScrollScene: UIScrollViewDelegate {
         guard !embedSceneScrollOffset.isZero else { return }
         
         let contentOffset = scrollView.contentOffset
-
+        
+//        debugPrint("SCROLL scrollViewDidScroll y", contentOffset.y, "embedSceneScrollOffset", embedSceneScrollOffset)
+        
         if contentOffset.y > embedSceneScrollOffset {
+//            debugPrint("SCROLL scrollViewDidScroll setContentOffset", embedSceneScrollOffset)
             scrollView.setContentOffset(CGPoint(x: 0, y: embedSceneScrollOffset), animated: false)
         }
         
