@@ -38,7 +38,7 @@ public final class ReactorBindings<R: SceneReactor> {
     public func map<T>(state: @escaping (R.State) -> T, do handler: @escaping (T) -> Void) {
         reactor.state.map { state($0) }.subscribeNext(handler).disposed(by: disposeBag)
     }
-
+    
     public func mapIgnoreNil<T>(state: @escaping (R.State) -> T?, do handler: @escaping (T) -> Void) {
         reactor.state.map { state($0) }.ignoreNil().subscribeNext(handler).disposed(by: disposeBag)
     }
@@ -58,7 +58,7 @@ public final class ReactorBindings<R: SceneReactor> {
     public func map<T>(_ stateKey: KeyPath<R.State, T>, to property: Binder<T>) {
         reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
     }
-
+    
     public func map<T>(_ stateKey: KeyPath<R.State, T>, to property: ControlProperty<T?>) {
         reactor.state.map{ $0[keyPath: stateKey] }.bind(to: property).disposed(by: disposeBag)
     }
@@ -146,5 +146,33 @@ public final class ReactorBindings<R: SceneReactor> {
         mapTransform(stateKey, to: property)
     }
     
+    public func mapOnlyChanged<T>(_ stateKey: KeyPath<R.State, T>, to property: Binder<T>) where T: Equatable {
+        reactor.state.map { $0[keyPath: stateKey] }
+            .distinctUntilChanged()
+            .bind(to: property)
+            .disposed(by: disposeBag)
+    }
     
+    public func mapOnlyChangedIgnoreNil<T>(_ stateKey: KeyPath<R.State, T?>, to property: Binder<T>) where T: Equatable {
+        reactor.state.map { $0[keyPath: stateKey] }
+            .ignoreNil()
+            .distinctUntilChanged()
+            .bind(to: property)
+            .disposed(by: disposeBag)
+    }
+    
+    public func mapOnlyChanged<T>(state: @escaping (R.State) -> T, to property: Binder<T>) where T: Equatable {
+        reactor.state.map { state($0) }
+            .distinctUntilChanged()
+            .bind(to: property)
+            .disposed(by: disposeBag)
+    }
+    
+    public func mapOnlyChangedIgnoreNil<T>(state: @escaping (R.State) -> T?, to property: Binder<T>) where T: Equatable {
+        reactor.state.map { state($0) }
+            .ignoreNil()
+            .distinctUntilChanged()
+            .bind(to: property)
+            .disposed(by: disposeBag)
+    }
 }
