@@ -110,11 +110,9 @@ public extension StackSceneBuilder {
         scene.footerView = view
     }
     
-    func set(header view: UIView) {
-        scene.headerView = view
-    }
-    
-    func set(navigationBar: UIViewController) {
+    func set(navigationBar: UIViewController, embeder: @escaping (StackViewController) -> Void) {
         scene.navigationBar = navigationBar
+        scene.navBarEmedder = embeder
     }
+ 
 }

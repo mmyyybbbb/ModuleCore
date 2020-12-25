@@ -40,19 +40,15 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case scrollable
         case selfHeight
     }
-    
-    public enum HeaderTopLayout {
-        case upToNavBarOrSafeArea
-        case upToDeviceTopEdge
-    }
-    
+ 
     public enum ScrollViewTopLayout {
-        case toHeaderIfHas
+        case toNavBarIfHas
         case toSafeArea
     }
     
-    public var navigationBar: UIViewController? // если задан, то перезатрет headerView
-    public var headerView: UIView?
+    public var navigationBar: UIViewController?
+    public var navBarEmedder: ((StackViewController) -> Void)? = nil
+    
     public var footerView: UIView?
     public var scrollableContent: Bool { return scrollView.contentSize.height > scrollView.frame.height }
     
@@ -62,8 +58,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     public var backgroundColor: UIColor
     
     public var contentInset: UIEdgeInsets = .zero
-    public var headerTopLayout: HeaderTopLayout = .upToNavBarOrSafeArea
-    public var scrollViewTopLayout: ScrollViewTopLayout = .toHeaderIfHas
+    public var scrollViewTopLayout: ScrollViewTopLayout = .toNavBarIfHas
     
     init(contentMode: ContentMode, stackContainerType: UIView.Type, backgroundColor: UIColor) {
         self.stackContainer = stackContainerType.init()
@@ -119,28 +114,8 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             view.addSubview(scrollView)
         }
         
-        if let navigationBar = navigationBar {
-            addChild(navigationBar)
-            headerView = navigationBar.view
-        }
-            
-        if let headerView = headerView {
-            view.addSubview(headerView)
-            
-            navigationBar?.didMove(toParent: self)
-            
-            headerView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : view.safeAreaLayoutGuide.topAnchor
-            let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
-                
-            constraints.append(contentsOf: [
-                headerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                headerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                headerView.topAnchor.constraint(equalTo: headerTopAnchor, constant: headerTopViewContant)
-                ])
-        }
-        
+        navBarEmedder?(self)
+ 
         if let footerView = footerView {
             view.addSubview(footerView)
             footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,7 +142,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             
             let topScrollViewAnchor: NSLayoutYAxisAnchor
             switch scrollViewTopLayout {
-            case .toHeaderIfHas: topScrollViewAnchor = headerView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
+            case .toNavBarIfHas: topScrollViewAnchor = navigationBar?.view.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
             case .toSafeArea: topScrollViewAnchor = view.safeAreaLayoutGuide.topAnchor
             }
              
@@ -198,7 +173,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
-        } 
+        }
         NSLayoutConstraint.activate(constraints)
     }
 }

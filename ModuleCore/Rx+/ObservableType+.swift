@@ -183,7 +183,7 @@ public extension ObservableType {
         })
     }
 
-    func filter(_ val: Variable<Bool>) -> Observable<Element> {
+    func filter(_ val: BehaviorRelay<Bool>) -> Observable<Element> {
         return filter { _ in val.value }
     }
 
