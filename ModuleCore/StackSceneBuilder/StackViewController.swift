@@ -46,6 +46,11 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case upToDeviceTopEdge
     }
     
+    public enum ScrollViewTopLayout {
+        case toHeaderIfHas
+        case toSafeArea
+    }
+    
     public var navigationBar: UIViewController? // если задан, то перезатрет headerView
     public var headerView: UIView?
     public var footerView: UIView?
@@ -58,6 +63,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public var contentInset: UIEdgeInsets = .zero
     public var headerTopLayout: HeaderTopLayout = .upToNavBarOrSafeArea
+    public var scrollViewTopLayout: ScrollViewTopLayout = .toHeaderIfHas
     
     init(contentMode: ContentMode, stackContainerType: UIView.Type, backgroundColor: UIColor) {
         self.stackContainer = stackContainerType.init()
@@ -104,22 +110,6 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         onViewDidDisappear()
     }
  
-    private var viewBottomAnchor: NSLayoutYAxisAnchor  {
-        if #available(iOS 11.0, *) {
-            return view.safeAreaLayoutGuide.bottomAnchor
-        } else {
-            return view.bottomAnchor
-        }
-    }
-    
-    private var viewTopAnchor: NSLayoutYAxisAnchor  {
-        if #available(iOS 11.0, *) {
-            return view.safeAreaLayoutGuide.topAnchor
-        } else {
-            return view.topAnchor
-        }
-    }
-     
     private func setupViewAndConstraints() {
         view.backgroundColor = backgroundColor
         scrollView.backgroundColor = backgroundColor
@@ -137,7 +127,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             
             headerView.translatesAutoresizingMaskIntoConstraints = false
             
-            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : viewTopAnchor
+            let headerTopAnchor: NSLayoutYAxisAnchor = headerTopLayout == .upToDeviceTopEdge ? view.topAnchor : view.safeAreaLayoutGuide.topAnchor
             let headerTopViewContant: CGFloat = headerTopLayout == .upToDeviceTopEdge ? 20 : 0
                 
             constraints.append(contentsOf: [
@@ -153,7 +143,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             constraints.append(contentsOf: [
                 footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                footerView.bottomAnchor.constraint(equalTo: viewBottomAnchor)
+                footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
                 ])
         }
         
@@ -167,18 +157,19 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             ])
         
         if contentMode == .scrollable {
-            
-            let navigationBarIsHidden = navigationController?.navigationBar.isHidden ?? true
-            var topOffset: CGFloat = 0
-            if #available(iOS 11.0, *) {} else if navigationBarIsHidden { topOffset = 20 }
-            
             view.addSubview(scrollView)
             scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
+            
+            let topScrollViewAnchor: NSLayoutYAxisAnchor
+            switch scrollViewTopLayout {
+            case .toHeaderIfHas: topScrollViewAnchor = headerView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
+            case .toSafeArea: topScrollViewAnchor = view.safeAreaLayoutGuide.topAnchor
+            }
+             
             constraints.append(contentsOf: [
-                scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? viewBottomAnchor),
-                scrollView.topAnchor.constraint(equalTo: headerView?.bottomAnchor ?? viewTopAnchor,
-                                                constant: headerView == nil ? topOffset : 0),
+                scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor),
+                scrollView.topAnchor.constraint(equalTo: topScrollViewAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 

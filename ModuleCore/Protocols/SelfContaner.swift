@@ -15,7 +15,7 @@ public protocol SelfContaner: class, AssociatedStore {
 private var instanceKey = "instanceKey"
 
 public extension SelfContaner {
-    public static var shared: Self { return instanceOrInit }
+    static var shared: Self { return instanceOrInit }
     
     static var instance: Self? { return objc_getAssociatedObject(self, &instanceKey) as? Self  }
     
@@ -29,7 +29,7 @@ public extension SelfContaner {
         return object
     }
     
-    public static func release() {
+    static func release() {
         guard let instance = instance else { return }
         objc_removeAssociatedObjects(instance)
     } 
