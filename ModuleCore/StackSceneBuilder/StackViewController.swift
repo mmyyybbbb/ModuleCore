@@ -115,6 +115,10 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         scrollView.backgroundColor = backgroundColor
         stackView.backgroundColor = backgroundColor
         
+        if contentMode == .scrollable {
+            view.addSubview(scrollView)
+        }
+        
         if let navigationBar = navigationBar {
             addChild(navigationBar)
             headerView = navigationBar.view
@@ -157,8 +161,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             ])
         
         
-        if contentMode == .scrollable {
-            view.addSubview(scrollView)
+        if contentMode == .scrollable { 
             scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
             
