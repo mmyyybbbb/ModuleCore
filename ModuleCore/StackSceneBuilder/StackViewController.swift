@@ -198,8 +198,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
-        }
-        headerView?.layer.zPosition = 999
+        } 
         NSLayoutConstraint.activate(constraints)
     }
 }
