@@ -156,6 +156,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             stackView.bottomAnchor.constraint(equalTo: stackContainer.bottomAnchor)
             ])
         
+        
         if contentMode == .scrollable {
             view.addSubview(scrollView)
             scrollView.addSubview(stackContainer)
@@ -195,7 +196,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
                 stackContainer.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -(contentInset.left + contentInset.right))
                 ])
         }
-        
+        headerView?.layer.zPosition = 999
         NSLayoutConstraint.activate(constraints)
     }
 }
