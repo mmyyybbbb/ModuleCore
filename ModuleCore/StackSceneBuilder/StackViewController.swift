@@ -46,6 +46,11 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         case toSafeArea
     }
     
+    public enum ScrollViewBottomLayout {
+        case toFooterIfHas
+        case toSafeArea
+    }
+    
     public var navigationBar: UIViewController?
     public var navBarEmedder: ((StackViewController) -> Void)? = nil
     
@@ -59,6 +64,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
     
     public var contentInset: UIEdgeInsets = .zero
     public var scrollViewTopLayout: ScrollViewTopLayout = .toNavBarIfHas
+    public var scrollViewBottomLayout: ScrollViewBottomLayout = .toSafeArea
     
     init(contentMode: ContentMode, stackContainerType: UIView.Type, backgroundColor: UIColor) {
         self.stackContainer = stackContainerType.init()
@@ -122,7 +128,7 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             constraints.append(contentsOf: [
                 footerView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 footerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                footerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+                footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
                 ])
         }
         
@@ -139,6 +145,11 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
         if contentMode == .scrollable { 
             scrollView.addSubview(stackContainer)
             scrollView.contentInset = contentInset
+            let indicatorInset = scrollView.verticalScrollIndicatorInsets
+            scrollView.verticalScrollIndicatorInsets = .init(top: contentInset.top,
+                                                             left: indicatorInset.left,
+                                                             bottom: contentInset.bottom,
+                                                             right: indicatorInset.right)
             
             let topScrollViewAnchor: NSLayoutYAxisAnchor
             switch scrollViewTopLayout {
@@ -146,8 +157,14 @@ public final class StackViewController: UIViewController, DisposeBagHolder {
             case .toSafeArea: topScrollViewAnchor = view.safeAreaLayoutGuide.topAnchor
             }
              
+            let bottScrollViewAnchor: NSLayoutYAxisAnchor
+            switch scrollViewBottomLayout {
+            case .toFooterIfHas: bottScrollViewAnchor = footerView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
+            case .toSafeArea: bottScrollViewAnchor = view.safeAreaLayoutGuide.bottomAnchor
+            }
+            
             constraints.append(contentsOf: [
-                scrollView.bottomAnchor.constraint(equalTo: footerView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: bottScrollViewAnchor),
                 scrollView.topAnchor.constraint(equalTo: topScrollViewAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
