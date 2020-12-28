@@ -68,6 +68,7 @@
 		6DCA6C7D224EEEAD0053CC38 /* DataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA6C7C224EEEAD0053CC38 /* DataState.swift */; };
 		6DCA6C7F224EF83E0053CC38 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCA6C7E224EF83E0053CC38 /* UIViewController+.swift */; };
 		B31E93672253AC2B002EC9D1 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31E93662253AC2B002EC9D1 /* TableVC.swift */; };
+		CB7F977C25966273009C38CD /* Import+Exported.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7F977B25966273009C38CD /* Import+Exported.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,8 @@
 		B31E93662253AC2B002EC9D1 /* TableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVC.swift; sourceTree = "<group>"; };
 		BC9305D66DD9C59B903EBB72 /* Pods-ModuleCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModuleCore.debug.xcconfig"; path = "Target Support Files/Pods-ModuleCore/Pods-ModuleCore.debug.xcconfig"; sourceTree = "<group>"; };
 		CA0716966DC8FFA72BEB58A0 /* Pods_ModuleCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModuleCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB7F977A2596610F009C38CD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		CB7F977B25966273009C38CD /* Import+Exported.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Import+Exported.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,7 @@
 		03E3A9BD22047C210005A0A1 = {
 			isa = PBXGroup;
 			children = (
+				CB7F977A2596610F009C38CD /* Package.swift */,
 				03E3AA68220879F40005A0A1 /* ModuleCore.podspec */,
 				03E3A9C922047C210005A0A1 /* ModuleCore */,
 				03E3A9D722047CBB0005A0A1 /* ModuleCoreTests */,
@@ -227,6 +231,7 @@
 				035C894D2260E5D100118435 /* ReactorBindings.swift */,
 				03F3227B228D914800A19027 /* UIAlertController+.swift */,
 				2F472A5F22E7148000BB2A90 /* UINavigationController+.swift */,
+				CB7F977B25966273009C38CD /* Import+Exported.swift */,
 			);
 			path = ModuleCore;
 			sourceTree = "<group>";
@@ -599,6 +604,7 @@
 				036B74EC226DE230002728D4 /* IntervalWork.swift in Sources */,
 				03E630A02209CBEE0082685F /* RemoteData.swift in Sources */,
 				0355B13622F0540E0064FB83 /* SectionedTableReactor.swift in Sources */,
+				CB7F977C25966273009C38CD /* Import+Exported.swift in Sources */,
 				6D584A16220F8F69005EC4AE /* Initable.swift in Sources */,
 				03E3AA6D220896290005A0A1 /* Coordinatable.swift in Sources */,
 				03E3AA952209A5CD0005A0A1 /* View+TextField.swift in Sources */,
