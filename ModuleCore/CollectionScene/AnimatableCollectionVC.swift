@@ -85,7 +85,7 @@ public final class AnimatableCollectionVC<Item: IdentifiableType & Equatable>: U
         
         
         collectionView.rx.itemSelected
-            .delay(configurator.selectedDelay, scheduler: MainScheduler.asyncInstance)
+            .delay(.seconds(Int(configurator.selectedDelay)), scheduler: MainScheduler.asyncInstance)
             .map(Reactor.Action.selected)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
