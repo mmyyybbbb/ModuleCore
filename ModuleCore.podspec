@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.source_files  = 'ModuleCore/**/*.swift'
   s.dependency 'RxCocoa', '~> 6.0.0'
   s.dependency 'RxDataSources', '~> 5.0.0'
-  s.dependency 'ReactorKit', '~> 2.1.1'
+  s.dependency 'ReactorKit', '~> 3.0.0'
   s.dependency 'RxViewController', '~> 2.0.0'
 end
