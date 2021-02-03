@@ -6,8 +6,8 @@ install! 'cocoapods', :warn_for_unused_master_specs_repo => false
 def pods
   pod 'RxCocoa', '~> 6.0.0'
   pod 'RxDataSources', '~> 5.0.0'
-  pod 'ReactorKit', :git => 'https://github.com/tokijh/ReactorKit', :branch => 'support-rxswift6' #'~> 2.0.1'
-  pod 'RxViewController', :git => 'https://github.com/BCS-Broker/RxViewController', :branch => 'master' # '~> 1.0.0'
+  pod 'ReactorKit', '~> 3.0.0'
+  pod 'RxViewController', '~> 2.0.0'
 end
 
 target :ModuleCore do
