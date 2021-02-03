@@ -8,7 +8,7 @@
 
 public struct CollectionSceneConfigurator {
     let refreshControll: Bool
-    let layout:UICollectionViewFlowLayout
+    let layout: UICollectionViewFlowLayout
     let selectedDelay: TimeInterval
     public weak var scrollDelegate: UIScrollViewDelegate?
     

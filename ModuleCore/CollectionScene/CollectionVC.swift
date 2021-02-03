@@ -74,9 +74,8 @@ public final class CollectionVC<Item>: UIViewController, SceneView, UIScrollView
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        
         collectionView.rx.itemSelected
-            .delay(configurator.selectedDelay, scheduler: MainScheduler.asyncInstance)
+            .delay(.seconds(Int(configurator.selectedDelay)), scheduler: MainScheduler.asyncInstance)
             .map(Reactor.Action.selected)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
