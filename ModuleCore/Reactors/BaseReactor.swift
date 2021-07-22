@@ -91,7 +91,7 @@ public extension Reactor where Self: BaseReactor {
         obs.subscribe(onSuccess: { [weak self] (data) in
             let mutatation = makeMutation(data)
             self?.make(mutatation)
-            }, onError: { [weak self] error in
+        }, onFailure: { [weak self] error in
                 guard let instance = self, let errClassFunc = onError else { return }
                 let instanceFunction = errClassFunc(instance)
                 instanceFunction(error)
@@ -115,7 +115,7 @@ public extension Reactor where Self: BaseReactor {
         obs.subscribe(onSuccess: { [weak self] (data) in
             let mutatation = successMutation(data)
             self?.make(mutatation)
-            }, onError: { [weak self] error in
+        }, onFailure: { [weak self] error in
                 guard let instance = self, let errClassFunc = onError else { return }
                 let instanceFunction = errClassFunc(instance)
                 instanceFunction(error)

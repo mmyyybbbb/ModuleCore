@@ -17,7 +17,7 @@ extension Scene {
     }
 }
 
-public protocol UnitOfWorkType: class {
+public protocol UnitOfWorkType: AnyObject {
     associatedtype Result
     
     var onComplete: Single<Result> { get }

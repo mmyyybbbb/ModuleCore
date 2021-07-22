@@ -98,7 +98,7 @@ public final class ReactorBindings<R: SceneReactor> {
         
         guard let state = state else { return }
         reactor.state.map(state)
-            .observeOn(MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
             .bind(to: property)
             .disposed(by: disposeBag)
     }

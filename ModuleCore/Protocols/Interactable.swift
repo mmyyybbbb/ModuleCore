@@ -6,7 +6,7 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-public protocol Interactable: class, AssociatedStore  {
+public protocol Interactable: AnyObject, AssociatedStore  {
     associatedtype Interactor
     var interactor: Interactor { get } 
 }
