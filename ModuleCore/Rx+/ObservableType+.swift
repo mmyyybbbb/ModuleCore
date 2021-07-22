@@ -152,19 +152,27 @@ public extension ObservableType {
     }
     
     func subscribeNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void, bag: DisposeBag) {
+        subscribeNext(instance, with: classFunc).disposed(by: bag)
+    }
+
+    func subscribeNext<T: AnyObject>(_ instance: T, do classFunc: @escaping (T) -> () -> Void, bag: DisposeBag) {
+        subscribeNext(instance, do: classFunc).disposed(by: bag)
+    }
+
+    func subscribeNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void) -> Disposable {
          self.subscribe(onNext: { [weak instance] args in
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
             instanceFunction(args)
-         }).disposed(by: bag)
+         })
     }
 
-    func subscribeNext<T: AnyObject>(_ instance: T, do classFunc: @escaping (T) -> () -> Void, bag: DisposeBag) {
+    func subscribeNext<T: AnyObject>(_ instance: T, do classFunc: @escaping (T) -> () -> Void)  -> Disposable {
         self.subscribe(onNext: { [weak instance] _ in
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
             instanceFunction()
-        }).disposed(by: bag)
+        })
     }
 
     func doNext<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void) -> Observable<Self.Element> {
