@@ -6,7 +6,7 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-public protocol SelfContaner: class, AssociatedStore {
+public protocol SelfContaner: AnyObject, AssociatedStore {
     static var instanceOrInit: Self { get }
     static func release()
     init()

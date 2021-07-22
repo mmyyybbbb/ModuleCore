@@ -70,7 +70,7 @@ public extension PrimitiveSequenceType where Self.Trait == RxSwift.SingleTrait {
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
             instanceFunction(args)
-            }, onError:  { [weak instance] error in
+        }, onFailure:  { [weak instance] error in
             guard let instance = instance, let errClassFunc = errClassFunc else { return }
             let instanceFunction = errClassFunc(instance)
             instanceFunction(error)
@@ -86,7 +86,7 @@ public extension PrimitiveSequenceType where Self.Trait == RxSwift.SingleTrait {
             guard let instance = instance else { return }
             let instanceFunction = classFunc(instance)
             instanceFunction()
-            }, onError:  { [weak instance] error in
+        }, onFailure:  { [weak instance] error in
                 guard let instance = instance, let errClassFunc = errClassFunc else { return }
                 let instanceFunction = errClassFunc(instance)
                 instanceFunction(error)
@@ -147,7 +147,7 @@ public extension ObservableType {
     }
 
     func subscribeNextOnMain<T: AnyObject>(_ instance: T, with classFunc: @escaping (T)->(Self.Element)->Void, bag: DisposeBag) {
-        self.observeOn(MainScheduler.asyncInstance)
+        self.observe(on: MainScheduler.asyncInstance)
             .subscribeNext(instance, with: classFunc, bag: bag)
     }
     
@@ -249,13 +249,12 @@ public extension ObservableType where Element == Seconds {
 }
 
 public extension ObservableType {
-    // swiftlint:disable all
     func flatMapCatchError<O: ObservableConvertibleType>(_ selector: @escaping (Element) throws -> O,
                                                            doOnNext: @escaping (O.Element) -> Void = { _ in },
                                                           doOnError:  @escaping (Error) -> Void = { _ in })
         -> Observable<O.Element> {
             return self.flatMap({ (val) -> Observable<O.Element> in
-                return try selector(val).asObservable().catchError({ error ->  Observable<O.Element> in
+                return try selector(val).asObservable().catch({ error ->  Observable<O.Element> in
                     doOnError(error)
                     return Observable.empty()
                 })
@@ -267,7 +266,7 @@ public extension ObservableType {
                                    doOnError:  @escaping (Error) -> Void = { _ in }) -> RxSwift.Observable<O.Element> where O: ObservableConvertibleType {
 
         return self.flatMapFirst({ (val) -> Observable<O.Element> in
-            return try selector(val).asObservable().catchError({ error ->  Observable<O.Element> in
+            return try selector(val).asObservable().catch({ error ->  Observable<O.Element> in
                 doOnError(error)
                 return Observable.empty()
             })

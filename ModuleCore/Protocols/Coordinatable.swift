@@ -6,7 +6,7 @@
 //  Copyright © 2019 BCS. All rights reserved.
 //
 
-public protocol Coordinatable: class, AssociatedStore {
+public protocol Coordinatable: AnyObject, AssociatedStore {
     associatedtype Coordinator
     var coordinator: Coordinator { get }
 }
